@@ -1,0 +1,17 @@
+{
+  "name": "marked",
+  "version": "0.2.7",
+  "repo": "component/marked",
+  "description": "fast markdown parser and compiler",
+  "keywords": [
+    "md",
+    "markdown",
+    "parser",
+    "compiler"
+  ],
+  "scripts": [
+    "lib/marked.js"
+  ],
+  "main": "lib/marked.js",
+  "license": "MIT"
+}

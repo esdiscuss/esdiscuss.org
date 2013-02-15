@@ -1,0 +1,10 @@
+{
+  "name": "esdiscuss-load-messages",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "ForbesLindesay/ajax": "*",
+    "component/marked": "*"
+  }
+}

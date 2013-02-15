@@ -1,0 +1,47 @@
+!!! 5
+html
+  head
+    title ES Discuss
+    link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css', rel='stylesheet')
+    style
+      .previous a, .next a {
+        cursor: pointer;
+      }
+      .topic-title a {
+        color: black;
+        text-decoration: none;
+      }
+  body
+    .container
+      .row
+        .span12
+          .page-header
+            h1 ES Discuss / 
+              small Page #{id}
+      for topic in topics
+        .row
+          .span12.topic-title
+            a(href='/topic/' + topic.id)
+              .well.well-small
+                //span.badge.badge-info= topic.count
+                span.badge(style='float:right;')= topic.count
+                h4= topic.subject
+                p by #{topic.from} #{topic.start.fromNow()}
+                  if topic.end.fromNow() != topic.start.fromNow()
+                    |  updated on #{topic.end.fromNow()}
+      .row
+        .span12
+          - var first = id === 1;
+          ul.pager
+            if first
+              li.previous.disabled
+                a(disabled) &larr; Newer
+            else
+              li.previous
+                a(href='/' + (id - 1)) &larr; Newer
+            if last
+              li.next.disabled
+                a(disabled) Older &rarr;
+            else
+              li.next
+                a(href='/' + (id + 1)) Older &rarr;
