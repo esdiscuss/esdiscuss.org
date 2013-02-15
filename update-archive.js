@@ -2,15 +2,19 @@ var pipermail = require('pipermail');
 //var Q = require('q');
 var join = require('path').join;
 
+module.exports = updateArchive;
 function updateArchive() {
+  console.log('==upating archive==');
   if (!(process.env.GITHUB_USER && process.env.GITHUB_PASS)) {
     throw new Error('You must provide both a username and a password');
   }
   var netrc = 'machine github.com\n' +
               'login ' + process.env.GITHUB_USER + '\n' +
               'password ' + process.env.GITHUB_PASS;
-  require('fs').writeFileSync(join(__dirname, '.netrc'), netrc);
-  require('fs').writeFileSync(join(__dirname, '_netrc'), netrc);
+  require('fs').writeFileSync(join(__dirname, 'bot', '.netrc'), netrc);
+  require('fs').writeFileSync(join(__dirname, 'bot', '_netrc'), netrc);
+  process.env.HOME = join(__dirname, 'bot');
+
   var stream = pipermail('https://mail.mozilla.org/pipermail/es-discuss/', 
       {progress: true, cache: true})
     .pipe(require('./lib/pipermail-filters').spam())
@@ -23,5 +27,3 @@ function updateArchive() {
         team: '337802'
       }));
 }
-
-updateArchive();

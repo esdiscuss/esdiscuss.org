@@ -57,6 +57,8 @@ app.get('/:repo/:messageID/:part', function (req, res, next) {
 app.listen(3000);
 
 function updateTopics() {
+  console.log('==updating topics==');
+
   var transform = require('transform-stream');
   var fs = require('fs');
 
@@ -103,4 +105,12 @@ function updateTopics() {
       finish();
     }));
 }
+
 updateTopics();
+setInterval(updateTopics, 1200000);
+
+var updateArchive = require('./update-archive');
+if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
+  updateArchive();
+  setInterval(updateArchive, 1200000);
+}
