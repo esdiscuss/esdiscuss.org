@@ -68,7 +68,7 @@ function updateTopics() {
   var _topics = [];
   var index = 1;
   pipermail('https://mail.mozilla.org/pipermail/es-discuss/', 
-      {progress: true, cache: true})
+      {progress: false, cache: true})
     .pipe(require('./lib/pipermail-filters').spam())
     .pipe(require('./lib/pipermail-filters').fixSubjects())
     .pipe(require('./lib/pipermail-filters').fixDates())
