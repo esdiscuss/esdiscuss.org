@@ -21,61 +21,63 @@ marked.setOptions({
 var containers = document.querySelectorAll('[data-message]');
 for (var i = 0; i < containers.length; i++) {
   (function (container, index) {
-    var called = false;
-    var messageID = container.getAttribute('data-message');
-    getMessage(messageID, function (err, res) {
-      if (called) throw new Error('called multiple times');
-      called = true;
-      if (err) {
-        container.innerHTML = '<div class="span12 well">' +
-            'This message failed to load.  If it was sent recently it may be ' +
-            'that the bot has not yet added it to our archive.' +
-          '</div>';
-        return;
-      }
-      //container.textContent = JSON.stringify(res);
-      var content = marked(trimBody(res.content));
-      container.innerHTML = 
-        '<div class="span1">' +
-          '<img />' +
-        '</div>' +
-        '<div class="span11">' +
-          '<div class="well well-small" style="height: 30px; margin-top: 10px;">' +
-            (res.header.from.name || res.head.from.email) +
-            '<div class="pull-right">' +
-              '<button class="btn btn-inverse" id="show-original-' + index + '">' +
-                'view original' +
-              '</button>' +
-            '</div>' +
-          '</div>' +
-          '<div id="content-' + index + '">' +
-            content +
-          '</div>' +
-        '</div>';
-      var showingOriginal = false;
-      var btn = document.getElementById('show-original-' + index);
-      var cont = document.getElementById('content-' + index);
-      btn.addEventListener('click', function () {
-        if (showingOriginal) {
-          btn.textContent = 'view original';
-          cont.innerHTML = content;
-        } else {
-          btn.textContent = 'view formatted';
-          getOriginal(messageID, function (err, original) {
-            if (err) throw err;
-            var match = /^(.*)\/(.*)$/.exec(messageID);
-            cont.innerHTML = '<pre>' + original
-              .replace(/&/g, '&amp;')
-              .replace(/</g, '&lt;')
-              .replace(/>/g, '&gt;') + '</pre>' + 
-              '<a class="btn" target="_blank" href="https://github.com/esdiscuss/' + match[1] + '/edit/master/' + match[2] + '/edited.md">' +
-                'edit' +
-              '</a>';
-          })
+    setTimeout(function () {
+      var called = false;
+      var messageID = container.getAttribute('data-message');
+      getMessage(messageID, function (err, res) {
+        if (called) throw new Error('called multiple times');
+        called = true;
+        if (err) {
+          container.innerHTML = '<div class="span12 well">' +
+              'This message failed to load.  If it was sent recently it may be ' +
+              'that the bot has not yet added it to our archive.' +
+            '</div>';
+          return;
         }
-        showingOriginal = !showingOriginal;
+        //container.textContent = JSON.stringify(res);
+        var content = marked(trimBody(res.content));
+        container.innerHTML = 
+          '<div class="span1">' +
+            '<img />' +
+          '</div>' +
+          '<div class="span11">' +
+            '<div class="well well-small" style="height: 30px; margin-top: 10px;">' +
+              (res.header.from.name || res.head.from.email) +
+              '<div class="pull-right">' +
+                '<button class="btn btn-inverse" id="show-original-' + index + '">' +
+                  'view original' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+            '<div id="content-' + index + '">' +
+              content +
+            '</div>' +
+          '</div>';
+        var showingOriginal = false;
+        var btn = document.getElementById('show-original-' + index);
+        var cont = document.getElementById('content-' + index);
+        btn.addEventListener('click', function () {
+          if (showingOriginal) {
+            btn.textContent = 'view original';
+            cont.innerHTML = content;
+          } else {
+            btn.textContent = 'view formatted';
+            getOriginal(messageID, function (err, original) {
+              if (err) throw err;
+              var match = /^(.*)\/(.*)$/.exec(messageID);
+              cont.innerHTML = '<pre>' + original
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;') + '</pre>' + 
+                '<a class="btn" target="_blank" href="https://github.com/esdiscuss/' + match[1] + '/edit/master/' + match[2] + '/edited.md">' +
+                  'edit' +
+                '</a>';
+            })
+          }
+          showingOriginal = !showingOriginal;
+        });
       });
-    });
+    }, 100 * index);
   }(containers[i], i));
 }
 

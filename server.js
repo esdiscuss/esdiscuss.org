@@ -17,7 +17,7 @@ app.use(transform(__dirname + '/client')
   .using(function (tr) {
     tr.add('component.json', 'build/build.js', 'component');
   })
-  .grep(/^component\.json$/)
+  .grep(/^[^\/]*\/?component\.json$/)
   .to(__dirname + '/client'));
 
 var topics = [];
@@ -41,9 +41,13 @@ app.get('/:page', function (req, res, next) {
 app.get('/topic/:id', function (req, res, next) {
   var index = req.params.id - 1;
   var topic = topics[index];
-  res.render('topic', {
-    topic: topic
-  })
+  if (topic) {
+    res.render('topic', {
+      topic: topic
+    })
+  } else {
+    next();
+  }
 });
 
 app.get('/:repo/:messageID/:part', function (req, res, next) {
@@ -63,11 +67,15 @@ function updateTopics() {
 
   var transform = require('transform-stream');
   var fs = require('fs');
-
+  try {
+    fs.mkdirSync(join(__dirname, 'archive'));
+  } catch (ex) {
+    if (ex.code !== 'EEXIST') throw ex;
+  }
   var bySubject = {};
   var _topics = [];
   var index = 1;
-  pipermail('https://mail.mozilla.org/pipermail/es-discuss/', 
+  var stream = pipermail('https://mail.mozilla.org/pipermail/es-discuss/', 
       {progress: false, cache: true})
     .pipe(require('./lib/pipermail-filters').spam())
     .pipe(require('./lib/pipermail-filters').fixSubjects())
@@ -104,8 +112,12 @@ function updateTopics() {
       fs.writeFileSync(join(__dirname, 'archive', 'topics.json'),
         JSON.stringify(_topics.reverse(), null, 2));
 
+      console.log('==updated topics==');
       finish();
     }));
+  stream.on('error', function (e) {
+    console.error(e.stack || e.message || e);
+  });
 }
 
 updateTopics();
