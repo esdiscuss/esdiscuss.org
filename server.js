@@ -16,7 +16,9 @@ app.use(express.logger('dev'));
 app.use(transform(__dirname + '/client')
   .using(function (tr) {
     tr.add('component.json', 'build/build.js', 'component');
-  }).to(__dirname + '/client'));
+  })
+  .grep(/^component\.json$/)
+  .to(__dirname + '/client'));
 
 var topics = [];
 

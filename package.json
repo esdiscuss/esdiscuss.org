@@ -1,6 +1,6 @@
 {
   "name": "esdiscuss.org",
-  "version": "0.0.0",
+  "version": "0.0.0-1",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -18,5 +18,12 @@
     "moment": "~2.0.0",
     "component-builder": "~0.6.2",
     "transform": "0.0.9"
+  },
+  "subdomain": "esdiscuss",
+  "scripts": {
+    "start": "server.js"
+  },
+  "engines": {
+    "node": "0.8.x"
   }
 }
