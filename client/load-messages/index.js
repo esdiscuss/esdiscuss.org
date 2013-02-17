@@ -43,10 +43,13 @@ for (var i = 0; i < containers.length; i++) {
           '<div class="span11">' +
             '<div class="well well-small" style="height: 30px; margin-top: 10px;">' +
               (res.header.from.name || res.head.from.email) +
-              '<div class="pull-right">' +
-                '<button class="btn btn-inverse" id="show-original-' + index + '">' +
+              '<div class="pull-right btn-group">' +
+                '<button class="btn" id="show-original-' + index + '">' +
                   'view original' +
                 '</button>' +
+                '<a class="btn btn-inverse" href="/source/' + res.header.date + '">' +
+                  'view source' +
+                '</a>' +
               '</div>' +
             '</div>' +
             '<div id="content-' + index + '">' +

@@ -13,7 +13,7 @@ html
             h1 ES Discuss / 
               small #{topic.subject}
       -var postID = 0;
-      for message in topic.messages
+      for message in messages
         - postID++
         .row(data-message=message)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')

@@ -4,6 +4,7 @@ var moment = require('moment');
 var request = require('request');
 var transform = require('transform');
 var join = require('path').join;
+var resolve = require('./lib/pipermail-resolve');
 
 var PAGE_SIZE = 20;
 
@@ -43,11 +44,18 @@ app.get('/topic/:id', function (req, res, next) {
   var topic = topics[index];
   if (topic) {
     res.render('topic', {
-      topic: topic
+      topic: topic,
+      messages: require('fs').readFileSync(join(__dirname, 'archive', 'topics', (index + 1) + '.txt')).toString().split('\n')
     })
   } else {
     next();
   }
+});
+app.get('/source/:date', function (req, res, next) {
+  resolve(req.params.date, function (err, url) {
+    if (err) return next(err);
+    res.redirect(301, url);
+  })
 });
 
 app.get('/:repo/:messageID/:part', function (req, res, next) {
@@ -60,6 +68,7 @@ app.get('/:repo/:messageID/:part', function (req, res, next) {
     .pipe(res);
 });
 
+
 app.listen(3000);
 
 function updateTopics() {
@@ -69,6 +78,11 @@ function updateTopics() {
   var fs = require('fs');
   try {
     fs.mkdirSync(join(__dirname, 'archive'));
+  } catch (ex) {
+    if (ex.code !== 'EEXIST') throw ex;
+  }
+  try {
+    fs.mkdirSync(join(__dirname, 'archive', 'topics'));
   } catch (ex) {
     if (ex.code !== 'EEXIST') throw ex;
   }
@@ -89,17 +103,19 @@ function updateTopics() {
         .replace(/</g, '')
         .replace(/>/g, '');
       if (bySubject['sub:' + head.subject]) {
-        bySubject['sub:' + head.subject].messages.push(id);
+        //bySubject['sub:' + head.subject].messages.push(id);
         bySubject['sub:' + head.subject].end = (new Date(head.date)).getTime();
+        fs.appendFileSync(join(__dirname, 'archive', 'topics', bySubject['sub:' + head.subject].id + '.txt'), '\n' + id);
       } else {
+        fs.writeFileSync(join(__dirname, 'archive', 'topics', index + '.txt'), id);
         _topics.push(bySubject['sub:' + head.subject]  = {
           id: index++,
           subject: head.subject,
           from: head.from.email,
           start: (new Date(head.date)).getTime(),
-          end: (new Date(head.date)).getTime(),
-          messages: [id]
-        })
+          //messages: [id],
+          end: (new Date(head.date)).getTime()
+        });
       }
       finish();
     }, function (finish) {
@@ -125,6 +141,9 @@ setInterval(updateTopics, 1200000);
 
 var updateArchive = require('./update-archive');
 if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
-  updateArchive();
-  setInterval(updateArchive, 1200000);
+  console.log('==GOT GITHUB USER==')
+  //updateArchive();
+  //setInterval(updateArchive, 1200000);
+} else {
+  console.log('==NO GITHUB USER==')
 }
