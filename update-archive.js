@@ -2,6 +2,10 @@ var pipermail = require('pipermail');
 //var Q = require('q');
 var join = require('path').join;
 
+try {
+  require('fs').mkdirSync(join(__dirname, 'archive'));
+} catch (ex) {}
+
 module.exports = updateArchive;
 function updateArchive() {
   console.log('==upating archive==');
@@ -26,7 +30,8 @@ function updateArchive() {
       {
         user: {type: 'basic', username: user, password: pass},
         organisation: 'esdiscuss',
-        team: '337802'
+        team: '337802',
+        stdio: 'inherit'//['ignore', 'ignore', 'ignore']
       }));
 }
 

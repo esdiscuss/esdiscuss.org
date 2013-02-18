@@ -13,6 +13,7 @@ var app = express();
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
+app.use(express.favicon(join(__dirname, 'favicon.ico')));
 app.use(express.logger('dev'));
 app.use(transform(__dirname + '/client')
   .using(function (tr) {
@@ -28,6 +29,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/:page', function (req, res, next) {
+  if (!/^\d+$/.test(req.params.page)) return next();
   var page = req.params.page - 1;
   if (page < 0) return next();
   if (page * PAGE_SIZE >= topics.length) return next();
@@ -53,6 +55,7 @@ app.get('/topic/:id', function (req, res, next) {
 });
 app.get('/source/:date', function (req, res, next) {
   resolve(req.params.date, function (err, url) {
+    if (err && err.code === 'ENOENT') return next();
     if (err) return next(err);
     res.redirect(301, url);
   })
@@ -137,13 +140,15 @@ function updateTopics() {
 }
 
 updateTopics();
-setInterval(updateTopics, 1200000);
+setInterval(updateTopics, 600000);
 
 var updateArchive = require('./update-archive');
 if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
   console.log('==GOT GITHUB USER==')
-  //updateArchive();
-  //setInterval(updateArchive, 1200000);
+  setTimeout(function () {
+    updateArchive();
+    setInterval(updateArchive, 600000);
+  }, 300000);
 } else {
   console.log('==NO GITHUB USER==')
 }
