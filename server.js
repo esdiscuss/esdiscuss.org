@@ -79,6 +79,7 @@ app.get('/:repo/:messageID/:part', function (req, res, next) {
 
 
 app.listen(3000);
+console.log('listening on localhost:3000')
 
 function updateTopics() {
   console.log('==updating topics==');
@@ -145,16 +146,41 @@ function updateTopics() {
   });
 }
 
-updateTopics();
-setInterval(updateTopics, 600000);
+setTimeout(function () {
+  updateTopics();
+  setInterval(updateTopics, 600000);
+}, 300000);
 
-var updateArchive = require('./update-archive');
+function updateArchive() {
+  console.log('==SPAWNING==');
+  require('win-spawn')('node',
+      [join(__dirname, 'update-archive.js')],
+      {
+        cwd: __dirname,
+        stdio: 'inherit'
+      })
+  .on('exit',
+    function () {
+      console.log('==SPAWN DONE==');
+    });
+}
+setInterval(function () {
+  console.log('==GIT VERSION==');
+  require('win-spawn')('git',
+      ['--version'],
+      {
+        cwd: __dirname,
+        stdio: 'inherit'
+      })
+    .on('exit', function () {
+      console.log('==/GIT VERSION==');
+    });
+}, 600000);
 if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
   console.log('==GOT GITHUB USER==')
-  setTimeout(function () {
-    updateArchive();
-    setInterval(updateArchive, 600000);
-  }, 300000);
+  updateArchive();
+  setInterval(updateArchive, 6000000);
 } else {
-  console.log('==NO GITHUB USER==')
+  console.log('==NO GITHUB USER==');
+  updateTopics();
 }
