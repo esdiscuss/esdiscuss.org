@@ -17,25 +17,27 @@ function updateArchive() {
   if (!(user && pass)) {
     throw new Error('You must provide both a username and a password');
   }
+
+  /*
   var netrc = 'machine github.com\n' +
               'login ' + user + '\n' +
               'password ' + pass;
   require('fs').writeFileSync(join(__dirname, 'bot', '.netrc'), netrc);
   require('fs').writeFileSync(join(__dirname, 'bot', '_netrc'), netrc);
   process.env.HOME = join(__dirname, 'bot');
+  */
 
   var stream = pipermail('https://mail.mozilla.org/pipermail/es-discuss/', 
-      {progress: false, cache: true})
+      {progress: true, cache: true})
     .pipe(require('./lib/pipermail-filters').spam())
     .pipe(require('./lib/pipermail-filters').fixSubjects())
     .pipe(require('./lib/pipermail-filters').fixDates())
-    .pipe(require('./lib/pipermail-output').outputToDir(join(__dirname, 'archive'),
-      {
-        user: {type: 'basic', username: user, password: pass},
-        organisation: 'esdiscuss',
-        team: '337802',
-        stdio: 'inherit'//['ignore', 'ignore', 'ignore']
-      }));
+    .pipe(require('./lib/pipermail-output/using-api').outputToGitHub({
+      user: {type: 'basic', username: user, password: pass},
+      organisation: 'esdiscuss',
+      team: '337802',
+      stdio: 'inherit'//['ignore', 'ignore', 'ignore']
+    }));
 }
 
 if(require.main === module) {
