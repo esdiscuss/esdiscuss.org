@@ -1,5 +1,6 @@
 var ajax = require('ajax');
 var marked = require('marked');
+var hash = window.location.hash;
 
 marked.setOptions({
   gfm: true,
@@ -17,6 +18,11 @@ marked.setOptions({
     } catch (ex) {} // if something goes wrong then 
   }
 });
+
+function scroll(el) {
+  var el = document.querySelector('[data-id="' + el + '"]');
+  return el.scrollIntoView(true);
+}
 
 var containers = document.querySelectorAll('[data-message]');
 for (var i = 0; i < containers.length; i++) {
@@ -36,13 +42,15 @@ for (var i = 0; i < containers.length; i++) {
         }
         //container.textContent = JSON.stringify(res);
         var content = marked(trimBody(res.content));
+        var id = 'content-' + index
         container.innerHTML = 
           '<div class="span1">' +
             '<img />' +
           '</div>' +
           '<div class="span11">' +
-            '<div class="well well-small" style="height: 30px; margin-top: 10px;">' +
-              (res.header.from.name || res.head.from.email) +
+            '<header class="well well-small" data-id="' + id +'"">' +
+              '<h3><a href="' + window.location.pathname + '#' + id + '"> #</a>' +
+               (res.header.from.name || res.head.from.email) + '</h3>'+
               '<div class="pull-right btn-group">' +
                 '<button class="btn" id="show-original-' + index + '">' +
                   'view original' +
@@ -51,11 +59,14 @@ for (var i = 0; i < containers.length; i++) {
                   'view source' +
                 '</a>' +
               '</div>' +
-            '</div>' +
-            '<div id="content-' + index + '">' +
+            '</header>' +
+            '<div id="' + id + '" class="content">' +
               content +
             '</div>' +
           '</div>';
+        if (hash === '#' + id) {
+          scroll(id)
+        }
         var showingOriginal = false;
         var btn = document.getElementById('show-original-' + index);
         var cont = document.getElementById('content-' + index);
