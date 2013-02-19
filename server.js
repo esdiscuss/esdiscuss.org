@@ -22,7 +22,13 @@ app.use(transform(__dirname + '/client')
   .grep(/^[^\/]*\/?component\.json$/)
   .to(__dirname + '/client'));
 
-var topics = [];
+var topics = JSON.parse(require('fs').readFileSync(
+    join(__dirname, 'topics-cache', 'topics.json')
+  ).toString()).map(function (item) {
+    item.start = moment(item.start);
+    item.end = moment(item.end);
+    return item;
+  });
 
 app.get('/', function (req, res) {
   res.render('home', {});
@@ -47,7 +53,7 @@ app.get('/topic/:id', function (req, res, next) {
   if (topic) {
     res.render('topic', {
       topic: topic,
-      messages: require('fs').readFileSync(join(__dirname, 'archive', 'topics', (index + 1) + '.txt')).toString().split('\n')
+      messages: require('fs').readFileSync(join(__dirname, 'topics-cache', 'topics', (index + 1) + '.txt')).toString().split('\n')
     })
   } else {
     next();
@@ -85,7 +91,7 @@ function updateTopics() {
     if (ex.code !== 'EEXIST') throw ex;
   }
   try {
-    fs.mkdirSync(join(__dirname, 'archive', 'topics'));
+    fs.mkdirSync(join(__dirname, 'topics-cache', 'topics'));
   } catch (ex) {
     if (ex.code !== 'EEXIST') throw ex;
   }
@@ -108,9 +114,9 @@ function updateTopics() {
       if (bySubject['sub:' + head.subject]) {
         //bySubject['sub:' + head.subject].messages.push(id);
         bySubject['sub:' + head.subject].end = (new Date(head.date)).getTime();
-        fs.appendFileSync(join(__dirname, 'archive', 'topics', bySubject['sub:' + head.subject].id + '.txt'), '\n' + id);
+        fs.appendFileSync(join(__dirname, 'topics-cache', 'topics', bySubject['sub:' + head.subject].id + '.txt'), '\n' + id);
       } else {
-        fs.writeFileSync(join(__dirname, 'archive', 'topics', index + '.txt'), id);
+        fs.writeFileSync(join(__dirname, 'topics-cache', 'topics', index + '.txt'), id);
         _topics.push(bySubject['sub:' + head.subject]  = {
           id: index++,
           subject: head.subject,
@@ -128,8 +134,8 @@ function updateTopics() {
         item.end = moment(item.end);
         return item;
       });
-      fs.writeFileSync(join(__dirname, 'archive', 'topics.json'),
-        JSON.stringify(_topics.reverse(), null, 2));
+      fs.writeFileSync(join(__dirname, 'topics-cache', 'topics.json'),
+        JSON.stringify(_topics, null, 2));
 
       console.log('==updated topics==');
       finish();

@@ -5,6 +5,9 @@ var join = require('path').join;
 try {
   require('fs').mkdirSync(join(__dirname, 'archive'));
 } catch (ex) {}
+try {
+  require('fs').mkdirSync(join(__dirname, 'bot'));
+} catch (ex) {}
 
 module.exports = updateArchive;
 function updateArchive() {
