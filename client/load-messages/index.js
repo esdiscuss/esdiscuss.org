@@ -85,6 +85,7 @@ for (var i = 0; i < containers.length; i++) {
 }
 
 function getMessage(id, callback) {
+  id = id.replace(/[^\\\/]+/g, encodeURIComponent);
   var content, header;
   var remaining = 2;
   ajax({

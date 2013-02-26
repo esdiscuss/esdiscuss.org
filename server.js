@@ -73,7 +73,7 @@ app.get('/:repo/:messageID/:part', function (req, res, next) {
   var part = req.params.part;
   if (!/\d\d\d\d\-\d\d/.test(req.params.repo)) return next();
   if (['edited.md', 'header.json', 'original.md'].indexOf(part) === -1) return next();
-  request('https://raw.github.com/esdiscuss/' + repo + '/master/' + mess + '/' + part)
+  request('https://raw.github.com/esdiscuss/' + repo + '/master/' + encodeURIComponent(mess) + '/' + part)
     .pipe(res);
 });
 
