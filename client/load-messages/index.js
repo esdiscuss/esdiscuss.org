@@ -138,7 +138,7 @@ function trimBody(body) {
   body = body.replace(/\n_____+\n(?:.*|\n)*/i, '');
   while (oldBody != body) { i++;
     oldBody = body;
-    body = body.replace(/^hi \w+.?/i, '')
+    body = body.replace(/^hi ?\w*.?/i, '')
               .replace(/\n-+ *original *message *-+\n(?:\n|.)*$/gi, '')
               .replace(/\n-+ *next *part *-+\n(?:\n|.)*$/gi, '')
               .replace(/\n-+ *message *d'origine *-+\n(?:\n|.)*$/gi, '')
@@ -152,6 +152,7 @@ function trimBody(body) {
               .replace(/herby$/i, '')
               .replace(/david$/i, '')
               .replace(/allen$/i, '')
+              .replace(/daniel$/i, '')
               .replace(/\/?andreas$/i, '')
               .replace(/rick$/i, '')
               .replace(/wes$/i, '')
