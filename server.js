@@ -151,35 +151,21 @@ setTimeout(function () {
   setInterval(updateTopics, 600000);
 }, 300000);
 
-function updateArchive() {
-  console.log('==SPAWNING==');
-  require('win-spawn')('node',
-      [join(__dirname, 'update-archive.js')],
-      {
-        cwd: __dirname,
-        stdio: 'inherit'
-      })
-  .on('exit',
-    function () {
-      console.log('==SPAWN DONE==');
-    });
-}
-setInterval(function () {
-  console.log('==GIT VERSION==');
-  require('win-spawn')('git',
-      ['--version'],
-      {
-        cwd: __dirname,
-        stdio: 'inherit'
-      })
-    .on('exit', function () {
-      console.log('==/GIT VERSION==');
-    });
-}, 600000);
+var updateArchive = require('./update-archive.js');
+
 if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
   console.log('==GOT GITHUB USER==')
-  updateArchive();
-  setInterval(updateArchive, 6000000);
+  function doUpdateArchive() {
+    updateArchive()
+      .fail(function (err) {
+        console.error(err.stack || err.message || err);
+      })
+      .delay(300000)
+      .done(function () {
+        doUpdateArchive();
+      });
+  }
+  doUpdateArchive();
 } else {
   console.log('==NO GITHUB USER==');
   updateTopics();
