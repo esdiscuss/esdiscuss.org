@@ -1,6 +1,6 @@
 {
   "name": "esdiscuss.org",
-  "version": "0.0.0-39",
+  "version": "0.0.0-44",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "moment": "~2.0.0",
     "component-builder": "~0.6.2",
     "transform": "0.0.9",
-    "github": "~0.1.8",
+    "github": "https://github.com/ForbesLindesay/node-github/archive/d8db8bb0a216dcb560fa1a8ee0506e82903de6aa.tar.gz",
     "q": "~0.8.12",
     "through": "~2.2.0"
   },
