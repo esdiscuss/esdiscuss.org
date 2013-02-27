@@ -5,12 +5,36 @@ html
     title ES Discuss
     link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
     link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css', rel='stylesheet')
+    style
+      header {
+        height: 30px;
+        margin-top: 10px;
+      }
+      header h3 {
+        line-height:20px;
+        display:inline-block;
+      }
+      header a {
+        color:gray;
+      }
+      .content {
+        padding: 10px 15px;
+      }
+      .content p {
+        font-size: 15px;
+      }
+      blockquote {
+        font-style: italic;
+      }
+
   body
     .container
       .row
         .span12
           .page-header
-            h1 ES Discuss / 
+            h1
+              a(href="/") ES Discuss
+              |  / 
               small #{topic.subject}
       -var postID = 0;
       for message in messages
