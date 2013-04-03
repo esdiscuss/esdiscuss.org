@@ -146,27 +146,9 @@ function updateTopics() {
   });
 }
 
-setTimeout(function () {
-  updateTopics();
-  setInterval(updateTopics, 600000);
-}, 300000);
-
-var updateArchive = require('./update-archive.js');
-
 if (process.env.GITHUB_USER && process.env.GITHUB_PASS) {
-  console.log('==GOT GITHUB USER==')
-  function doUpdateArchive() {
-    updateArchive()
-      .fail(function (err) {
-        console.error(err.stack || err.message || err);
-      })
-      .delay(300000)
-      .done(function () {
-        doUpdateArchive();
-      });
-  }
-  doUpdateArchive();
-} else {
-  console.log('==NO GITHUB USER==');
-  updateTopics();
+  // start the bot
 }
+console.log('==NO GITHUB USER==');
+updateTopics();
+setInterval(updateTopics, 30 * 60 * 1000);

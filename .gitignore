@@ -14,7 +14,3 @@ results
 npm-debug.log
 
 node_modules
-
-archive
-bot/.netrc
-bot/_netrc
