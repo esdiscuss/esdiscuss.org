@@ -2,16 +2,17 @@ var jade = require('jade');
 var express = require('express');
 var moment = require('moment');
 var Q = require('q');
+var fs = require('fs');
 var request = require('hyperquest');
 var concat = require('concat-stream');
 var browserify = require('browserify-middleware');
 var join = require('path').join;
+var gethub = require('gethub');
+var ms = require('ms');
 
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
 var escapeStream = require('./lib/escape-stream');
-
-var PAGE_SIZE = 20;
 
 var app = express();
 
@@ -45,16 +46,23 @@ app.get('/:page', function (req, res, next) {
     }, next);
 });
 
-function get(path) {
-  return Q.promise(function (resolve, reject) {
-    request(path, {}, function (err, res) {
-      if (err) return reject(err);
-      if (res.statusCode != 200) return reject(new Error('Status code ' + res.statusCode));
-    })
-    .pipe(concat(function (err, res) {
-      if (err) return reject(err);
-      if (res) resolve(res.toString('utf8'))
-    }))
+var months = {};
+function downloadMonth(month) {
+  var res = Q(gethub('esdiscuss', month, 'master', join(__dirname, 'cache', month)));
+  months[month] = res;
+  res.done(function () {
+    setTimeout(function () {
+      months[month] = null;
+    }, ms('24 hours'));
+  }, function () {
+    months[month] = null;
+  });
+  return res;
+}
+function get(month, id, part) {
+  var m = months[month] || downloadMonth(month);
+  return m.then(function () {
+    return Q.nfbind(fs.readFile)(join(__dirname, 'cache', month, id, part), 'utf8');
   });
 }
 app.get('/topic/:id', function (req, res, next) {
@@ -63,11 +71,11 @@ app.get('/topic/:id', function (req, res, next) {
       var tasks = [];
       topic.forEach(function (message) {
         var base = 'https://raw.github.com/esdiscuss/' + message.month + '/master/' + encodeURIComponent(message.id);
-        tasks.push(get(base + '/edited.md')
+        tasks.push(get(message.month, message.id, '/edited.md')
           .then(function (val) {
             message.edited = val;
           }));
-        tasks.push(get(base + '/original.md')
+        tasks.push(get(message.month, message.id, '/original.md')
           .then(function (val) {
             message.original = val;
           }));

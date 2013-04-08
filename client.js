@@ -101,7 +101,7 @@ function trimBody(body) {
               .replace(/\np t withington(?:\n|.)*$/i, '')
               .replace(/-+(?: *\n*)*Burak Emir(?:\n|.)*$/, '')
               .replace(/(?:regards)|(?:cheers\,?)(?: *\n*)*[^\n]+(?: *\n*)*$/i, '')
-              .replace(/-+(?: *\n*)*rediscover the web(?:\n|.)*/gi, '')
+              .replace(/-+(?: *\n*)*rediscover the web(?:\n|.)*$/gi, '')
               .replace(/(?:.+\n)*content-disposition: inline/i, '')
               .replace(/<div><span class\=\"gmail_quote\">(?:\n|.)*<\/div><br>$/i, '')
               .replace(/on .*\d\d.*$/i, '')
