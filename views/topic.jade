@@ -36,13 +36,27 @@ html
               a(href="/") ES Discuss
               |  / 
               small #{topic.subject}
-      -var postID = 0;
+      - var mid = 0
       for message in messages
-        - postID++
-        .row(data-message=message._id)
+        .row(data-message=message._id, id='content-' + mid)
+          .span1
+            img
+          .span11
+            header.well.well-small
+              h3
+                a(href='#content-' + mid) #
+                | #{message.from.name || message.from.email.replace(/@/g, ' at ')}
+              .pull-right.btn-group
+                button.btn(data-action='show-original', data-id=mid) view original
+                a.btn.btn-inverse(href='/source/' + message.date.toISOString()) go to source
+            .content
+              script(type="test/formatted")
+                stream= message.month + '/master/' + encodeURIComponent(message.id) + '/edited.md'
+              .source-view
+                pre
+                  stream= message.month + '/master/' + encodeURIComponent(message.id) + '/original.md'
+                a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
+        - mid++
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
     script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
-    script(src='https://yandex.st/highlightjs/7.3/highlight.min.js')
-    script(src='/load-messages/build/build.js')
-    script
-      require('esdiscuss-load-messages')
+    script(src='/client.js')
