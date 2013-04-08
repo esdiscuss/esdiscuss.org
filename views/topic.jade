@@ -40,7 +40,8 @@ html
       for message in messages
         .row(data-message=message._id, id='content-' + mid)
           .span1
-            img
+            a(href=message.from.profile)
+              img(src=message.from.avatar)
           .span11
             header.well.well-small
               h3
