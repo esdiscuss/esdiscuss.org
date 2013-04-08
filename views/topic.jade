@@ -50,11 +50,9 @@ html
                 button.btn(data-action='show-original', data-id=mid) view original
                 a.btn.btn-inverse(href='/source/' + message.date.toISOString()) go to source
             .content
-              script(type="test/formatted")
-                stream= message.month + '/master/' + encodeURIComponent(message.id) + '/edited.md'
+              script(type="test/formatted")= message.edited
               .source-view
-                pre
-                  stream= message.month + '/master/' + encodeURIComponent(message.id) + '/original.md'
+                pre= message.original
                 a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
         - mid++
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')

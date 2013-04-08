@@ -1,7 +1,9 @@
 var jade = require('jade');
 var express = require('express');
 var moment = require('moment');
+var Q = require('q');
 var request = require('hyperquest');
+var concat = require('concat-stream');
 var browserify = require('browserify-middleware');
 var join = require('path').join;
 
@@ -43,31 +45,40 @@ app.get('/:page', function (req, res, next) {
     }, next);
 });
 
+function get(path) {
+  return Q.promise(function (resolve, reject) {
+    request(path, {}, function (err, res) {
+      if (err) return reject(err);
+      if (res.statusCode != 200) return reject(new Error('Status code ' + res.statusCode));
+    })
+    .pipe(concat(function (err, res) {
+      if (err) return reject(err);
+      if (res) resolve(res.toString('utf8'))
+    }))
+  });
+}
 app.get('/topic/:id', function (req, res, next) {
   db.topic(req.params.id)
+    .then(function (topic) {
+      var tasks = [];
+      topic.forEach(function (message) {
+        var base = 'https://raw.github.com/esdiscuss/' + message.month + '/master/' + encodeURIComponent(message.id);
+        tasks.push(get(base + '/edited.md')
+          .then(function (val) {
+            message.edited = val;
+          }));
+        tasks.push(get(base + '/original.md')
+          .then(function (val) {
+            message.original = val;
+          }));
+      });
+      return Q.all(tasks).thenResolve(topic);
+    })
     .done(function (topic) {
       if (topic.length === 0) return next();
-      app.render('topic', {
+      res.render('topic', {
         topic: topic[0],
         messages: topic
-      }, function (err, str) {
-        if (err) return next(err);
-
-        str = str.split('<stream>');
-        var i = 0;
-        function nxt() {
-          res.write(str[i]);
-          if (str.length === ++i) return res.end();
-          var path;
-          str[i] = str[i].replace(/^((?:[^\<]|\n|\r)+)\<\/stream\>/g, function (_, p) {
-            path = p;
-            return '';
-          });
-          var req = request('https://raw.github.com/esdiscuss/' + path.trim());
-          req.pipe(escapeStream()).pipe(res, { end: false });
-          req.on('end', nxt);
-        }
-        nxt();
       });
     }, next);
 });
