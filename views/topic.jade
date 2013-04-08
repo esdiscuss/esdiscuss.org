@@ -39,7 +39,7 @@ html
       -var postID = 0;
       for message in messages
         - postID++
-        .row(data-message=message)
+        .row(data-message=message._id)
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
     script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
     script(src='https://yandex.st/highlightjs/7.3/highlight.min.js')

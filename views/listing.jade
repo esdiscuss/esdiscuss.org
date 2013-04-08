@@ -23,12 +23,12 @@ html
       for topic in topics
         .row
           .span12.topic-title
-            a(href='/topic/' + topic.id)
+            a(href='/topic/' + topic._id)
               .well.well-small
                 //span.badge.badge-info= topic.count
                 span.badge(style='float:right;')= topic.count
                 h4= topic.subject
-                p by #{topic.from} #{topic.start.fromNow()}
+                p by #{topic.first.name || topic.first.email.replace(/@/g, ' at ')} #{topic.start.fromNow()}
                   if topic.end.fromNow() != topic.start.fromNow()
                     |  updated on #{topic.end.fromNow()}
       .row
