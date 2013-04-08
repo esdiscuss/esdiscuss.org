@@ -11,6 +11,28 @@ html
         color: black;
         text-decoration: none;
       }
+      .side-bar {
+        text-align: center;
+        position: fixed;
+        right: 30px;
+        top: 120px;
+      }
+      @media (max-width: 1500px) {
+        .side-bar {
+          display: none;
+        }
+      }
+      .jepso {
+        color: #bf0080;
+      }
+      footer {
+        margin: 20px;
+      }
+      @media (min-width: 800px) {
+        footer .right {
+          float: right;
+        }
+      }
   body
     .container
       .row
@@ -47,3 +69,16 @@ html
             else
               li.next
                 a(href='/' + (id + 1)) Older &rarr;
+    hr
+    footer
+      .right
+        script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+      p.jepso © ForbesLindesay 2013
+      p By using this site you consent to the use of cookies
+      p
+        | Developed by 
+        a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
+        |  hosted by 
+        a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
+        |  run by 
+        a.jepso(href='https://www.jepso.com') JEPSO

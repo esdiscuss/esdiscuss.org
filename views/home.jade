@@ -7,6 +7,44 @@ html
       .previous a, .next a {
         cursor: pointer;
       }
+      .center {
+        text-align: center;
+      }
+      .jepso {
+        color: #bf0080;
+      }
+      footer {
+        margin: 20px;
+      }
+      @media (min-width: 800px) {
+        footer .right {
+          float: right;
+        }
+      }
+      @media (max-width: 800px) {
+        .center {
+          display: none;
+        }
+      }
+      @media (max-height: 900px) {
+        .center {
+          display: none;
+        }
+      }
+      @media (min-width: 800px) and (min-height: 800px) {
+        #footer-wrapper {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 150px;
+          padding: 0;
+        }
+      }
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
   body
     .content
       .row-fluid(style='height:50px')
@@ -17,3 +55,20 @@ html
             p This site aims to provide an easilly browsable nicely formatted copy of all the e-mail correspondence on the ES Discuss mailing list.
             p This is the only way to be involved in the next version of JavaScript
             a(href='/1')#view-topics.btn.btn-large.btn-primary.btn-block View Topics
+      .row-fluid
+        .center
+          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+    #footer-wrapper
+      hr
+      footer
+        .right
+          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+        p.jepso © ForbesLindesay 2013
+        p By using this site you consent to the use of cookies
+        p
+          | Developed by 
+          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
+          |  hosted by 
+          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
+          |  run by 
+          a.jepso(href='https://www.jepso.com') JEPSO
