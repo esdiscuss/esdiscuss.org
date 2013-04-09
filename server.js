@@ -20,6 +20,7 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 app.use(express.favicon(join(__dirname, 'favicon.ico')));
+app.use('/static', express.static(join(__dirname, 'static')));
 app.use(express.logger('dev'));
 
 browserify.settings.production('cache', '7 days');

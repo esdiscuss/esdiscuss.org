@@ -3,48 +3,7 @@ html
   head
     title ES Discuss
     link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css', rel='stylesheet')
-    style
-      .previous a, .next a {
-        cursor: pointer;
-      }
-      .center {
-        text-align: center;
-      }
-      .jepso {
-        color: #bf0080;
-      }
-      footer {
-        margin: 20px;
-      }
-      @media (min-width: 800px) {
-        footer .right {
-          float: right;
-        }
-      }
-      @media (max-width: 800px) {
-        .center {
-          display: none;
-        }
-      }
-      @media (max-height: 900px) {
-        .center {
-          display: none;
-        }
-      }
-      @media (min-width: 800px) and (min-height: 800px) {
-        #footer-wrapper {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 150px;
-          padding: 0;
-        }
-      }
-      body {
-        height: 100%;
-        margin: 0;
-      }
-
+    link(href='/static/style.css', rel='stylesheet')
   body
     .content
       .row-fluid(style='height:50px')
@@ -59,16 +18,15 @@ html
         .center
           script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
     #footer-wrapper
-      hr
       footer
         .right
           script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
         p.jepso © ForbesLindesay 2013
         p By using this site you consent to the use of cookies
         p
-          | Developed by 
+          | Developed by&nbsp;
           a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
-          |  hosted by 
+          |  hosted by&nbsp;
           a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
-          |  run by 
+          |  run by&nbsp;
           a.jepso(href='https://www.jepso.com') JEPSO
