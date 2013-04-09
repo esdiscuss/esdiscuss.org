@@ -45,15 +45,20 @@ app.get('/:page', function (req, res, next) {
       });
     }, next);
 });
-
+function isRecent(month) {
+  var year = +(month.split('-')[0]);
+  var mth = +(month.split('-')[1]);
+  var now = new Date();
+  return now - new Date(year, mth - 1) < ms('45 days');
+}
 var months = {};
 function downloadMonth(month) {
   var res = Q(gethub('esdiscuss', month, 'master', join(__dirname, 'cache', month)));
   months[month] = res;
   res.done(function () {
     setTimeout(function () {
-      months[month] = null;
-    }, ms('24 hours'));
+      downloadMonth(month);
+    }, isRecent(month) ? ms('30 minutes') : ms('24 hours'));
   }, function () {
     months[month] = null;
   });
