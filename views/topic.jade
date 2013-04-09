@@ -1,55 +1,38 @@
-!!! 5
-html
-  head
-    meta(charset='utf-8')
-    title ES Discuss
-    link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
-    link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
-    link(href='/static/style.css', rel='stylesheet')
-  body
-    #wrap
-      .container
-        .row
-          .span12
-            .page-header
-              h1
-                a(href="/") ES Discuss
-                |  /
-                small #{topic.subject}
-        - var mid = 0
-        for message in messages
-          .row(data-message=message._id, id='content-' + mid)
-            .span1
-              a(href=message.from.profile)
-                img(src=message.from.avatar)
-            .span11
-              header.well.well-small
-                h3
-                  a(href='#content-' + mid) #
-                  | #{message.from.name || message.from.email.replace(/@/g, ' at ')}
-                .pull-right.btn-group
-                  button.btn(data-action='show-original', data-id=mid) view original
-                  a.btn.btn-inverse(href='/source/' + message.date.toISOString()) go to source
-              .content
-                script(type="test/formatted")= message.edited
-                .source-view
-                  pre= message.original
-                  a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
-          - mid++
-       #push
-     #footer-wrapper
-       footer
-        .right
-          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
-        p.jepso © ForbesLindesay 2013
-        p By using this site you consent to the use of cookies
-        p
-          | Developed by&nbsp;
-          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
-          |  hosted by&nbsp;
-          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
-          |  run by&nbsp;
-          a.jepso(href='https://www.jepso.com') JEPSO
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
-    script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
-    script(src='/client.js')
+extends layout
+
+block head
+  link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
+
+block scripts
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
+  script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
+  script(src='/client.js')
+
+block content
+  .row
+    .span12
+      .page-header
+        h1
+          a(href="/") ES Discuss
+          |  /
+          small #{topic.subject}
+  - var mid = 0
+  for message in messages
+    .row(data-message=message._id, id='content-' + mid)
+      .span1
+        a(href=message.from.profile)
+          img(src=message.from.avatar)
+      .span11
+        header.well.well-small
+          h3
+            a(href='#content-' + mid) #
+            | #{message.from.name || message.from.email.replace(/@/g, ' at ')}
+          .pull-right.btn-group
+            button.btn(data-action='show-original', data-id=mid) view original
+            a.btn.btn-inverse(href='/source/' + message.date.toISOString()) go to source
+        .content
+          script(type="test/formatted")= message.edited
+          .source-view
+            pre= message.original
+            a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
+    - mid++

@@ -1,32 +1,11 @@
-!!! 5
-html
-  head
-    title ES Discuss
-    link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
-    link(href='/static/style.css', rel='stylesheet')
-  body
-    #wrap
-      .content
-        .row-fluid(style='height:50px')
-        .row-fluid
-          .offset2.span8
-            .hero-unit
-              h1 ES Discuss Archives
-              p This site aims to provide an easilly browsable nicely formatted copy of all the e-mail correspondence on the ES Discuss mailing list.
-              p This is the only way to be involved in the next version of JavaScript
-              a(href='/1')#view-topics.btn.btn-large.btn-primary.btn-block View Topics
-      #push
-    #footer-wrapper
-      footer
-        .right
-          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+extends layout
 
-        p.jepso © ForbesLindesay 2013
-        p By using this site you consent to the use of cookies
-        p
-          | Developed by&nbsp;
-          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
-          |  hosted by&nbsp;
-          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
-          |  run by&nbsp;
-          a.jepso(href='https://www.jepso.com') JEPSO
+block content
+  .row-fluid(style='height:50px')
+  .row-fluid
+    .offset2.span8
+      .hero-unit
+        h1 ES Discuss Archives
+        p This site aims to provide an easilly browsable nicely formatted copy of all the e-mail correspondence on the ES Discuss mailing list.
+        p This is the only way to be involved in the next version of JavaScript
+        a(href='/1')#view-topics.btn.btn-large.btn-primary.btn-block View Topics

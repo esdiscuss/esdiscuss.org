@@ -1,0 +1,28 @@
+!!! 5
+html
+  head
+    title ES Discuss
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
+    link(href='/static/style.css', rel='stylesheet')
+    block head
+  body
+    #wrap
+      .container
+        block content
+      #push
+    #footer-wrapper
+      footer
+        .right
+          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+        p.jepso © ForbesLindesay 2013
+        p By using this site you consent to the use of cookies
+        p
+          | Developed by&nbsp;
+          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
+          |  hosted by&nbsp;
+          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
+          |  run by&nbsp;
+          a.jepso(href='https://www.jepso.com') JEPSO
+
+    block scripts
