@@ -5,51 +5,53 @@ html
     link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css', rel='stylesheet')
     link(href='/static/style.css', rel='stylesheet')
   body
-    .container
-      .row
-        .span12
-          .page-header
-            h1
-              a(href="/") ES Discuss
-              | &nbsp;/
-              small Page #{id}
-      for topic in topics
+    #wrap
+      .container
         .row
-          .span12.topic-title
-            a(href='/topic/' + topic._id)
-              .well.well-small
-                //span.badge.badge-info= topic.count
-                span.badge(style='float:right;')= topic.count
-                h4= topic.subject
-                p by #{topic.first.name || topic.first.email.replace(/@/g, ' at ')} #{topic.start.fromNow()}
-                  if topic.end.fromNow() != topic.start.fromNow()
-                    |  updated on #{topic.end.fromNow()}
-      .row
-        .span12
-          - var first = id === 1;
-          ul.pager
-            if first
-              li.previous.disabled
-                a(disabled) &larr; Newer
-            else
-              li.previous
-                a(href='/' + (id - 1)) &larr; Newer
-            if last
-              li.next.disabled
-                a(disabled) Older &rarr;
-            else
-              li.next
-                a(href='/' + (id + 1)) Older &rarr;
-    hr
-    footer
-      .right
-        script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
-      p.jepso © ForbesLindesay 2013
-      p By using this site you consent to the use of cookies
-      p
-        | Developed by
-        a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
-        |  hosted by
-        a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
-        |  run by
-        a.jepso(href='https://www.jepso.com') JEPSO
+          .span12
+            .page-header
+              h1
+                a(href="/") ES Discuss
+                | &nbsp;/
+                small Page #{id}
+        for topic in topics
+          .row
+            .span12.topic-title
+              a(href='/topic/' + topic._id)
+                .well.well-small
+                  //span.badge.badge-info= topic.count
+                  span.badge(style='float:right;')= topic.count
+                  h4= topic.subject
+                  p by #{topic.first.name || topic.first.email.replace(/@/g, ' at ')} #{topic.start.fromNow()}
+                    if topic.end.fromNow() != topic.start.fromNow()
+                      |  updated on #{topic.end.fromNow()}
+        .row
+          .span12
+            - var first = id === 1;
+            ul.pager
+              if first
+                li.previous.disabled
+                  a(disabled) &larr; Newer
+              else
+                li.previous
+                  a(href='/' + (id - 1)) &larr; Newer
+              if last
+                li.next.disabled
+                  a(disabled) Older &rarr;
+              else
+                li.next
+                  a(href='/' + (id + 1)) Older &rarr;
+      #push
+    #footer-wrapper
+      footer
+        .right
+          script(data-gittip-username="esdiscuss", src="https://www.gittip.com/assets/widgets/0002.js")
+        p.jepso © ForbesLindesay 2013
+        p By using this site you consent to the use of cookies
+        p
+          | Developed by
+          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
+          |  hosted by
+          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
+          |  run by
+          a.jepso(href='https://www.jepso.com') JEPSO
