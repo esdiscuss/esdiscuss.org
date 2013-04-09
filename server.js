@@ -94,9 +94,9 @@ app.get('/topic/:id', function (req, res, next) {
     })
     .done(function (topic) {
       if (topic.length === 0) return next();
-      var isRecent = topic.some(function (msg) { return isRecent(month); });
+      var someRecent = topic.some(function (msg) { return isRecent(msg.month); });
       // 30 minutes or 12 hours
-      res.setHeader('Cache-Control', 'public, max-age=' + (isRecent ? 60 * 30 : 60 * 60 * 12));
+      res.setHeader('Cache-Control', 'public, max-age=' + (someRecent ? 60 * 30 : 60 * 60 * 12));
       res.render('topic', {
         topic: topic[0],
         messages: topic
