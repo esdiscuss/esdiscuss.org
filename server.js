@@ -22,13 +22,18 @@ app.set('views', __dirname + '/views');
 app.use(express.favicon(join(__dirname, 'favicon.ico')));
 app.use(express.logger('dev'));
 
+browserify.settings.production('cache', '7 days');
 app.get('/client.js', browserify('./client.js'));
 app.get('/', function (req, res) {
+  // 7 days
+  res.setHeader('Cache-Control', 'public, max-age=' + (60 * 60 * 24 * 7));
   res.render('home', {});
 });
 
 app.get('/:page', function (req, res, next) {
   if (!/^\d+$/.test(req.params.page)) return next();
+  // 30 minutes
+  res.setHeader('Cache-Control', 'public, max-age=' + (60 * 30));
 
   var page = req.params.page - 1;
 
@@ -89,6 +94,9 @@ app.get('/topic/:id', function (req, res, next) {
     })
     .done(function (topic) {
       if (topic.length === 0) return next();
+      var isRecent = topic.some(function (msg) { return isRecent(month); });
+      // 30 minutes or 12 hours
+      res.setHeader('Cache-Control', 'public, max-age=' + (isRecent ? 60 * 30 : 60 * 60 * 12));
       res.render('topic', {
         topic: topic[0],
         messages: topic
