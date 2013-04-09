@@ -62,7 +62,7 @@ for (var i = 0; i < containers.length; i++) {
 
 function trimBody(body) {
   //un-escape
-  body = body.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+  body = body.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   //fix bug in marked where lines starting in `#` are turned into headings
   //even if they are actually issue numbers
   body = body.replace(/^#(\d+)( |\.|\:)/gim, '.#$1$2')
