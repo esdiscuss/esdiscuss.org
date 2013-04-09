@@ -1,3 +1,4 @@
+var hljs = require('highlight.js');
 var marked = require('marked');
 var hash = window.location.hash;
 

@@ -21,7 +21,8 @@
     "browserify-middleware": "~1.6.0",
     "gethub": "~1.0.1",
     "q": "~0.9.2",
-    "ms": "~0.6.0"
+    "ms": "~0.6.0",
+    "highlight.js": "~7.3.0"
   },
   "subdomain": "esdiscuss",
   "scripts": {
