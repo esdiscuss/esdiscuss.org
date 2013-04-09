@@ -2,6 +2,14 @@ body {
   height: 100%;
   margin: 0;
 }
+#content {
+  padding-top: 60px;
+}
+.navbar .pagination {
+  margin: 5px 0 0 0;
+  font-size: 12px;
+}
+
 .previous a, .next a {
   cursor: pointer;
 }

@@ -8,7 +8,12 @@ html
     block head
   body
     #wrap
-      .container
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container
+            a.brand(href='/') ES Discuss
+            block navigation
+      #content.container
         block content
       #push
     #footer-wrapper

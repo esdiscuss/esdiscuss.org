@@ -8,14 +8,12 @@ block scripts
   script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
   script(src='/client.js')
 
+block navigation
+  ul.nav.pull-right
+    li.disabled
+      a(href='javascript:void') #{topic.subject}
+
 block content
-  .row
-    .span12
-      .page-header
-        h1
-          a(href="/") ES Discuss
-          |  /
-          small #{topic.subject}
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
