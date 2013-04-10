@@ -73,7 +73,11 @@ function downloadMonth(month) {
 function get(month, id, part) {
   var m = months[month] || downloadMonth(month);
   return m.then(function () {
-    return Q.nfbind(fs.readFile)(join(__dirname, 'cache', month, id, part), 'utf8');
+    return Q.nfbind(fs.readFile)(join(__dirname, 'cache', month, id, part), 'utf8')
+      .then(null, function (err) {
+        console.warn(err.stack || err.message || err);
+        return 'Message Not Found: Please allow 30 minutes for new messages to arrive and the cache to clear.';
+      });
   });
 }
 app.get('/topic/:id', function (req, res, next) {
