@@ -55,6 +55,10 @@ app.get('/', function (req, res) {
   res.render('home', {});
 });
 
+app.get('/robots.txt', function (req, res) {
+  res.end('User-agent: *\nDisallow: /source');
+});
+
 app.get('/:page', function (req, res, next) {
   if (!/^\d+$/.test(req.params.page)) return next();
   // 30 minutes
