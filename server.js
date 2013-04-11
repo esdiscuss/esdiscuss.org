@@ -182,7 +182,7 @@ app.get('/notes', function (req, res, next) {
     })
     .all()
     .then(function (months) {
-      res.json(months);
+      res.render('notes-listing', {months: months});
     });
 })
 

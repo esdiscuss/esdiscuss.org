@@ -1,0 +1,33 @@
+extends layout
+
+block navigation
+  ul.nav.pull-right
+    li.disabled
+      a(href='javascript:void') Notes
+
+block content
+  .row
+    .span1
+      a(href='http://twitter.com/rwaldron')
+        img(src='https://secure.gravatar.com/avatar/36c697d974542aadaee06a0f39cb1437?s=100&d=mm')
+    .span11
+      p
+        | These are notes taken by 
+        a(href='http://twitter.com/rwaldron') @rwldrn
+        |  in the TC39 meetings.  They are copied from 
+        a(href='https://github.com/rwldrn/tc39-notes/') this
+        |  GitHub repository.  They are not official notes, but it's hoped that they will offer a fairly readable, useful insigt into how the committee works.
+      - months.sort(function (a, b) { return a < b ? -1 : 1 })
+  for month in months
+    .row
+      .span1
+      .span11.topic-title
+        .well.well-small
+          h4= month.month
+    .row
+      .span1
+      .span11
+        ul
+          for day in month.days
+            li
+              a(href='/notes/' + month.month + '-' + day)= month.month + '-' + day
