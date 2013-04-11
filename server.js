@@ -9,7 +9,30 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
+var hljs = require('highlight.js');
 var marked = require('marked');
+
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  highlight: function(code, lang) {
+    try {
+      if (lang) lang = lang.toLowerCase();
+      if (lang === 'js' || lang === 'javascript') {
+        return hljs.highlight('javascript', code).value;
+      }
+      if (lang === 'html') {
+        return hljs.highlight('xml', code).value;
+      }
+    } catch (ex) {
+      console.warn(ex.stack);
+    } // if something goes wrong then 
+  }
+});
 
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
@@ -155,7 +178,7 @@ app.get('/notes/:date', function (req, res, next) {
   var date = req.params.date.split('-');
   getNotes(date[0], date[1], date[2])
     .done(function (str) {
-      res.send(marked(str));
+      res.render('notes', {date: req.params.date, content: marked(str)});
     }, function (err) {
       if (err && err.code === 'ENOENT') return next();
       else return next(err);

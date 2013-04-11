@@ -1,0 +1,15 @@
+extends layout
+
+block head
+  link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
+
+
+block navigation
+  ul.nav.pull-right
+    li
+      a(href='/notes') Notes
+    li.disabled
+      a(href='javascript:void') #{date}
+
+block content
+  != content

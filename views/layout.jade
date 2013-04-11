@@ -3,15 +3,20 @@ html
   head
     title ES Discuss
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    block head
     link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
     link(href='/static/style.css', rel='stylesheet')
-    block head
   body
     #wrap
       .navbar.navbar-fixed-top
         .navbar-inner
           .container
             a.brand(href='/') ES Discuss
+            ul.nav
+              li
+                a(href='/1') Topics
+              li
+                a(href='/notes') Notes
             block navigation
       #content.container
         block content
