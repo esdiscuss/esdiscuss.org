@@ -9,6 +9,7 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
+var marked = require('marked');
 
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
@@ -115,6 +116,75 @@ app.get('/source/:date', function (req, res, next) {
     res.redirect(301, url);
   })
 });
+
+
+
+var notes = null;
+function downloadNotes() {
+  var res = Q(gethub('rwldrn', 'tc39-notes', 'master', join(__dirname, 'cache', 'notes')));
+  notes = res;
+  res.done(function () {
+    setTimeout(function () {
+      downloadNotes();
+    }, ms('24 hours'));
+  }, function () {
+    notes = null;
+  });
+  return res;
+}
+function getNotes(year, month, day) {
+  var n = notes || downloadNotes();
+  return n
+    .then(function () {
+      return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month));
+    })
+    .then(function (days) {
+      var match = new RegExp('\\w+\\-' + day + '\\.md');
+      for (var i = 0; i < days.length; i++) {
+        if (match.test(days[i])) return days[i];
+      }
+      var err = new Error('Date not found');
+      err.code = 'ENOENT';
+      throw err;
+    })
+    .then(function (file) {
+      return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
+    });
+}
+app.get('/notes/:date', function (req, res, next) {
+  var date = req.params.date.split('-');
+  getNotes(date[0], date[1], date[2])
+    .done(function (str) {
+      res.send(marked(str));
+    }, function (err) {
+      if (err && err.code === 'ENOENT') return next();
+      else return next(err);
+    });
+})
+app.get('/notes', function (req, res, next) {
+  var n = notes || downloadNotes();
+  n
+    .then(function () {
+      return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6'));
+    })
+    .then(function (months) {
+      return months
+        .filter(function (m) { return /\d\d\d\d\-\d\d/.test(m); })
+        .map(function (m) {
+          return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6', m))
+            .then(function (days) {
+              return {
+                month: m,
+                days: days.map(function (day) { return day.replace(/[^\d]+/g, '') })
+              };
+            });
+        });
+    })
+    .all()
+    .then(function (months) {
+      res.json(months);
+    });
+})
 
 app.listen(3000);
 console.log('listening on localhost:3000')
