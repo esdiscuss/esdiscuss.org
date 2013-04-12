@@ -248,3 +248,11 @@ li.topic-title {
   font-style: italic;
   font-size: 14px;
 }
+
+.comment-body pre, .comment-body code {
+  font-size: 14px;
+}
+
+.comment-body pre {
+  padding: 6.5px;
+}
