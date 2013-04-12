@@ -15,7 +15,7 @@ block content
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
-      .span1.profile-image
+      .span1.profile-image.hidden-phone
         a(href=message.from.profile)
           img(src=message.from.avatar)
       .span11
