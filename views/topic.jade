@@ -4,8 +4,6 @@ block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
 
 block scripts
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
-  script(src='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js')
   script(src='/client.js')
 
 block navigation
@@ -17,20 +15,24 @@ block content
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
-      .span1
+      .span1.profile-image.hidden-phone
         a(href=message.from.profile)
           img(src=message.from.avatar)
       .span11
-        header.well.well-small
-          h3
+        .comment
+          .comment-header
             a(href='#content-' + mid) #
-            | #{message.from.name || message.from.email.replace(/@/g, ' at ')}
-          .pull-right.btn-group
-            button.btn(data-action='show-original', data-id=mid) view original
-            a.btn.btn-inverse(href='/source/' + message.date.toISOString()) go to source
-        .content
-          script(type="test/formatted")= message.edited
-          .source-view
-            pre= message.original
-            a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
+            |  #{message.from.name || message.from.email.replace(/@/g, ' at ')}
+            ul.buttons
+              li
+                a.showOriginal(href='javascript:void') view original
+              li
+                a(href='/source/' + message.date.toISOString()) go to source
+          .comment-body
+            script(type="test/formatted")= message.edited
+            .source-view
+              pre= message.original
+              a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
     - mid++
+
+
