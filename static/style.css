@@ -242,11 +242,15 @@ li.topic-title {
 .comment-body {
   padding: 10px;
   font-size: 14px;
+  background: white;
 }
 
 .comment-body blockquote, .comment-body blockquote p {
   font-style: italic;
   font-size: 14px;
+}
+.comment-body blockquote pre {
+  font-style: normal;
 }
 
 .comment-body pre, .comment-body code {
