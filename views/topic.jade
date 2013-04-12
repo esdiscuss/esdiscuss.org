@@ -19,7 +19,7 @@ block content
         a(href=message.from.profile)
           img(src=message.from.avatar)
       .span11
-        .comment
+        .comment-wrapper
           .comment-header
             a(href='#content-' + mid) #
             |  #{message.from.name || message.from.email.replace(/@/g, ' at ')}

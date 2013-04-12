@@ -201,7 +201,7 @@ li.topic-title {
 
 /* Topic specific styles */
 
-.comment {
+.comment-wrapper {
   border: 1px solid #CACACA;
   margin-bottom: 20px;
 }
