@@ -197,9 +197,12 @@ li.topic-title {
   right: 30px;
   top: 120px;
 }
-@media (max-width: 767px) {
-  .topic-title h4, .topic-title p {
-    max-width: 700px;
+@media (max-width: 600px) {
+  .topic-title h4 {
+    font-size: 16px;
+  }
+  .topic-title p {
+    margin-left: 0px;
   }
 }
 
