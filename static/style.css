@@ -200,23 +200,51 @@ li.topic-title {
 }
 
 /* Topic specific styles */
-header {
-  height: 30px;
-  margin-top: 10px;
+
+.comment {
+  border: 1px solid #CACACA;
+  margin-bottom: 20px;
 }
-header h3 {
-  line-height:20px;
-  display:inline-block;
+.comment-header {
+  height: 33px;
+  padding: 0 10px 0 6px;
+  border-bottom: 1px solid #ccc;
+  background-color: #e1e1e1;
+  background-image: -moz-linear-gradient(#f8f8f8, #e1e1e1);
+  background-image: -webkit-linear-gradient(#f8f8f8, #e1e1e1);
+  background-image: linear-gradient(#f8f8f8, #e1e1e1);
+  background-repeat: repeat-x;
+  font-size: 12px;
+  line-height: 33px;
+  vertical-align: middle;
 }
-header a {
-  color:gray;
+
+.comment-header ul.buttons {
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  list-style: none;
+  line-height: 31px;
 }
-.content {
-  padding: 10px 15px;
+.comment-header ul.buttons li {
+  list-style-type: none;
+  float: left;
+  margin: 0 0 0 8px;
+  line-height: 31px;
 }
-.content p {
-  font-size: 15px;
+.comment-header ul.buttons a{
+  color: #939AA0;
+  margin: 0 2px 0 1px;
+  position: relative;
+  top: 2px;
 }
-blockquote {
+.comment-body {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.comment-body blockquote, .comment-body blockquote p {
   font-style: italic;
+  font-size: 14px;
 }
