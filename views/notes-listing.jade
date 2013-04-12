@@ -1,9 +1,10 @@
 extends layout
 
-block navigation
-  ul.nav.pull-right
-    li.disabled
-      a(href='javascript:void') Notes
+block navsections
+  li
+    a(href='/1') Topics
+  li.active
+    a(href='/notes') Notes
 
 block content
   .row

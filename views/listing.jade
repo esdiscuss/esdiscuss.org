@@ -1,5 +1,11 @@
 extends layout
 
+block navsections
+  li.active
+    a(href='/1') Topics
+  li
+    a(href='/notes') Notes
+
 mixin pagination(id)
   ul
     - var first = id === 1;

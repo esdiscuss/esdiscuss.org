@@ -3,11 +3,14 @@ extends layout
 block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
 
+block navsections
+  li
+    a(href='/1') Topics
+  li.active
+    a(href='/notes') Notes
 
 block navigation
   ul.nav.pull-right
-    li
-      a(href='/notes') Notes
     li.disabled
       a(href='javascript:void') #{date}
 
