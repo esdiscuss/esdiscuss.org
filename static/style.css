@@ -5,6 +5,9 @@ body {
 #content {
   padding-top: 100px;
 }
+#landing {
+  background-color: #eee;
+}
 .navbar .pagination {
   margin: 5px 0 0 0;
   font-size: 12px;
@@ -19,6 +22,65 @@ body {
 .jepso {
   color: #bf0080;
 }
+
+
+/* Landing page */
+.jumbotron {
+  position: relative;
+  text-align: center;
+
+}
+.jumbotron h1 {
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+}
+.jumbotron p {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 30px;
+}
+
+.masthead .btn {
+  padding: 19px 24px;
+  font-size: 24px;
+  font-weight: 200;
+  color: #fff; /* redeclare to override the `.jumbotron a` */
+}
+
+.masthead {
+  margin-top: -40px;
+  padding: 0px 0 80px;
+  margin-bottom: 0;
+}
+.masthead h1 {
+  font-size: 120px;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .masthead {
+    margin-top: 0px;
+  }
+  .masthead h1 {
+    font-size: 70px;
+  }
+  .jumbotron p {
+    font-size: 18px;
+  }
+  .masthead .btn {
+    margin-top: 20px;
+  }
+  #content {
+    padding-top: 0px;
+  }
+}
+
 
 /* Sticky footer styles */
 html, body {

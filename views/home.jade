@@ -1,11 +1,20 @@
 extends layout
 
 block content
-  .row-fluid
-    .offset2.span8
-      .hero-unit
-        h1 ES Discuss Archives
+  .jumbotron.masthead
+    .row
+      .span10.offset1
+        h1 EcmaScript Discuss Archives
+    .row
+      .span8.offset2
         p This site aims to provide an easilly browsable nicely formatted copy of all the e-mail correspondence on the ES Discuss mailing list.
         p This is the only way to be involved in the next version of JavaScript
-        a(href='/1').btn.btn-large.btn-primary.btn-block View Topics
-        a(href='/notes').btn.btn-large.btn-primary.btn-block View Notes
+    .row
+      .span4.offset2
+        a(href='/1').btn.btn-large.btn-primary.btn-block
+          i.icon-list
+          | &nbsp; View Topics
+      .span4
+        a(href='/notes').btn.btn-large.btn-primary.btn-block
+          i.icon-copy
+          | &nbsp; View Notes
