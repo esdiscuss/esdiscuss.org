@@ -63,7 +63,7 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 767px) {
+@media (max-width: 979px) {
   .masthead {
     margin-top: 0px;
   }
@@ -78,6 +78,16 @@ body {
   }
   #content {
     padding-top: 0px;
+  }
+}
+@media (max-width: 700px) {
+  .jumbotron h1 {
+    font-size: 60px;
+  }
+}
+@media (max-width: 400px) {
+  .jumbotron h1 {
+    font-size: 40px;
   }
 }
 
@@ -190,12 +200,6 @@ li.topic-title {
 @media (max-width: 767px) {
   .topic-title h4, .topic-title p {
     max-width: 700px;
-  }
-}
-
-@media (max-width: 1500px) {
-  .side-bar {
-    display: none;
   }
 }
 
