@@ -45,7 +45,8 @@ app.set('views', __dirname + '/views');
 
 app.use(express.favicon(join(__dirname, 'favicon.ico')));
 app.use('/static', express.static(join(__dirname, 'static')));
-app.use(express.logger('dev'));
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+  app.use(express.logger('dev'));
 
 browserify.settings.production('cache', '7 days');
 app.get('/client.js', browserify('./client.js'));

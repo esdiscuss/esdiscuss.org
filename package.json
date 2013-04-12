@@ -26,12 +26,17 @@
   },
   "subdomain": "esdiscuss",
   "scripts": {
-    "start": "server.js"
+    "start": "server.js",
+    "test": "mocha -R spec"
   },
   "domains": [
     "esdiscuss.org"
   ],
   "engines": {
     "node": "0.8.x"
+  },
+  "devDependencies": {
+    "mocha-as-promised": "~1.2.1",
+    "mocha": "~1.9.0"
   }
 }
