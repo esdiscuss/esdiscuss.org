@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'production';
 require('mocha-as-promised')();
 
-var Q = require('q');
+var promise = require('lazy-promise');
 var request = require('hyperquest');
 var concat = require('concat-stream');
 
@@ -10,7 +10,7 @@ var assert = require('assert');
 var server = require('../server');
 
 function get(path) {
-  return Q.promise(function (resolve, reject) {
+  return promise(function (resolve, reject) {
     request('http://localhost:3000' + path, {}, function (err, res) {
       if (err) return reject(err);
       this.pipe(concat(function (err, body) {
@@ -25,7 +25,7 @@ function path(path, statusCode, fn) {
   describe(path, function () {
     var req = get(path);
     it('returns a status code ' + statusCode, function (done) {
-      this.timeout(10000);
+      this.timeout(20000);
       return req
         .then(function (res) {
           assert.equal(res.statusCode, statusCode);
