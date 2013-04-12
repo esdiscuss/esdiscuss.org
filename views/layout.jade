@@ -5,20 +5,27 @@ html
     title ES Discuss
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     block head
-    link(href='https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css', rel='stylesheet')
+    link(href='//netdna.bootstrapcdn.com/bootswatch/2.3.1/readable/bootstrap.min.css', rel='stylesheet')
+    link(href='//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css', rel='stylesheet')
     link(href='/static/style.css', rel='stylesheet')
+    link(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css', rel='stylesheet')
   body
     #wrap
       .navbar.navbar-fixed-top
         .navbar-inner
           .container
+            button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
             a.brand(href='/') ES Discuss
-            ul.nav
-              li
-                a(href='/1') Topics
-              li
-                a(href='/notes') Notes
-            block navigation
+            .nav-collapse.collapse
+              ul.nav
+                li
+                  a(href='/1') Topics
+                li
+                  a(href='/notes') Notes
+              block navigation
       #content.container
         block content
       #push
@@ -35,4 +42,6 @@ html
           a.jepso(href='https://www.jepso.com') JEPSO
         p By using this site you consent to the use of cookies
 
+    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
+    script(src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js')
     block scripts

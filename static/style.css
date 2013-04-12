@@ -3,7 +3,10 @@ body {
   margin: 0;
 }
 #content {
-  padding-top: 60px;
+  padding-top: 100px;
+}
+#landing {
+  background-color: #eee;
 }
 .navbar .pagination {
   margin: 5px 0 0 0;
@@ -19,6 +22,65 @@ body {
 .jepso {
   color: #bf0080;
 }
+
+
+/* Landing page */
+.jumbotron {
+  position: relative;
+  text-align: center;
+
+}
+.jumbotron h1 {
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+}
+.jumbotron p {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 30px;
+}
+
+.masthead .btn {
+  padding: 19px 24px;
+  font-size: 24px;
+  font-weight: 200;
+  color: #fff; /* redeclare to override the `.jumbotron a` */
+}
+
+.masthead {
+  margin-top: -40px;
+  padding: 0px 0 80px;
+  margin-bottom: 0;
+}
+.masthead h1 {
+  font-size: 120px;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .masthead {
+    margin-top: 0px;
+  }
+  .masthead h1 {
+    font-size: 70px;
+  }
+  .jumbotron p {
+    font-size: 18px;
+  }
+  .masthead .btn {
+    margin-top: 20px;
+  }
+  #content {
+    padding-top: 0px;
+  }
+}
+
 
 /* Sticky footer styles */
 html, body {
@@ -81,9 +143,43 @@ footer p {
 
 
 /* Listing specific styles */
+ul.topics {
+  list-style: none;
+  padding-bottom: 40px;
+  margin: 0px;
+}
+.topic-title:first-child, .topic-title:last-child{
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+li.topic-title {
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  margin-bottom: -1px;
+}
+
 .topic-title a {
   color: black;
-  text-decoration: none;
+}
+.topic-title h4 {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  /*4 properties below are imp for trailing ellipsis*/
+  max-width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.topic-title p {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 0px;
+  margin-left: 37px;
+  max-width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .side-bar {
   text-align: center;
@@ -91,6 +187,12 @@ footer p {
   right: 30px;
   top: 120px;
 }
+@media (max-width: 767px) {
+  .topic-title h4, .topic-title p {
+    max-width: 700px;
+  }
+}
+
 @media (max-width: 1500px) {
   .side-bar {
     display: none;
@@ -98,23 +200,59 @@ footer p {
 }
 
 /* Topic specific styles */
-header {
-  height: 30px;
-  margin-top: 10px;
+
+.comment {
+  border: 1px solid #CACACA;
+  margin-bottom: 20px;
 }
-header h3 {
-  line-height:20px;
-  display:inline-block;
+.comment-header {
+  height: 33px;
+  padding: 0 10px 0 6px;
+  border-bottom: 1px solid #ccc;
+  background-color: #e1e1e1;
+  background-image: -moz-linear-gradient(#f8f8f8, #e1e1e1);
+  background-image: -webkit-linear-gradient(#f8f8f8, #e1e1e1);
+  background-image: linear-gradient(#f8f8f8, #e1e1e1);
+  background-repeat: repeat-x;
+  font-size: 12px;
+  line-height: 33px;
+  vertical-align: middle;
 }
-header a {
-  color:gray;
+
+.comment-header ul.buttons {
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  list-style: none;
+  line-height: 31px;
 }
-.content {
-  padding: 10px 15px;
+.comment-header ul.buttons li {
+  list-style-type: none;
+  float: left;
+  margin: 0 0 0 8px;
+  line-height: 31px;
 }
-.content p {
-  font-size: 15px;
+.comment-header ul.buttons a{
+  color: #939AA0;
+  margin: 0 2px 0 1px;
+  position: relative;
+  top: 2px;
 }
-blockquote {
+.comment-body {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.comment-body blockquote, .comment-body blockquote p {
   font-style: italic;
+  font-size: 14px;
+}
+
+.comment-body pre, .comment-body code {
+  font-size: 14px;
+}
+
+.comment-body pre {
+  padding: 6.5px;
 }

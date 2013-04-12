@@ -15,7 +15,7 @@ marked.setOptions({
       if (lang === 'js' || lang === 'javascript') {
         return hljs.highlight('javascript', code).value;
       }
-    } catch (ex) {} // if something goes wrong then 
+    } catch (ex) {} // if something goes wrong then
   }
 });
 
@@ -30,7 +30,7 @@ for (var i = 0; i < containers.length; i++) {
     var messageID = container.getAttribute('data-message');
 
     var body = container.querySelector('script[type="test/formatted"]').innerHTML;
-    var content = container.querySelector('.content');
+    var content = container.querySelector('.comment-body');
     content.innerHTML += '<div class="formatted-view">' + marked(trimBody(body)) + '</div>';
 
     var srcView = content.querySelector('.source-view');
@@ -38,7 +38,7 @@ for (var i = 0; i < containers.length; i++) {
     srcView.style.display = 'none';
 
     var showingOriginal = false;
-    var btn = container.querySelector('button');
+    var btn = container.querySelector('.showOriginal');
     btn.addEventListener('click', function () {
       if (showingOriginal) {
         btn.textContent = 'view original';
