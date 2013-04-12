@@ -1,36 +1,40 @@
 extends layout
 
-block navigation
-  .pagination.pull-right
-    ul
-      - var first = id === 1;
-      if first
-        li.disabled
-          a(disabled) « Newer
-      else
-        li
-          a(href='/' + (id - 1)) « Newer
+mixin pagination(id)
+  ul
+    - var first = id === 1;
+    if first
+      li.disabled
+        a(disabled) « Newer
+    else
       li
-        a(href='javascript:void') Page #{id}
-      if last
-        li.disabled
-          a(disabled) Older »
-      else
-        li
-          a(href='/' + (id + 1)) Older »
+        a(href='/' + (id - 1)) « Newer
+    li
+      a(href='javascript:void') Page #{id}
+    if last
+      li.disabled
+        a(disabled) Older »
+    else
+      li
+        a(href='/' + (id + 1)) Older »
 
-
+block navigation
+  .pagination.pull-right.hidden-phone
+    mixin pagination(id)
 
 
 block content
-   for topic in topics
-     .row
-       .span12.topic-title
-         a(href='/topic/' + topic._id)
-           .well.well-small
-             //span.badge.badge-info= topic.count
-             span.badge(style='float:right;')= topic.count
-             h4= topic.subject
-             p by #{topic.first.name || topic.first.email.replace(/@/g, ' at ')} #{topic.start.fromNow()}
-               if topic.end.fromNow() != topic.start.fromNow()
-                 |  updated on #{topic.end.fromNow()}
+  for topic in topics
+    .row
+      .span12.topic-title
+        a(href='/topic/' + topic._id)
+          .well.well-small
+            //span.badge.badge-info= topic.count
+            span.badge(style='float:right;')= topic.count
+            h4= topic.subject
+            p by #{topic.first.name || topic.first.email.replace(/@/g, ' at ')} #{topic.start.fromNow()}
+              if topic.end.fromNow() != topic.start.fromNow()
+                |  updated on #{topic.end.fromNow()}
+
+  .pagination.visible-phone
+    mixin pagination(id)
