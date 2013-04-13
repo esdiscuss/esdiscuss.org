@@ -9,9 +9,10 @@ body {
   background-color: #eee;
 }
 .navbar .pagination {
-  margin: 5px 0 0 0;
+  margin: 11px 0 0 0;
   font-size: 12px;
 }
+
 
 .previous a, .next a {
   cursor: pointer;
