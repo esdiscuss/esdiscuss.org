@@ -179,14 +179,26 @@ function getNotes(year, month, day) {
       return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
     })
     .then(function(file) {
-      return processNote(file);
+      return processNote(file, year + '-' + month + '-' + day);
     });
 }
 
-function processNote(content) {
+function processNote(content, date) {
+
+  content = content.replace(/^#.*\n+(.*)/, function (_, atendees) {
+    return '# ' + date + ' Meeting Notes\n\n' +
+      atendees.replace(/([\w\'\-]+\s[\w\'\-]+) \(([A-Z]{2,3})\)/g, function (_, name, id) {
+        if (!profiles.some(function (profile) { return profile.id === id })) {
+          console.log(id + ' = ' + name);
+          profiles.push({id: id, displayName: name});
+        }
+        return '[[[PersonName:' + name + ']]]';
+      })
+      .replace(/\,$/, '');
+  })
   // Complete Name: "Brendan Eich:"
-  content = content.replace(/^(\w+\s\w+)[\.:]/gm, function(_, name) {
-    return '[[[' + name + ']]]';
+  content = content.replace(/^([\w\'\-]+\s[\w\'\-]+)[\.:]/gm, function(_, name) {
+    return '[[[PersonName:' + name + ']]]';
   });
   // single: "AB:" or multiple: "AB/BC/CD:"
   var findShortNames = /^([A-Z]{2,3}(?:(?:, |\/)[A-Z]{2,3})*)[\.:]/gm;
@@ -201,8 +213,9 @@ app.get('/notes/:date', function (req, res, next) {
   getNotes(date[0], date[1], date[2])
     .done(function (str) {
       var content = marked(str);
-      content = content.replace(/\[\[\[(\w+\s\w+)\]\]\]|\b([A-Z]{2,3})\b/g, function (_, name, id) {
+      content = content.replace(/\[\[\[PersonName:((?:[\w\'\-]|&#39;)+\s(?:[\w\'\-]|&#39;)+)\]\]\]|\b([A-Z]{2,3})\b/g, function (_, name, id) {
         id = id || name;
+        id = id.replace(/&#39;/g, "'")
         for (var i = 0; i < profiles.length; i++) {
           if (profiles[i].id === id || profiles[i].displayName === id) {
             return profiles[i].displayName;
