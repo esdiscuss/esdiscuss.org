@@ -9,9 +9,10 @@ body {
   background-color: #eee;
 }
 .navbar .pagination {
-  margin: 5px 0 0 0;
+  margin: 11px 0 0 0;
   font-size: 12px;
 }
+
 
 .previous a, .next a {
   cursor: pointer;
@@ -170,7 +171,8 @@ li.topic-title {
 }
 
 .topic-title a {
-  color: black;
+  color: #444;
+  text-decoration: none;
 }
 .topic-title h4 {
   margin-top: 5px;
@@ -191,18 +193,22 @@ li.topic-title {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.side-bar {
-  text-align: center;
-  position: fixed;
-  right: 30px;
-  top: 120px;
+span.message-count {
+  padding-left: 15px;
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .topic-title h4 {
     font-size: 16px;
   }
   .topic-title p {
     margin-left: 0px;
+  }
+  #content {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  li.topic-title {
+    padding: 10px;
   }
 }
 
@@ -244,11 +250,17 @@ li.topic-title {
   margin: 0 0 0 8px;
   line-height: 31px;
 }
-.comment-header ul.buttons a{
+.comment-header ul.buttons a {
   color: #939AA0;
   margin: 0 2px 0 1px;
   position: relative;
   top: 2px;
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in 0;
+}
+.comment-header ul.buttons a:hover {
+  color: #333;
+  text-decoration: none;
 }
 .comment-body {
   padding: 10px;
@@ -264,8 +276,13 @@ li.topic-title {
   font-style: normal;
 }
 
-.comment-body pre, .comment-body code {
+.comment-body pre {
   font-size: 14px;
+  line-height: 20px;
+}
+.comment-body code {
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .comment-body pre {
