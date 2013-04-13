@@ -208,6 +208,10 @@ li.topic-title {
 
 /* Topic specific styles */
 
+.profile-image img {
+  border-radius: 4px;
+}
+
 .comment-wrapper {
   border: 1px solid #CACACA;
   margin-bottom: 20px;
