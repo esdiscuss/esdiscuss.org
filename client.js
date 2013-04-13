@@ -39,13 +39,14 @@ for (var i = 0; i < containers.length; i++) {
 
     var showingOriginal = false;
     var btn = container.querySelector('.showOriginal');
+    var btnSpan = btn.querySelector('span');
     btn.addEventListener('click', function () {
       if (showingOriginal) {
-        btn.textContent = 'view original';
+        btnSpan.textContent = ' View Original';
         srcView.style.display = 'none';
         frmView.style.display = 'block';
       } else {
-        btn.textContent = 'view formatted';
+        btnSpan.textContent = ' View Formatted';
         srcView.style.display = 'block';
         frmView.style.display = 'none';
       }

@@ -250,11 +250,17 @@ span.message-count {
   margin: 0 0 0 8px;
   line-height: 31px;
 }
-.comment-header ul.buttons a{
+.comment-header ul.buttons a {
   color: #939AA0;
   margin: 0 2px 0 1px;
   position: relative;
   top: 2px;
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in 0;
+}
+.comment-header ul.buttons a:hover {
+  color: #333;
+  text-decoration: none;
 }
 .comment-body {
   padding: 10px;
