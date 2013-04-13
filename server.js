@@ -30,7 +30,7 @@ marked.setOptions({
       }
     } catch (ex) {
       console.warn(ex.stack);
-    } // if something goes wrong then 
+    } // if something goes wrong then
   }
 });
 
@@ -176,8 +176,68 @@ function getNotes(year, month, day) {
     })
     .then(function (file) {
       return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
+    })
+    .then(function(file) {
+      return processNote(file);
     });
 }
+
+function processNote(content) {
+  var meetingMembers = {
+    JN: 'John Neumann',
+    NL: 'Norbert Lindenberg',
+    AWB: 'Wirfs-Brock',
+    RW: 'Rick Waldron',
+    WH: 'Waldemar Horwat',
+    EF: 'Eric Ferraiuolo',
+    EA: 'Erik Arvidsson',
+    LH: 'Luke Hoban',
+    MS: 'Matt Sweeney',
+    DC: 'Doug Crockford',
+    YK: 'Yehuda Katz',
+    BE: 'Brendan Eich',
+    STH: 'Sam Tobin-Hochstadt',
+    AR: 'Alex Russell',
+    DH: 'Dave Herman',
+    AK: 'Adam Klein',
+    EY: 'Edward Yang',
+    DS: 'Dan Stefan',
+    BM: 'Bernd Mathiske',
+    JP: 'John Pampuch',
+    AC: 'Avik Chaudhuri',
+    EOC: 'Edward O\'Connor',
+    RH: 'Rick Hudson',
+    ARB: 'Andreas Rossberg',
+    RWN: 'Rafeal Weinstein',
+    MM: 'Mark Miller'
+  };
+  var lines = content.split('\n');
+  lines = lines.map(function(line) {
+    // Complete Name: "Brendan Eich:"
+    line = line.replace(/^(\w+\s\w+)[\.:]/, function(match, p1, offset, string) {
+      return '~~' + p1 + '~~';
+    });
+    // single: "AB:" or multiple: "AB/BC/CD:"
+    var findShortNames = /^([A-Z]{2,3})(?:(?:, |\/)([A-Z]{2,3}))?(?:(?:, |\/)([A-Z]{2,3}))?[\.:]/;
+    line = line.replace(findShortNames, function(match, p1, p2, p3, offset, string) {
+      var members = [p1, p2, p3];
+      var result = '~~';
+      members.forEach(function(member, index) {
+        var memberList = '';
+        if (member) {
+          if (index > 0) memberList += '/';
+          memberList += meetingMembers[member] || member;
+        }
+        result += memberList;
+      });
+      result += '~~';
+      return result;
+    });
+    return line;
+  });
+  return lines.join('\n');
+}
+
 app.get('/notes/:date', function (req, res, next) {
   var date = req.params.date.split('-');
   getNotes(date[0], date[1], date[2])
