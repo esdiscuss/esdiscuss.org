@@ -197,12 +197,19 @@ li.topic-title {
   right: 30px;
   top: 120px;
 }
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .topic-title h4 {
     font-size: 16px;
   }
   .topic-title p {
     margin-left: 0px;
+  }
+  #content {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  li.topic-title {
+    padding: 10px;
   }
 }
 
