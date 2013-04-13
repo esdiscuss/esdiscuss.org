@@ -36,6 +36,7 @@ marked.setOptions({
 
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
+var profiles = require('./profiles');
 
 var app = express();
 
@@ -183,66 +184,36 @@ function getNotes(year, month, day) {
 }
 
 function processNote(content) {
-  var meetingMembers = {
-    JN: 'John Neumann',
-    NL: 'Norbert Lindenberg',
-    AWB: 'Wirfs-Brock',
-    RW: 'Rick Waldron',
-    WH: 'Waldemar Horwat',
-    EF: 'Eric Ferraiuolo',
-    EA: 'Erik Arvidsson',
-    LH: 'Luke Hoban',
-    MS: 'Matt Sweeney',
-    DC: 'Doug Crockford',
-    YK: 'Yehuda Katz',
-    BE: 'Brendan Eich',
-    STH: 'Sam Tobin-Hochstadt',
-    AR: 'Alex Russell',
-    DH: 'Dave Herman',
-    AK: 'Adam Klein',
-    EY: 'Edward Yang',
-    DS: 'Dan Stefan',
-    BM: 'Bernd Mathiske',
-    JP: 'John Pampuch',
-    AC: 'Avik Chaudhuri',
-    EOC: 'Edward O\'Connor',
-    RH: 'Rick Hudson',
-    ARB: 'Andreas Rossberg',
-    RWN: 'Rafeal Weinstein',
-    MM: 'Mark Miller'
-  };
-  var lines = content.split('\n');
-  lines = lines.map(function(line) {
-    // Complete Name: "Brendan Eich:"
-    line = line.replace(/^(\w+\s\w+)[\.:]/, function(match, p1, offset, string) {
-      return '~~' + p1 + '~~';
-    });
-    // single: "AB:" or multiple: "AB/BC/CD:"
-    var findShortNames = /^([A-Z]{2,3})(?:(?:, |\/)([A-Z]{2,3}))?(?:(?:, |\/)([A-Z]{2,3}))?[\.:]/;
-    line = line.replace(findShortNames, function(match, p1, p2, p3, offset, string) {
-      var members = [p1, p2, p3];
-      var result = '~~';
-      members.forEach(function(member, index) {
-        var memberList = '';
-        if (member) {
-          if (index > 0) memberList += '/';
-          memberList += meetingMembers[member] || member;
-        }
-        result += memberList;
-      });
-      result += '~~';
-      return result;
-    });
-    return line;
+  // Complete Name: "Brendan Eich:"
+  content = content.replace(/^(\w+\s\w+)[\.:]/gm, function(_, name) {
+    return '[[[' + name + ']]]';
   });
-  return lines.join('\n');
+  // single: "AB:" or multiple: "AB/BC/CD:"
+  var findShortNames = /^([A-Z]{2,3}(?:(?:, |\/)[A-Z]{2,3})*)[\.:]/gm;
+  content = content.replace(findShortNames, function(match, members) {
+    return '**' + members.split(/, |\//).join('/') + ':**';
+  });
+  return content;
 }
 
 app.get('/notes/:date', function (req, res, next) {
   var date = req.params.date.split('-');
   getNotes(date[0], date[1], date[2])
     .done(function (str) {
-      res.render('notes', {date: req.params.date, content: marked(str)});
+      var content = marked(str);
+      content = content.replace(/\[\[\[(\w+\s\w+)\]\]\]|\b([A-Z]{2,3})\b/g, function (_, name, id) {
+        id = id || name;
+        for (var i = 0; i < profiles.length; i++) {
+          if (profiles[i].id === id || profiles[i].displayName === id) {
+            return profiles[i].displayName;
+          }
+        }
+        return id;
+      });
+      res.render('notes', {
+        date: req.params.date,
+        content: content
+      });
     }, function (err) {
       if (err && err.code === 'ENOENT') return next();
       else return next(err);

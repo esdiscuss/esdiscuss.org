@@ -1,0 +1,110 @@
+[
+  {
+    "id": "JN",
+    "displayName": "John Neumann"
+  },
+  {
+    "id": "NL",
+    "displayName": "Norbert Lindenberg"
+  },
+  {
+    "id": "AWB",
+    "displayName": "Wirfs-Brock"
+  },
+  {
+    "id": "RW",
+    "displayName": "Rick Waldron"
+  },
+  {
+    "id": "WH",
+    "displayName": "Waldemar Horwat"
+  },
+  {
+    "id": "EF",
+    "displayName": "Eric Ferraiuolo"
+  },
+  {
+    "id": "EA",
+    "displayName": "Erik Arvidsson"
+  },
+  {
+    "id": "LH",
+    "displayName": "Luke Hoban"
+  },
+  {
+    "id": "MS",
+    "displayName": "Matt Sweeney"
+  },
+  {
+    "id": "DC",
+    "displayName": "Doug Crockford"
+  },
+  {
+    "id": "YK",
+    "displayName": "Yehuda Katz"
+  },
+  {
+    "id": "BE",
+    "displayName": "Brendan Eich"
+  },
+  {
+    "id": "STH",
+    "displayName": "Sam Tobin-Hochstadt"
+  },
+  {
+    "id": "AR",
+    "displayName": "Alex Russell"
+  },
+  {
+    "id": "DH",
+    "displayName": "Dave Herman"
+  },
+  {
+    "id": "AK",
+    "displayName": "Adam Klein"
+  },
+  {
+    "id": "EY",
+    "displayName": "Edward Yang"
+  },
+  {
+    "id": "DS",
+    "displayName": "Dan Stefan"
+  },
+  {
+    "id": "BM",
+    "displayName": "Bernd Mathiske"
+  },
+  {
+    "id": "JP",
+    "displayName": "John Pampuch"
+  },
+  {
+    "id": "AC",
+    "displayName": "Avik Chaudhuri"
+  },
+  {
+    "id": "EOC",
+    "displayName": "Edward O'Connor"
+  },
+  {
+    "id": "RH",
+    "displayName": "Rick Hudson"
+  },
+  {
+    "id": "ARB",
+    "displayName": "Andreas Rossberg"
+  },
+  {
+    "id": "RWN",
+    "displayName": "Rafeal Weinstein"
+  },
+  {
+    "id": "MM",
+    "displayName": "Mark Miller"
+  },
+  {
+    "id": "RB",
+    "displayName": "Reid Burke"
+  }
+]
