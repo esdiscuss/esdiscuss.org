@@ -11,17 +11,13 @@ block content
     .span12
       h2 Official Meeting Minutes
   .row
-    // .span1.profile-image.hidden-phone
-    //   a(href='http://twitter.com/rwaldron')
-    //     img(src='https://secure.gravatar.com/avatar/36c697d974542aadaee06a0f39cb1437?s=100&d=mm')
     .span12
-      blockquote
-        p
-          | These are notes are the official TC39 meeting minutes taken by&nbsp;
-          a(href='http://twitter.com/rwaldron') @rwldrn
-          | . They are copied from&nbsp;
-          a(href='https://github.com/rwldrn/tc39-notes/') this
-          |  GitHub repository. It's hoped that they will offer a fairly readable, useful insight into how the committee works.
+      p
+        | These are notes are the official TC39 meeting minutes taken by&nbsp;
+        a(href='http://twitter.com/rwaldron') @rwldrn
+        | . They are copied from&nbsp;
+        a(href='https://github.com/rwldrn/tc39-notes/') this
+        |  GitHub repository. It's hoped that they will offer a fairly readable, useful insight into how the committee works.
   - months = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
   for month in months
     .row
@@ -33,5 +29,5 @@ block content
           - var days = month.days.sort()
           for day in days
             li.topic-title
-              h4
-                a(href='/notes/' + month.month + '-' + day)= month.month + '-' + day
+              a(href='/notes/' + month.month + '-' + day)
+                h4= month.month + '-' + day
