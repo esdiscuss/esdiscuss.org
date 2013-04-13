@@ -288,3 +288,38 @@ span.message-count {
 .comment-body pre {
   padding: 6.5px;
 }
+
+/* Notes styles */
+@media (max-width: 767px) {
+  h2, h3 {
+    padding-left: 10px;
+  }
+}
+.notes {
+  background: white;
+  border: 1px solid #CACACA;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 15px;
+}
+
+.notes p {
+  padding: 0px;
+}
+
+.notes del {
+  text-decoration: none;
+  font-weight: bold;
+}
+.notes del:after {
+  content: ':';
+}
+
+.notes code {
+  font-size: 14px;
+  line-height: 20px;
+}
+.notes pre {
+  font-size: 12px;
+  line-height: 18px;
+}
