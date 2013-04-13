@@ -36,7 +36,6 @@ marked.setOptions({
 
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
-var escapeStream = require('./lib/escape-stream');
 
 var app = express();
 
