@@ -270,8 +270,13 @@ span.message-count {
   font-style: normal;
 }
 
-.comment-body pre, .comment-body code {
+.comment-body pre {
   font-size: 14px;
+  line-height: 20px;
+}
+.comment-body code {
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .comment-body pre {
