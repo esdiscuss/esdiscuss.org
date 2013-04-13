@@ -35,11 +35,8 @@ block content
       ul.topics
         for topic in topics
           li.topic-title
-
-              //span.badge.badge-info= topic.count
-              span.badge(style='float:right;')= topic.count
               h4
-                i.icon-comments-alt
+                i.icon-envelope
                 |  &nbsp;
                 a(href='/topic/' + topic._id)= topic.subject
               p
@@ -48,6 +45,11 @@ block content
                 |  #{topic.start.fromNow()}
                 if topic.end.fromNow() != topic.start.fromNow()
                   |  (updated #{topic.end.fromNow()})
+                span.message-count
+                  a(href='/topic/' + topic._id)
+                    i.icon-comments-alt
+                    |  #{topic.messages} messages
+
 
   .pagination.center
     mixin pagination(id)

@@ -171,7 +171,8 @@ li.topic-title {
 }
 
 .topic-title a {
-  color: black;
+  color: #444;
+  text-decoration: none;
 }
 .topic-title h4 {
   margin-top: 5px;
@@ -192,11 +193,8 @@ li.topic-title {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.side-bar {
-  text-align: center;
-  position: fixed;
-  right: 30px;
-  top: 120px;
+span.message-count {
+  padding-left: 15px;
 }
 @media (max-width: 767px) {
   .topic-title h4 {
