@@ -290,6 +290,11 @@ span.message-count {
 }
 
 /* Notes styles */
+@media (max-width: 767px) {
+  h2, h3 {
+    padding-left: 10px;
+  }
+}
 .notes {
   background: white;
   border: 1px solid #CACACA;
