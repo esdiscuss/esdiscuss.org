@@ -302,23 +302,14 @@ span.message-count {
   font-size: 16px;
   padding: 15px;
 }
-.notes strong {
-  font-size: 20px;
-}
+
 .notes p {
   padding: 0px;
 }
 
-.notes del:before {
-  content: '';
-  border-bottom: 1px solid #999;
-  float: left
-
-}
 .notes del {
   text-decoration: none;
   font-weight: bold;
-
 }
 .notes del:after {
   content: ':';
