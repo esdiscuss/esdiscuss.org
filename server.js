@@ -37,6 +37,8 @@ marked.setOptions({
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
 var profiles = require('./profiles');
+var bot = require('./lib/bot');
+bot.run();
 
 var app = express();
 
