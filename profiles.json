@@ -106,5 +106,29 @@
   {
     "id": "RB",
     "displayName": "Reid Burke"
+  },
+  {
+    "id": "TD",
+    "displayName": "Brian Terlson"
+  },
+  {
+    "id": "BT",
+    "displayName": "Brian Terlson"
+  },
+  {
+    "id": "RWS",
+    "displayName": "Rafael Weinstein"
+  },
+  {
+    "id": "IS",
+    "displayName": "Istvan Sebastian"
+  },
+  {
+    "id": "PB",
+    "displayName": "Paul Leathers"
+  },
+  {
+    "id": "NC",
+    "displayName": "Nebojsa Ciric"
   }
 ]
