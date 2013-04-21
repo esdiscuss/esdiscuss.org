@@ -109,7 +109,7 @@ function trimBody(body) {
               .replace(/-+(?: *\n*)*rediscover the web(?:\n|.)*$/gi, '')
               .replace(/(?:.+\n)*content-disposition: inline/i, '')
               .replace(/<div><span class\=\"gmail_quote\">(?:\n|.)*<\/div><br>$/i, '')
-              .replace(/on .*\d\d.*$/i, '')
+              .replace(/(?:^|\s)on .*\d\d.*$/i, '')
               .replace(/\n.+(?: |>)wrote:?$/i, '')
               .replace(/\n---+\nspket(?:\n|.)*$/i, '')
               .replace(/\n-+$/i, '')
