@@ -9,31 +9,8 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
-var hljs = require('highlight.js');
-var marked = require('marked');
 
-marked.setOptions({
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  highlight: function(code, lang) {
-    try {
-      if (lang) lang = lang.toLowerCase();
-      if (lang === 'js' || lang === 'javascript') {
-        return hljs.highlight('javascript', code).value;
-      }
-      if (lang === 'html') {
-        return hljs.highlight('xml', code).value;
-      }
-    } catch (ex) {
-      console.warn(ex.stack);
-    } // if something goes wrong then
-  }
-});
-
+var version = require('./package.json').version;
 var resolve = require('./lib/pipermail-resolve');
 var db = require('./lib/database');
 var profiles = require('./profiles');
@@ -42,6 +19,7 @@ bot.run();
 
 var app = express();
 
+app.locals.version = version;
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
@@ -51,7 +29,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));
 
 browserify.settings.production('cache', '7 days');
-app.get('/client.js', browserify('./client.js'));
+app.get('/' + version + '/client.js', browserify('./client.js'));
 app.get('/', function (req, res) {
   // 7 days
   res.setHeader('Cache-Control', 'public, max-age=' + (60 * 60 * 24 * 7));
@@ -119,7 +97,7 @@ app.get('/topic/:id', function (req, res, next) {
         var base = 'https://raw.github.com/esdiscuss/' + message.month + '/master/' + encodeURIComponent(message.id);
         tasks.push(get(message.month, message.id, '/edited.md')
           .then(function (val) {
-            message.edited = val;
+            message.edited = require('./lib/process').processMessage(val);
           }));
         tasks.push(get(message.month, message.id, '/original.md')
           .then(function (val) {
@@ -181,50 +159,15 @@ function getNotes(year, month, day) {
       return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
     })
     .then(function(file) {
-      return processNote(file, year + '-' + month + '-' + day);
+      return require('./lib/process').processNote(file, year + '-' + month + '-' + day);
     });
 }
 
-function processNote(content, date) {
-
-  content = content.replace(/^#.*\n+(.*)/, function (_, atendees) {
-    return '# ' + date + ' Meeting Notes\n\n' +
-      atendees.replace(/([\w\'\-]+\s[\w\'\-]+) \(([A-Z]{2,3})\)/g, function (_, name, id) {
-        if (!profiles.some(function (profile) { return profile.id === id })) {
-          console.log(id + ' = ' + name);
-          profiles.push({id: id, displayName: name});
-        }
-        return '[[[PersonName:' + name + ']]]';
-      })
-      .replace(/\,$/, '');
-  })
-  // Complete Name: "Brendan Eich:"
-  content = content.replace(/^([\w\'\-]+\s[\w\'\-]+)[\.:]/gm, function(_, name) {
-    return '[[[PersonName:' + name + ']]]';
-  });
-  // single: "AB:" or multiple: "AB/BC/CD:"
-  var findShortNames = /^([A-Z]{2,3}(?:(?:, |\/)[A-Z]{2,3})*)[\.:]/gm;
-  content = content.replace(findShortNames, function(match, members) {
-    return '**' + members.split(/, |\//).join('/') + ':**';
-  });
-  return content;
-}
 
 app.get('/notes/:date', function (req, res, next) {
   var date = req.params.date.split('-');
   getNotes(date[0], date[1], date[2])
-    .done(function (str) {
-      var content = marked(str);
-      content = content.replace(/\[\[\[PersonName:((?:[\w\'\-]|&#39;)+\s(?:[\w\'\-]|&#39;)+)\]\]\]|\b([A-Z]{2,3})\b/g, function (_, name, id) {
-        id = id || name;
-        id = id.replace(/&#39;/g, "'")
-        for (var i = 0; i < profiles.length; i++) {
-          if (profiles[i].id === id || profiles[i].displayName === id) {
-            return profiles[i].displayName;
-          }
-        }
-        return id;
-      });
+    .done(function (content) {
       res.render('notes', {
         date: req.params.date,
         content: content

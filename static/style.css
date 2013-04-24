@@ -214,6 +214,18 @@ span.message-count {
 
 /* Topic specific styles */
 
+@media (min-width: 1200px) {
+  .row.fragment-highlight {
+    border-left: solid 2px #E78B24;
+    margin-left: -32px;
+  }
+}
+@media (max-width: 1199px) {
+  .fragment-highlight .comment-wrapper {
+    border: solid 1px #E78B24;
+  }
+}
+
 .profile-image img {
   border-radius: 4px;
 }

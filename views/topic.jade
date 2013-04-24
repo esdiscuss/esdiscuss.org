@@ -4,7 +4,7 @@ block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
 
 block scripts
-  script(src='/client.js')
+  script(src='/' + version + '/client.js')
 
 block navsections
   li.active
@@ -39,8 +39,9 @@ block content
                   i.icon-share-alt
                   span.hidden-phone  Go to Source
           .comment-body
-            script(type="test/formatted")= message.edited
-            .source-view
+            .formatted-view
+              != message.edited
+            .source-view(style='display: none;')
               pre= message.original
               a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
     - mid++
