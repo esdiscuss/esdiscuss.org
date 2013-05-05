@@ -39,6 +39,9 @@ app.get('/', function (req, res) {
 app.get('/robots.txt', function (req, res) {
   res.end('User-agent: *\nDisallow: /source');
 });
+app.get('/about', function (req, res) {
+  res.render('about');
+})
 
 app.get('/:page', function (req, res, next) {
   if (!/^\d+$/.test(req.params.page)) return next();

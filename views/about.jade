@@ -1,0 +1,25 @@
+extends layout
+
+block navsections
+  li
+    a(href='/1') Topics
+  li
+    a(href='/notes') Notes
+
+
+block content
+  .row
+    .span12
+      .notes
+        h1 About
+        p.
+          Since this is a website about JavaScript, and it's built in node.js, I thought people might be interested in how it all works.  It's a really nice interesting example of a medium scale node.js app.  It makes use of both streams and promises in important ways.
+
+        h2 Architecture
+        p.
+          The website itself consits of a single node.js app, but it consists of a number of modules that each have distinct tasks.
+
+        :markdown
+          The [pipermail](https://github.com/esdiscuss/pipermail) module is responsible for downloading and parsing the esdiscuss archives.  It outputs a stream of JSON objects, each of which containing the parsed header, and the body of an e-mail.
+
+          The [bot](https://github.com/esdiscuss/bot) reads the parsed output of the pipermail bot and stores it in a more helpful format.
