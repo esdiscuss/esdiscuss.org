@@ -63,8 +63,20 @@ body {
   letter-spacing: -2px;
 }
 
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  z-index: 2000;
+}
+
+
 /* Responsive */
 @media (max-width: 979px) {
+  .ribbon {
+    display: none;
+  }
   .masthead {
     margin-top: 0px;
   }
