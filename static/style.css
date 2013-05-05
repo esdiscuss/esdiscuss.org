@@ -1,341 +1,135 @@
-body {
-  height: 100%;
-  margin: 0;
-}
-#content {
-  padding-top: 100px;
-}
-#landing {
-  background-color: #eee;
-}
-.navbar .pagination {
-  margin: 11px 0 0 0;
-  font-size: 12px;
-}
+body { height: 100%; margin: 0; }
+#content { padding-top: 100px; }
+#landing { background-color: #eee; }
+.navbar .pagination { margin: 11px 0 0 0; font-size: 12px; }
 
 
-.previous a, .next a {
-  cursor: pointer;
-}
-.center {
-  text-align: center;
-}
-.jepso {
-  color: #bf0080;
-}
+.previous a, .next a { cursor: pointer; }
+.center { text-align: center; }
+.jepso { color: #bf0080; }
 
 
 /* Landing page */
-.jumbotron {
-  position: relative;
-  text-align: center;
+.jumbotron { position: relative; text-align: center; }
+.jumbotron h1 { font-size: 80px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075); }
+.jumbotron p { font-size: 24px; font-weight: 300; line-height: 1.25; margin-bottom: 30px; }
 
-}
-.jumbotron h1 {
-  font-size: 80px;
-  font-weight: bold;
-  letter-spacing: -1px;
-  line-height: 1;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
-}
-.jumbotron p {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 1.25;
-  margin-bottom: 30px;
-}
+.masthead .btn { padding: 19px 24px; font-size: 24px; font-weight: 200; color: #fff; /* redeclare to override the `.jumbotron a` */ }
 
-.masthead .btn {
-  padding: 19px 24px;
-  font-size: 24px;
-  font-weight: 200;
-  color: #fff; /* redeclare to override the `.jumbotron a` */
-}
+.masthead { margin-top: -40px; padding: 0px 0 80px; margin-bottom: 0; }
+.masthead h1 { font-size: 120px; line-height: 1; letter-spacing: -2px; }
 
-.masthead {
-  margin-top: -40px;
-  padding: 0px 0 80px;
-  margin-bottom: 0;
-}
-.masthead h1 {
-  font-size: 120px;
-  line-height: 1;
-  letter-spacing: -2px;
-}
-
-.ribbon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-  z-index: 2000;
-}
+.ribbon { position: absolute; top: 0; right: 0; border: 0; z-index: 2000; }
 
 
 /* Responsive */
 @media (max-width: 979px) {
-  .ribbon {
-    display: none;
-  }
-  .masthead {
-    margin-top: 0px;
-  }
-  .masthead h1 {
-    font-size: 70px;
-  }
-  .jumbotron p {
-    font-size: 18px;
-  }
-  .masthead .btn {
-    margin-top: 20px;
-  }
-  #content {
-    padding-top: 0px;
-  }
+  .ribbon { display: none; }
+  .masthead { margin-top: 0px; }
+  .masthead h1 { font-size: 70px; }
+  .jumbotron p { font-size: 18px; }
+  .masthead .btn { margin-top: 20px; }
+  #content { padding-top: 0px; }
 }
 @media (max-width: 700px) {
-  .jumbotron h1 {
-    font-size: 60px;
-  }
+  .jumbotron h1 { font-size: 60px; }
 }
 @media (max-width: 400px) {
-  .jumbotron h1 {
-    font-size: 40px;
-  }
+  .jumbotron h1 { font-size: 40px; }
 }
 
 
 /* Sticky footer styles */
-html, body {
-  height: 100%;
-/* The html and body elements cannot have any padding or margin. */
+html, body { height: 100%; /* The html and body elements cannot have any padding or margin. */
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
+  min-height: 100%; height: auto !important; height: 100%;
   /* Negative indent footer by it's height */
   margin: 0 auto -130px;
 }
 
 /* Set the fixed height of the footer here */
-#push, #footer-wrapper {
-  height: 130px;
-}
-#footer-wrapper {
-  background-color: #f5f5f5;
-}
+#push, #footer-wrapper { height: 130px; }
+#footer-wrapper { background-color: #f5f5f5; }
 
-footer {
-  padding: 30px 0;
-  border-top: 1px solid #e5e5e5;
-  background-color: #f5f5f5;
-}
+footer { padding: 30px 0; border-top: 1px solid #e5e5e5; background-color: #f5f5f5; }
 
-footer .right {
-  float: right;
-  margin-right: 20px;
-}
+footer .right { float: right; margin-right: 20px; }
 
-footer p {
-  padding-left: 20px;
-  margin-bottom: 0;
-  color: #777;
-}
+footer p { padding-left: 20px; margin-bottom: 0; color: #777; }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 767px) {
-  #footer-wrapper {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  #push, #footer-wrapper {
-    height: 240px;
-  }
+  #footer-wrapper { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
+  #push, #footer-wrapper { height: 240px; }
 
-  footer .right {
-    float: inherit;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+  footer .right { float: inherit; text-align: center; margin-bottom: 20px; }
 }
 
 
 /* Listing specific styles */
-ul.topics {
-  list-style: none;
-  padding-bottom: 40px;
-  margin: 0px;
-}
-.topic-title:first-child, .topic-title:last-child{
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-}
-li.topic-title {
-  padding: 5px;
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
-  margin-bottom: -1px;
-}
+ul.topics { list-style: none; padding-bottom: 40px; margin: 0px; }
+.topic-title:first-child, .topic-title:last-child{ border-top-left-radius: 3px; border-top-right-radius: 3px; }
+li.topic-title { padding: 5px; background-color: #fff; border: 1px solid #e5e5e5; margin-bottom: -1px; }
 
-.topic-title a {
-  color: #444;
-  text-decoration: none;
-}
+.topic-title a { color: #444; text-decoration: none; }
 .topic-title h4 {
-  margin-top: 5px;
-  margin-bottom: 0px;
+  margin-top: 5px; margin-bottom: 0px;
   /*4 properties below are imp for trailing ellipsis*/
-  max-width: 800px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  max-width: 800px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
 }
-.topic-title p {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 0px;
-  margin-left: 37px;
-  max-width: 800px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-span.message-count {
-  padding-left: 15px;
-}
+.topic-title p { font-size: 14px; color: #777; margin-bottom: 0px; margin-left: 37px; max-width: 800px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+span.message-count { padding-left: 15px; }
 @media (max-width: 767px) {
-  .topic-title h4 {
-    font-size: 16px;
-  }
-  .topic-title p {
-    margin-left: 0px;
-  }
-  #content {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
-  li.topic-title {
-    padding: 10px;
-  }
+  .topic-title h4 { font-size: 16px; }
+  .topic-title p { margin-left: 0px; }
+  #content { margin-left: -20px; margin-right: -20px; }
+  li.topic-title { padding: 10px; }
 }
 
 /* Topic specific styles */
 
 @media (min-width: 1200px) {
-  .row.fragment-highlight {
-    border-left: solid 2px #E78B24;
-    margin-left: -32px;
-  }
+  .row.fragment-highlight { border-left: solid 2px #E78B24; margin-left: -32px; }
 }
 @media (max-width: 1199px) {
-  .fragment-highlight .comment-wrapper {
-    border: solid 1px #E78B24;
-  }
+  .fragment-highlight .comment-wrapper { border: solid 1px #E78B24; }
 }
 
-.profile-image img {
-  border-radius: 4px;
-}
+.profile-image img { border-radius: 4px; }
 
-.comment-wrapper {
-  border: 1px solid #CACACA;
-  margin-bottom: 20px;
-}
+.comment-wrapper { border: 1px solid #CACACA; margin-bottom: 20px; }
 .comment-header {
-  height: 33px;
-  padding: 0 10px 0 6px;
-  border-bottom: 1px solid #ccc;
-  background-color: #e1e1e1;
+  height: 33px; padding: 0 10px 0 6px; border-bottom: 1px solid #ccc; background-color: #e1e1e1;
   background-image: -moz-linear-gradient(#f8f8f8, #e1e1e1);
   background-image: -webkit-linear-gradient(#f8f8f8, #e1e1e1);
   background-image: linear-gradient(#f8f8f8, #e1e1e1);
-  background-repeat: repeat-x;
-  font-size: 12px;
-  line-height: 33px;
-  vertical-align: middle;
+  background-repeat: repeat-x; font-size: 12px; line-height: 33px; vertical-align: middle;
 }
 
-.comment-header ul.buttons {
-  float: right;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 13px;
-  list-style: none;
-  line-height: 31px;
-}
-.comment-header ul.buttons li {
-  list-style-type: none;
-  float: left;
-  margin: 0 0 0 8px;
-  line-height: 31px;
-}
-.comment-header ul.buttons a {
-  color: #939AA0;
-  margin: 0 2px 0 1px;
-  position: relative;
-  top: 2px;
-  transition: all 0.15s ease-in;
-  -webkit-transition: all 0.15s ease-in 0;
-}
-.comment-header ul.buttons a:hover {
-  color: #333;
-  text-decoration: none;
-}
-.comment-body {
-  padding: 10px;
-  font-size: 14px;
-  background: white;
-}
+.comment-header ul.buttons { float: right; display: inline-block; vertical-align: middle; font-size: 13px; list-style: none; line-height: 31px; }
+.comment-header ul.buttons li { list-style-type: none; float: left; margin: 0 0 0 8px; line-height: 31px; }
+.comment-header ul.buttons a { color: #939AA0; margin: 0 2px 0 1px; position: relative; top: 2px; transition: all 0.15s ease-in; -webkit-transition: all 0.15s ease-in 0; }
+.comment-header ul.buttons a:hover { color: #333; text-decoration: none; }
+.comment-body { padding: 10px; font-size: 14px; background: white; }
 
-.comment-body blockquote, .comment-body blockquote p {
-  font-style: italic;
-  font-size: 14px;
-}
-.comment-body blockquote pre {
-  font-style: normal;
-}
+.comment-body blockquote, .comment-body blockquote p { font-style: italic; font-size: 14px; }
+.comment-body blockquote pre { font-style: normal; }
 
-.comment-body pre {
-  font-size: 14px;
-  line-height: 20px;
-}
-.comment-body code {
-  font-size: 12px;
-  line-height: 18px;
-}
+.comment-body pre { font-size: 14px; line-height: 20px; }
+.comment-body code { font-size: 12px; line-height: 18px; }
 
-.comment-body pre {
-  padding: 6.5px;
-}
+.comment-body pre { padding: 6.5px; }
 
 /* Notes styles */
 @media (max-width: 767px) {
-  h2, h3 {
-    padding-left: 10px;
-  }
+  h2, h3 { padding-left: 10px; }
 }
-.notes {
-  background: white;
-  border: 1px solid #CACACA;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 15px;
-}
+.notes { background: white; border: 1px solid #CACACA; border-radius: 4px; font-size: 16px; padding: 15px; }
 
-.notes p {
-  padding: 0px;
-}
+.notes p { padding: 0px; }
 
-.notes code {
-  font-size: 14px;
-  line-height: 20px;
-}
-.notes pre {
-  font-size: 12px;
-  line-height: 18px;
-}
+.notes code { font-size: 14px; line-height: 20px; }
+.notes pre { font-size: 12px; line-height: 18px; }
