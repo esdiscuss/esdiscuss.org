@@ -115,7 +115,7 @@ span.message-count { padding-left: 15px; }
 .comment-header ul.buttons a:hover { color: #333; text-decoration: none; }
 .comment-body { padding: 10px; font-size: 14px; background: white; }
 
-.comment-body blockquote, .comment-body blockquote p { font-style: italic; font-size: 14px; }
+.comment-body blockquote, .comment-body blockquote p { font-style: italic; font-size: 14px; margin-bottom: 13px; }
 .comment-body blockquote pre { font-style: normal; }
 
 .comment-body pre { font-size: 14px; line-height: 20px; }
