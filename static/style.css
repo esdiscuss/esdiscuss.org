@@ -113,13 +113,12 @@ span.message-count { padding-left: 15px; }
 .comment-header ul.buttons li { list-style-type: none; float: left; margin: 0 0 0 8px; line-height: 31px; }
 .comment-header ul.buttons a { color: #939AA0; margin: 0 2px 0 1px; position: relative; top: 2px; transition: all 0.15s ease-in; -webkit-transition: all 0.15s ease-in 0; }
 .comment-header ul.buttons a:hover { color: #333; text-decoration: none; }
-.comment-body { padding: 10px; font-size: 14px; background: white; }
+.comment-body { padding: 10px; font-size: 16px; background: white; }
 
-.comment-body blockquote, .comment-body blockquote p { font-style: italic; font-size: 14px; margin-bottom: 13px; }
-.comment-body blockquote pre { font-style: normal; }
+.comment-body blockquote, .comment-body blockquote p { font-size: 14px; margin-bottom: 13px; }
 
 .comment-body pre { font-size: 14px; line-height: 20px; }
-.comment-body code { font-size: 12px; line-height: 18px; }
+.comment-body code { font-size: 14px; line-height: 18px; }
 
 .comment-body pre { padding: 6.5px; }
 
