@@ -12,6 +12,7 @@ var ms = require('ms');
 
 var version = require('./package.json').version;
 var resolve = require('./lib/pipermail-resolve');
+var unresolve = require('./lib/pipermail-unresolve');
 var db = require('./lib/database');
 var profiles = require('./profiles');
 var bot = require('./lib/bot');
@@ -127,7 +128,13 @@ app.get('/source/:date', function (req, res, next) {
     res.redirect(301, url);
   })
 });
-
+app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
+  unresolve(req.params.month, req.params.id)
+    .then(function (location) {
+      res.redirect(301, location);
+    })
+    .done(null, next);
+})
 
 
 var notes = null;
