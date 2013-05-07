@@ -21,7 +21,7 @@
     "q": "~0.9.2",
     "ms": "~0.6.0",
     "highlight.js": "~7.3.0",
-    "pipermail-bot": "~1.0.1"
+    "pipermail-bot": "~1.2.1"
   },
   "subdomain": "esdiscuss",
   "scripts": {
