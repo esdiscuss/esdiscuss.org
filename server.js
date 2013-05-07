@@ -10,10 +10,12 @@ var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
 
+var console = require('./lib/console')('server');
 var version = require('./package.json').version;
 var resolve = require('./lib/pipermail-resolve');
 var unresolve = require('./lib/pipermail-unresolve');
 var db = require('./lib/database');
+var processor = require('./lib/process');
 var profiles = require('./profiles');
 var bot = require('./lib/bot');
 bot.run();
@@ -72,6 +74,7 @@ function isRecent(month) {
 }
 var months = {};
 function downloadMonth(month) {
+  var done = console.time('DownloadMonth');
   var res = Q(gethub('esdiscuss', month, 'master', join(__dirname, 'cache', month)));
   months[month] = res;
   res.done(function () {
@@ -81,7 +84,7 @@ function downloadMonth(month) {
   }, function () {
     months[month] = null;
   });
-  return res;
+  return res.then(done);
 }
 function get(month, id, part) {
   var m = months[month] || downloadMonth(month);
@@ -101,7 +104,7 @@ app.get('/topic/:id', function (req, res, next) {
         var base = 'https://raw.github.com/esdiscuss/' + message.month + '/master/' + encodeURIComponent(message.id);
         tasks.push(get(message.month, message.id, '/edited.md')
           .then(function (val) {
-            message.edited = require('./lib/process').processMessage(val);
+            message.edited = val;
           }));
         tasks.push(get(message.month, message.id, '/original.md')
           .then(function (val) {
@@ -115,6 +118,12 @@ app.get('/topic/:id', function (req, res, next) {
       var someRecent = topic.some(function (msg) { return isRecent(msg.month); });
       // 30 minutes or 12 hours
       res.setHeader('Cache-Control', 'public, max-age=' + (someRecent ? 60 * 30 : 60 * 60 * 12));
+
+      var done = console.time('ProcessMessages');
+      topic.forEach(function (message) {
+        message.edited = processor.processMessage(message.edited);
+      });
+      done();
       res.render('topic', {
         topic: topic[0],
         messages: topic
@@ -169,7 +178,7 @@ function getNotes(year, month, day) {
       return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
     })
     .then(function(file) {
-      return require('./lib/process').processNote(file, year + '-' + month + '-' + day);
+      return processor.processNote(file, year + '-' + month + '-' + day);
     });
 }
 
