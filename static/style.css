@@ -116,7 +116,7 @@ span.message-count { padding-left: 15px; }
 .comment-body { padding: 10px; font-size: 16px; background: white; }
 
 .comment-body blockquote, .comment-body blockquote p { font-size: 14px; margin-bottom: 13px; }
-.comment-body blockquote code { color: black; font-size: 12px; border: none; background: none; }
+.comment-body blockquote code { font-size: 12px; border: none; background: none; }
 
 .comment-body pre { font-size: 14px; line-height: 20px; }
 .comment-body code { font-size: 14px; line-height: 18px; }
