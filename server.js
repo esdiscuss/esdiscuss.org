@@ -4,7 +4,6 @@ var moment = require('moment');
 var Q = require('q');
 var fs = require('fs');
 var request = require('hyperquest');
-var concat = require('concat-stream');
 var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');

@@ -13,7 +13,7 @@ function get(path) {
   return promise(function (resolve, reject) {
     request('http://localhost:3000' + path, {}, function (err, res) {
       if (err) return reject(err);
-      this.pipe(concat(function (err, body) {
+      this.pipe(concat(function (body) {
         if (err) return reject(err);
         res.body = body.toString();
         resolve(res);

@@ -18,8 +18,8 @@ block content
         | . They are copied from&nbsp;
         a(href='https://github.com/rwldrn/tc39-notes/') this
         |  GitHub repository. It's hoped that they will offer a fairly readable, useful insight into how the committee works.
-  - months = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
-  for month in months
+  - var m = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
+  for month in m
     .row
       .span12
         h3= month.month
