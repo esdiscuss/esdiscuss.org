@@ -22,17 +22,21 @@ bot.run();
 
 var app = express();
 
-app.locals.version = version;
+app.locals.asset = function (path) {
+  return '/static/' + version + path
+}
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 app.use(express.favicon(join(__dirname, 'favicon.ico')));
-app.use('/static', express.static(join(__dirname, 'static')));
+
+app.use('/static/' + version, express.static(join(__dirname, 'static'), { maxAge: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 0 : ms('12 months') }));
+browserify.settings.production('cache', '12 months');
+app.get('/static/' + version + '/client.js', browserify('./client.js'));
+
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));
 
-browserify.settings.production('cache', '7 days');
-app.get('/' + version + '/client.js', browserify('./client.js'));
 app.get('/', function (req, res) {
   // 7 days
   res.setHeader('Cache-Control', 'public, max-age=' + (60 * 60 * 24 * 7));
