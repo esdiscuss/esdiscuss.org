@@ -31,11 +31,11 @@ block content
             |  #{message.from.name || message.from.email.replace(/@/g, ' at ')}
             ul.buttons
               li
-                a.showOriginal(href='javascript:void')
+                button.showOriginal.link
                   i.icon-envelope-alt
                   span.hidden-phone  View Original
               li
-                a(href='/source/' + message.date.toISOString())
+                a.link(href='/source/' + message.date.toISOString())
                   i.icon-share-alt
                   span.hidden-phone  Go to Source
           .comment-body

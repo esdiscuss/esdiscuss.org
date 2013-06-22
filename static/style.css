@@ -111,8 +111,8 @@ span.message-count { padding-left: 15px; }
 
 .comment-header ul.buttons { float: right; display: inline-block; vertical-align: middle; font-size: 13px; list-style: none; line-height: 31px; }
 .comment-header ul.buttons li { list-style-type: none; float: left; margin: 0 0 0 8px; line-height: 31px; }
-.comment-header ul.buttons a { color: #939AA0; margin: 0 2px 0 1px; position: relative; top: 2px; transition: all 0.15s ease-in; -webkit-transition: all 0.15s ease-in 0; }
-.comment-header ul.buttons a:hover { color: #333; text-decoration: none; }
+.comment-header ul.buttons .link { color: #939AA0; margin: 0 2px 0 1px; position: relative; top: 2px; transition: all 0.15s ease-in; -webkit-transition: all 0.15s ease-in 0; }
+.comment-header ul.buttons .link:hover { color: #333; text-decoration: none; }
 .comment-body { padding: 10px; font-size: 16px; background: white; }
 
 .comment-body blockquote, .comment-body blockquote p { font-size: 14px; margin-bottom: 13px; }
@@ -133,3 +133,8 @@ span.message-count { padding-left: 15px; }
 
 .notes code { font-size: 14px; line-height: 20px; }
 .notes pre { font-size: 12px; line-height: 18px; }
+
+/* Make some buttons look like links */
+
+button.link
+{ font-size: 13px; line-height: 31px; border: 0; -webkit-appearance: none; vertical-align: baseline; background-color: transparent; padding: 0; display: inline; text-align: left; }
