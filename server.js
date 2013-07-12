@@ -8,6 +8,7 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
+function s(n) { return ms(n) / 1000 }
 
 //var console = require('./lib/console')('server');
 var version = require('./package.json').version;
@@ -40,8 +41,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));
 
 app.get('/', function (req, res) {
-  // 7 days
-  res.setHeader('Cache-Control', 'public, max-age=' + (60 * 60 * 24 * 7));
+  if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') res.setHeader('Cache-Control', 'public, max-age=' + s('7 days'));
   res.render('home', {});
 });
 
@@ -54,8 +54,6 @@ app.get('/about', function (req, res) {
 
 app.get('/:page', function (req, res, next) {
   if (!/^\d+$/.test(req.params.page)) return next();
-  // 30 minutes
-  res.setHeader('Cache-Control', 'public, max-age=' + (60 * 30));
 
   var page = req.params.page - 1;
 
@@ -65,6 +63,7 @@ app.get('/:page', function (req, res, next) {
     .done(function (topics) {
       if (topics.length === 0) return next();
       var last = topics.last;
+      if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') res.setHeader('Cache-Control', 'public, max-age=' + s('5 minutes'));
       res.render('listing', {
         last: last,
         id: page + 1,
@@ -273,6 +272,10 @@ authed.get('/edit/:id', requireAuth(), function (req, res, next) {
     })
     .done(null, next)
 })
+var moderaters = [
+  'forbes at lindesay.co.uk',
+  'domenic at domenicdenicola.com'
+].map(function (u) { return u.replace(' at ', '@') })
 authed.post('/edit/:id', function (req, res, next) {
   if (!req.user || !req.user.email) {
     res.statusCode = 403
@@ -283,7 +286,7 @@ authed.post('/edit/:id', function (req, res, next) {
     .then(function (message) {
       if (edited === message.edited.replace(/\r/g, '')) {
         return
-      } else if (semantic(edited) === semantic(message.edited)){
+      } else if (semantic(edited) === semantic(message.edited) || moderaters.indexOf(req.user.email) != -1){
         return db.update(req.params.id, edited, req.user.email)
       } else {
         throw new Error('Since this change is semantic, it requires moderation.')
