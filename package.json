@@ -9,9 +9,9 @@
   "author": "ForbesLindesay",
   "license": "MIT",
   "dependencies": {
-    "express": "~3.2.0",
-    "jade": "~0.32.0",
-    "moment": "~2.0.0",
+    "express": "~3.3.4",
+    "jade": "~0.33.0",
+    "moment": "~2.1.0",
     "mongojs": "~0.7.4",
     "marked": "~0.2.8",
     "browserify-middleware": "~1.14.1",
