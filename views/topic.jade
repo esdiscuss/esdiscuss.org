@@ -4,7 +4,7 @@ block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
 
 block scripts
-  script(src=asset('/client.js'))
+  script(src=asset('/client/topic.js'))
 
 block navsections
   li.active
@@ -15,7 +15,7 @@ block navsections
 block navigation
   ul.nav.pull-right
     li.disabled
-      a(href='javascript:void') #{topic.subject}
+      a(href=path) #{topic.subject}
 
 block content
   - var mid = 0
@@ -28,14 +28,23 @@ block content
         .comment-wrapper
           .comment-header
             a(href='#content-' + mid) #
-            |  #{message.from.name || message.from.email.replace(/@/g, ' at ')}
+            |  #{message.from.name || message.from.email.replace(/@/g, ' at ')} (#{message.date.fromNow()})
             ul.buttons
+              if (message.updated)
+                li
+                  a.link(href='/history/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path))
+                    i.icon-time
+                    span.hidden-phone  History
+              li
+                a.link(href=message.reply)
+                  i.icon-reply-all
+                  span.hidden-phone  Reply
               li
                 button.showOriginal.link
                   i.icon-envelope-alt
                   span.hidden-phone  View Original
               li
-                a.link(href='/source/' + message.date.toISOString())
+                a.link(href=message.url)
                   i.icon-share-alt
                   span.hidden-phone  Go to Source
           .comment-body
@@ -43,7 +52,7 @@ block content
               != message.edited
             .source-view(style='display: none;')
               pre= message.original
-              a.btn(target='_blank', href='https://github.com/esdiscuss/' + message.month + '/edit/master/' + message.id + '/edited.md') edit
+              a.btn(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
     - mid++
 
 

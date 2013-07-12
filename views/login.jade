@@ -1,0 +1,29 @@
+extends layout
+
+block scripts
+  script(src='https://login.persona.org/include.js')
+  script(src=asset('/client/login.js'))
+
+block navigation
+  ul.nav.pull-right
+    li.disabled
+      a(href='javascript:void') Login
+
+block content
+  .jumbotron.masthead
+    .row
+      .span10.offset1
+        h1 LOGIN
+    .row
+      .span8.offset2
+        p To edit any content you must validate your e-mail by logging in.
+    .row
+      .span4.offset2
+        button#browserid.btn.btn-large.btn-primary.btn-block
+          i.icon-envelope-alt
+          | &nbsp; Browser ID
+      .span4
+        a(href='/auth/github?url=' + encodeURIComponent(url)).btn.btn-large.btn-primary.btn-block
+          i.icon-github-alt
+          | &nbsp; GitHub
+

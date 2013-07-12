@@ -9,15 +9,12 @@ var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
 
-var console = require('./lib/console')('server');
+//var console = require('./lib/console')('server');
 var version = require('./package.json').version;
-var resolve = require('./lib/pipermail-resolve');
 var unresolve = require('./lib/pipermail-unresolve');
 var db = require('./lib/database');
 var processor = require('./lib/process');
 var profiles = require('./profiles');
-var bot = require('./lib/bot');
-bot.run();
 
 var app = express();
 
@@ -28,10 +25,16 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 app.use(express.favicon(join(__dirname, 'favicon.ico')));
+app.use(function (req, res, next) {
+  res.locals.path = req.path
+  next()
+})
 
 app.use('/static/' + version, express.static(join(__dirname, 'static'), { maxAge: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 0 : ms('12 months') }));
 browserify.settings.production('cache', '12 months');
-app.get('/static/' + version + '/client.js', browserify('./client.js'));
+app.get('/static/' + version + '/client/topic.js', browserify('./client/topic.js'));
+app.get('/static/' + version + '/client/edit.js', browserify('./client/edit.js'));
+app.get('/static/' + version + '/client/login.js', browserify('./client/login.js'));
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));
@@ -69,77 +72,22 @@ app.get('/:page', function (req, res, next) {
       });
     }, next);
 });
-function isRecent(month) {
-  var year = +(month.split('-')[0]);
-  var mth = +(month.split('-')[1]);
-  var now = new Date();
-  return now - new Date(year, mth - 1) < ms('45 days');
-}
-var months = {};
-function downloadMonth(month) {
-  var done = console.time('DownloadMonth');
-  var res = Q(gethub('esdiscuss', month, 'master', join(__dirname, 'cache', month)));
-  months[month] = res;
-  res.done(function () {
-    setTimeout(function () {
-      downloadMonth(month);
-    }, isRecent(month) ? ms('30 minutes') : ms('24 hours'));
-  }, function () {
-    months[month] = null;
-  });
-  return res.then(done);
-}
-function get(month, id, part) {
-  var m = months[month] || downloadMonth(month);
-  return m.then(function () {
-    return Q.nfbind(fs.readFile)(join(__dirname, 'cache', month, id, part), 'utf8')
-      .then(null, function (err) {
-        console.warn(err.stack || err.message || err);
-        return 'Message Not Found: Please allow 30 minutes for new messages to arrive and the cache to clear.';
-      });
-  });
-}
 app.get('/topic/:id', function (req, res, next) {
   db.topic(req.params.id)
-    .then(function (topic) {
-      var tasks = [];
-      topic.forEach(function (message) {
-        var base = 'https://raw.github.com/esdiscuss/' + message.month + '/master/' + encodeURIComponent(message.id);
-        tasks.push(get(message.month, message.id, '/edited.md')
-          .then(function (val) {
-            message.edited = val;
-          }));
-        tasks.push(get(message.month, message.id, '/original.md')
-          .then(function (val) {
-            message.original = val;
-          }));
-      });
-      return Q.all(tasks).thenResolve(topic);
-    })
     .done(function (topic) {
       if (topic.length === 0) return next();
-      var someRecent = topic.some(function (msg) { return isRecent(msg.month); });
-      // 30 minutes or 12 hours
-      res.setHeader('Cache-Control', 'public, max-age=' + (someRecent ? 60 * 30 : 60 * 60 * 12));
 
-      var done = console.time('ProcessMessages');
       topic.forEach(function (message) {
-        message.edited = processor.processMessage(message.edited);
+        message.edited = processor.renderMessage(message.edited);
+        message.date = moment(message.date)
       });
-      done();
       res.render('topic', {
         topic: topic[0],
         messages: topic
       });
     }, next);
 });
-app.get('/source/:date', function (req, res, next) {
-  resolve(req.params.date, function (err, url) {
-    if (err && err.code === 'ENOENT') return next();
-    if (err) return next(err);
-    res.redirect(301, url);
-  })
-});
+
 app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
   unresolve(req.params.month, req.params.id)
     .then(function (location) {
@@ -223,6 +171,141 @@ app.get('/notes', function (req, res, next) {
       res.render('notes-listing', {months: months});
     });
 })
+
+var request = require('request');
+var passport = require('passport');
+var PersonaStrategy = require('passport-persona').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
+var authed = express();
+
+passport.serializeUser(function (user, done) {
+  done(null, user.email);
+});
+passport.deserializeUser(function (email, done) {
+  db.user(email).nodeify(done)
+});
+
+var audience = process.env.BROWSERID_AUDIENCE || 'http://localhost:3000';
+passport.use(new PersonaStrategy({
+    audience: audience
+  },
+  function (email, done) {
+    db.user(email).nodeify(done)
+  }
+));
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_CLIENT_ID || '28627d32a6318f773fd3',
+  clientSecret: process.env.GITHUB_CLIENT_SECRET || '6baddae5b8ea007f43f0312be1afc07eb2ea19d0',
+  callbackURL: audience + '/auth/github/callback',
+  scope: 'user:email'
+}, function (accessToken, refreshToken, profile, done) {
+  request({
+    url: 'https://api.github.com/user/emails?access_token=' + accessToken,
+    headers: { 'user-agent': 'esdiscuss.org', 'Accept': 'application/vnd.github.v3' }
+  }, function (err, res) {
+    if (err) return done(err)
+    if (res.statusCode !== 200) return done(new Error('https://api.github.com/user/emails returned ' + res.statusCode + ' ' + res.body.toString()))
+    var email
+    try {
+      email = JSON.parse(res.body.toString()).filter(function (e) { return e.primary && e.verified })[0]
+      if (email) email = email.email
+    } catch (ex) {
+      return done(ex)
+    }
+    if (!email) return done(new Error('Your primary e-mail must be verified.'))
+    db.user(email).nodeify(done)
+  })
+}))
+
+authed.use(express.bodyParser())
+authed.use(express.cookieParser());
+authed.use(express.cookieSession({
+  secret: process.env.COOKIE_SECRET || 'adfkasjast',
+  cookie: { maxAge: ms('1 day') }
+}));
+authed.use(passport.initialize());
+authed.use(passport.session());
+
+function requireAuth() {
+  return function (req, res, next) {
+    if (req.user) return next()
+    res.render('login.jade', {url: req.url})
+  }
+}
+
+authed.get('/auth/github', function (req, res, next) {
+  req.session.url = req.query.url
+  next()
+}, passport.authenticate('github'))
+authed.get('/auth/github/callback', function (req, res, next) {
+  passport.authenticate('github', function(err, user, info) {
+    if (err) return next(err)
+    var url = req.session.url
+    if ('url' in req.session) delete req.session.url
+    if (!user) return res.redirect(url || '/')
+    req.logIn(user, function(err) {
+      if (err) return next(err)
+      return res.redirect(url || '/')
+    })
+  })(req, res, next)
+})
+authed.post('/auth/persona', passport.authenticate('persona'), function (req, res) {
+  res.send(true);
+})
+authed.post('/auth/logout', function (req, res, next) {
+  req.logout();
+  res.send(true);
+})
+
+authed.get('/history/:id', requireAuth(), function (req, res, next) {
+  db.history(req.params.id)
+    .then(function (history) {
+      if (!history) return next()
+      res.render('history.jade', {message: history, path: req.query.path})
+    })
+    .done(null, next)
+})
+authed.get('/edit/:id', requireAuth(), function (req, res, next) {
+  db.message(req.params.id)
+    .then(function (message) {
+      if (!message) return next()
+      res.render('edit.jade', {message: message, user: req.user, url: req.url})
+    })
+    .done(null, next)
+})
+authed.post('/edit/:id', function (req, res, next) {
+  if (!req.user || !req.user.email) {
+    res.statusCode = 403
+    return res.end('Access Denied')
+  }
+  var edited = req.body.edited.replace(/\r/g, '')
+  db.message(req.params.id)
+    .then(function (message) {
+      if (edited === message.edited.replace(/\r/g, '')) {
+        return
+      } else if (semantic(edited) === semantic(message.edited)){
+        return db.update(req.params.id, edited, req.user.email)
+      } else {
+        throw new Error('Since this change is semantic, it requires moderation.')
+      }
+    })
+    .then(function () {
+      if (req.query.path) {
+        res.redirect(req.query.path)
+      } else {
+        res.redirect(req.url)
+      }
+    })
+    .done(null, next)
+})
+
+function semantic(a) {
+  return a.replace(/\r/g, '').replace(/\n```js\n/gi, '').replace(/\n```javascript\n/gi, '').replace(/`/g, '').replace(/\s/g, '')
+}
+
+authed.locals = app.locals
+
+app.use(authed)
 
 app.listen(3000);
 console.log('listening on localhost:3000')

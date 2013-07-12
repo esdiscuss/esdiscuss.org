@@ -138,3 +138,12 @@ span.message-count { padding-left: 15px; }
 
 button.link
 { font-size: 13px; line-height: 31px; border: 0; -webkit-appearance: none; vertical-align: baseline; background-color: transparent; padding: 0; display: inline; text-align: left; }
+
+textarea {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    width: 100%;
+    resize: vertical;
+    min-height: 300px;
+}

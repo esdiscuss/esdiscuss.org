@@ -1,0 +1,43 @@
+extends layout
+
+block head
+  link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
+
+block scripts
+  script(src=asset('/client/edit.js'))
+
+block navigation
+  ul.nav.pull-right
+    li.disabled
+      a(href='javascript:void') Message History
+
+block content
+  .row
+    .span1.profile-image.hidden-phone
+      a(href=message.original.from.profile)
+        img(src=message.original.from.avatar)
+    .span11
+      .comment-wrapper
+        .comment-header
+          = (message.original.from.name || message.original.from.email.replace(/@/g, ' at ')) + ' (' + message.original.date.toISOString() + ')'
+          ul.buttons
+            li
+              a.link(href=message.original.url)
+                i.icon-share-alt
+                span.hidden-phone  Go to Source
+        .comment-body
+          .source-view
+            pre= message.original.original
+  for edit in message.edits
+    .row
+      .span1.profile-image.hidden-phone
+        a(href=edit.from.profile)
+          img(src=edit.from.avatar)
+      .span11
+        .comment-wrapper
+          .comment-header
+            = edit.from.email.replace(/@/g, ' at ') + ' (' + edit.date.toISOString() + ')'
+          .comment-body
+            .source-view
+              pre= edit.content
+  a.btn.btn-block(href='/edit/' + encodeURIComponent(message.original._id), style='margin-bottom: 3em') Edit

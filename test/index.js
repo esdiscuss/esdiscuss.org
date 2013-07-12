@@ -51,18 +51,11 @@ path('/1', 200, function (response) {
       });
   });
 });
+
 path('/100', 200);
 path('/10000', 404);
 
 path('/topic/coordinationwasesmodules', 200);
-path('/source/2013-04-12T12:10:53.000Z', 301, function (response) {
-  it('redirects to the original source', function () {
-    return response
-      .then(function (res) {
-        assert.equal(res.headers.location, 'https://mail.mozilla.org/pipermail/es-discuss/2013-April/029712.html');
-      });
-  })
-});
 
 path('/notes', 200);
 path('/notes/2013-03-14', 200);
