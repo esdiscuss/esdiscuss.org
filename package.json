@@ -22,7 +22,8 @@
     "passport": "~0.1.17",
     "passport-persona": "~0.1.7",
     "passport-github": "~0.1.5",
-    "request": "~2.22.0"
+    "request": "~2.22.0",
+    "keyboard": "0.0.1"
   },
   "subdomain": "esdiscuss",
   "scripts": {

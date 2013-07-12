@@ -6,6 +6,9 @@ block navsections
   li
     a(href='/notes') Notes
 
+block scripts
+  script(src=asset('/client/listing.js'))
+
 mixin pagination(id)
   ul
     - var first = id === 1;
@@ -14,15 +17,15 @@ mixin pagination(id)
         a(disabled) « Newer
     else
       li
-        a(href='/' + (id - 1)) « Newer
+        a(href='/' + (id - 1), rel='previous') « Newer
     li
-      a(href='javascript:void') Page #{id}
+      a(href=path) Page #{id}
     if last
       li.disabled
         a(disabled) Older »
     else
       li
-        a(href='/' + (id + 1)) Older »
+        a(href='/' + (id + 1), rel='next') Older »
 
 block navigation
   .pagination.pull-right.hidden-phone
