@@ -255,7 +255,7 @@ authed.post('/auth/logout', function (req, res, next) {
   res.send(true);
 })
 
-authed.get('/history/:id', requireAuth(), function (req, res, next) {
+app.get('/history/:id', function (req, res, next) {
   db.history(req.params.id)
     .then(function (history) {
       if (!history) return next()
