@@ -40,4 +40,6 @@ block content
           .comment-body
             .source-view
               pre= edit.content
-  a.btn.btn-block(href='/edit/' + encodeURIComponent(message.original._id), style='margin-bottom: 3em') Edit
+  .row
+    .offset1.span11
+      a.btn.btn-block(href='/edit/' + encodeURIComponent(message.original._id), style='margin-bottom: 3em') Edit

@@ -3,7 +3,6 @@ var express = require('express');
 var moment = require('moment');
 var Q = require('q');
 var fs = require('fs');
-var request = require('hyperquest');
 var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
