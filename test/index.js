@@ -2,8 +2,7 @@ process.env.NODE_ENV = 'production';
 require('mocha-as-promised')();
 
 var promise = require('lazy-promise');
-var request = require('hyperquest');
-var concat = require('concat-stream');
+var request = require('request');
 
 var assert = require('assert');
 
@@ -13,11 +12,8 @@ function get(path) {
   return promise(function (resolve, reject) {
     request('http://localhost:3000' + path, {}, function (err, res) {
       if (err) return reject(err);
-      this.pipe(concat(function (body) {
-        if (err) return reject(err);
-        res.body = body.toString();
-        resolve(res);
-      }));
+      res.body = res.body.toString();
+      resolve(res);
     });
   });
 }
