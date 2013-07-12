@@ -41,7 +41,6 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));
 
 app.get('/', function (req, res) {
-  if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') res.setHeader('Cache-Control', 'public, max-age=' + s('7 days'));
   res.render('home', {});
 });
 
@@ -63,7 +62,6 @@ app.get('/:page', function (req, res, next) {
     .done(function (topics) {
       if (topics.length === 0) return next();
       var last = topics.last;
-      if (process.env.NODE_ENV && process.env.NODE_ENV !== 'development') res.setHeader('Cache-Control', 'public, max-age=' + s('5 minutes'));
       res.render('listing', {
         last: last,
         id: page + 1,
