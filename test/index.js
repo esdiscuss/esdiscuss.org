@@ -56,6 +56,7 @@ path('/100', 200);
 path('/10000', 404);
 
 path('/topic/coordinationwasesmodules', 200);
+path('/topic/creating-your-own-errors', 200);
 
 path('/notes', 200);
 path('/notes/2013-03-14', 200);
