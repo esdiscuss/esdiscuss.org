@@ -84,6 +84,14 @@ app.get('/topic/:id', function (req, res, next) {
       });
     }, next);
 });
+app.get('/topic/:id', function (req, res, next) {
+  db.getNewLocation(req.params.id)
+    .done(function (newLocation) {
+      if (!newLocation) return next();
+      res.redirect(301, '/topic/' + newLocation)
+    }, next);
+});
+
 
 app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
   unresolve(req.params.month, req.params.id)
