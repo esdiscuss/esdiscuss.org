@@ -123,6 +123,23 @@ span.message-count { padding-left: 15px; }
 
 .comment-body pre { padding: 6.5px; }
 
+.comment-body h1 {
+  font-size: 1.5em;
+}
+.comment-body h2 {
+  font-size: 1.3em;
+}
+.comment-body h3 {
+  font-size: 1.1em;
+}
+.comment-body h4 {
+  font-size: 1em;
+}
+.comment-body h1 code, .comment-body h2 code, .comment-body h3 code, .comment-body h4 code {
+  font-size: 1em;
+  color: black;
+}
+
 /* Notes styles */
 @media (max-width: 767px) {
   h2, h3 { padding-left: 10px; }
