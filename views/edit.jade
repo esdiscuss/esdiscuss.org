@@ -42,9 +42,8 @@ block content
                 i.icon-envelope-alt
                 span.hidden-phone  Preview
         .comment-body
-          #preview-display.formatted-view(style='display: none;')
-          #edited-display
-            form(method='post')
-              textarea#edited(name='edited')
-                = message.edited
-              input#save.btn(type='submit', value='Save') Save
+          form(method='post')
+            #preview-display.formatted-view(style='display: none;')
+            #edited-display
+              textarea#edited(name='edited')= message.edited
+            input#save.btn(type='submit', value='Save') Save
