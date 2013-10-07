@@ -56,3 +56,5 @@ path('/topic/creating-your-own-errors', 200);
 
 path('/notes', 200);
 path('/notes/2013-03-14', 200);
+
+path('/history/2013-10-07T12%3A23%3A05.000Z-claude.pache.gmail.com', 200);
