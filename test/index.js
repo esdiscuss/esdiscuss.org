@@ -54,7 +54,10 @@ path('/10000', 404);
 path('/topic/coordinationwasesmodules', 200);
 path('/topic/creating-your-own-errors', 200);
 
+path('/history/2013-10-07T12%3A23%3A05.000Z-claude.pache.gmail.com', 200);
+
+path('/pipermail/es-discuss/2013-June/030958.html', 200);
+path('/pipermail/es-discuss/2013-June/930958.html', 404);
+
 path('/notes', 200);
 path('/notes/2013-03-14', 200);
-
-path('/history/2013-10-07T12%3A23%3A05.000Z-claude.pache.gmail.com', 200);

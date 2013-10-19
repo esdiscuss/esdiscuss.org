@@ -96,6 +96,7 @@ app.get('/topic/:id', function (req, res, next) {
 app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
   unresolve(req.params.month, req.params.id)
     .then(function (location) {
+      if (!location) return next();
       res.redirect(301, location);
     })
     .done(null, next);
