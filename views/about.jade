@@ -5,6 +5,8 @@ block navsections
     a(href='/1') Topics
   li
     a(href='/notes') Notes
+  li.active
+    a(href='/about') About
 
 
 block content
@@ -16,10 +18,119 @@ block content
           Since this is a website about JavaScript, and it's built in node.js, I thought people might be interested in how it all works.  It's a really nice interesting example of a medium scale node.js app.  It makes use of both streams and promises in important ways.
 
         h2 Architecture
-        p.
-          The website itself consits of a single node.js app, but it consists of a number of modules that each have distinct tasks.
+        :markdown
+          This website consists of two node.js servers and a MongoDB database.  The **bot** is available at [http://pipermail-bot.jit.su](http://pipermail-bot.jit.su) if you want to see the current status, and you can view statistics in the graphs on this page.  The **website** is avaialble at [http://esdiscuss.org](http://esdiscuss.org) and you're looking at it right now.
 
         :markdown
-          The [pipermail](https://github.com/esdiscuss/pipermail) module is responsible for downloading and parsing the esdiscuss archives.  It outputs a stream of JSON objects, each of which containing the parsed header, and the body of an e-mail.
+          The bot consits of two key modules
 
-          The [bot](https://github.com/esdiscuss/bot) reads the parsed output of the pipermail bot and stores it in a more helpful format.
+           - The [pipermail](https://github.com/esdiscuss/pipermail) module is responsible for downloading and parsing the esdiscuss archives.  It outputs a stream of JSON objects, each of which containing the parsed header, and the body of an e-mail.
+
+           - The [bot](https://github.com/esdiscuss/bot) reads the parsed output of the pipermail bot and stores it in MongoDB.
+
+        h2 Bot Statistics
+
+        h3 Today (duration of each run in minutes)
+        #today
+        table#todaytable.table
+          thead
+            tr
+              th Time
+              th Duration
+          tbody
+            each run in today
+              tr
+                td= run.start.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
+                td= run.duration / (60 * 1000)
+
+        h3 Yesterday (duration of each run in minutes)
+        #yesterday
+        table#yesterdaytable.table
+          thead
+            tr
+              th Time
+              th Duration
+          tbody
+            each run in yesterday
+              tr
+                td= run.start.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
+                td= run.duration / (60 * 1000)
+
+        h3 All Time
+        h4 Average Duration (minutes)
+        #all
+        table#alltable.table
+          thead
+            tr
+              th Time
+              th Duration
+          tbody
+            each run in allTime
+              tr
+                td= run._id.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
+                td= run.duration
+        h4 Runs Per Day
+        #allcount
+        table#allcounttable.table
+          thead
+            tr
+              th Time
+              th Count
+          tbody
+            each run in allTime
+              tr
+                td= run._id.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
+                td= run.count
+block scripts
+  script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.line-min.js')
+  script.
+    ;(function () {
+      function hide(id) {
+        document.getElementById(id).style.display = 'none';
+      }
+      var width = 1000;
+      var height = 500;
+      var today = JSON.parse('!{JSON.stringify(today)}').reverse();
+      var yesterday = JSON.parse('!{JSON.stringify(yesterday)}').reverse();
+      var all = JSON.parse('!{JSON.stringify(allTime)}').reverse();
+      renderDay('today', today);
+      renderDay('yesterday', yesterday);
+      renderAggregate('all', all, 'duration', 60 * 1000);
+      renderAggregate('allcount', all, 'count', 1);
+      function renderDay(name, day) {
+        var paper = Raphael(name, width, height);
+        var dates = day.map(function (d) {
+          d = new Date(d.start);
+          return d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / (60 * 60);
+        });
+        var durations = day.map(function (d) {
+          return d.duration / (60 * 1000)
+        });
+        paper.linechart(40, 10, width - 80, height - 20, dates, durations, {
+          symbol: '',
+          width: 0.5,
+          smooth: true,
+          axis: '0 0 1 1'
+        });
+        hide(name + 'table')
+      }
+      function renderAggregate(name, data, key, factor) {
+        var paper = Raphael(name, width, height);
+        var dates = data.map(function (d) {
+          d = new Date(d._id);
+          return  (d.getUTCFullYear() - 2013) * 365 + d.getUTCMonth() * 30 + d.getUTCDate()
+        });
+        var durations = data.map(function (d) {
+          return d[key] / factor
+        });
+        paper.linechart(40, 10, width - 80, height - 20, dates, durations, {
+          symbol: 'circle',
+          width: 0.5,
+          smooth: true,
+          axis: '0 0 1 1'
+        });
+        hide(name + 'table')
+      }
+    }());
