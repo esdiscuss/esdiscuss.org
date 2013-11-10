@@ -1,3 +1,4 @@
+if (process.env.NEW_RELIC_LICENSE_KEY) require('newrelic');
 var jade = require('jade');
 var express = require('express');
 var moment = require('moment');
