@@ -29,7 +29,12 @@ block content
       .span12
         ul.topics
           - var days = month.days.sort()
+          - var files = month.files.sort()
           for day in days
             li.topic-title
               a(href='/notes/' + month.month + '-' + day)
                 h4= month.month + '-' + day
+          for file in files
+            li.topic-title
+              a(href='/notes/' + month.month + '/' + file)
+                h4= file

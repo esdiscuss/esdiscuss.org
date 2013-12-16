@@ -151,6 +151,8 @@ function getNotes(year, month, day) {
 
 
 app.get('/notes/:date', function (req, res, next) {
+  if (/^\d\d\d\d-\d\d$/.test(req.params.date)) return res.redirect('/notes');
+  if (!/^\d\d\d\d-\d\d-\d\d$/.test(req.params.date)) return next();
   var date = req.params.date.split('-');
   getNotes(date[0], date[1], date[2])
     .done(function (content) {
@@ -162,6 +164,18 @@ app.get('/notes/:date', function (req, res, next) {
       if (err && err.code === 'ENOENT') return next();
       else return next(err);
     });
+})
+app.get('/notes/:month/:file', function (req, res, next) {
+  var n = notes || downloadNotes();
+  var path = join(__dirname, 'cache', 'notes', 'es6', req.params.month, req.params.file);
+  n.then(function () {
+    return Q.denodeify(fs.stat)(path);
+  }).then(function (stat) {
+    res.sendfile(path);
+  }).done(null, function (err) {
+    if (err && err.code === 'ENOENT') return next();
+    else return next(err);
+  });
 })
 app.get('/notes', function (req, res, next) {
   var n = notes || downloadNotes();
@@ -177,7 +191,12 @@ app.get('/notes', function (req, res, next) {
             .then(function (days) {
               return {
                 month: m,
-                days: days.map(function (day) { return day.replace(/[^\d]+/g, '') })
+                days: days
+                  .map(function (day) { return day.replace(/[^\d]+/g, '') })
+                  .filter(function (day) { return /^\d+$/.test(day); }),
+                files: days.filter(function (file) {
+                  return !/\d/.test(file)
+                })
               };
             });
         });
