@@ -101,7 +101,7 @@
   },
   {
     "id": "TD",
-    "displayName": "Brian Terlson"
+    "displayName": "Tim Disney"
   },
   {
     "id": "BT",
@@ -122,5 +122,13 @@
   {
     "id": "NC",
     "displayName": "Nebojsa Ciric"
+  },
+  {
+    "id": "AWB",
+    "displayName": "Allen Wirfs-Brock"
+  },
+  {
+    "id": "DS",
+    "displayName": "Dmitry Soshnikov"
   }
 ]
