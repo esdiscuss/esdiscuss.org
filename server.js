@@ -192,11 +192,10 @@ app.get('/notes', function (req, res, next) {
               return {
                 month: m,
                 days: days
-                  .map(function (day) { return day.replace(/[^\d]+/g, '') })
-                  .filter(function (day) { return /^\d+$/.test(day); }),
-                files: days.filter(function (file) {
-                  return !/\d/.test(file)
-                })
+                  .filter(function (day) { return /^\w+\-\d+\.md$/.test(day); })
+                  .map(function (day) { return day.replace(/[^\d]+/g, '') }),
+                files: days
+                  .filter(function (day) { return !/^\w+\-\d+\.md$/.test(day); })
               };
             });
         });
@@ -204,7 +203,7 @@ app.get('/notes', function (req, res, next) {
     .all()
     .then(function (months) {
       res.render('notes-listing', {months: months});
-    });
+    }).done(null, next);
 })
 
 var request = require('request');
