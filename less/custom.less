@@ -1,36 +1,40 @@
 body { height: 100%; margin: 0; }
-#content { padding-top: 100px; }
+#content { padding-top: 100px; padding-bottom: 20px; }
 #landing { background-color: #eee; }
-.navbar .pagination { margin: 11px 0 0 0; font-size: 12px; }
-
-
+.navbar ul.pagination { margin: 11px 0 0 0; font-size: 11px; }
+.navbar li.text { color: @navbar-inverse-link-color; margin-top: 22px; font-size: 12px; }
 .previous a, .next a { cursor: pointer; }
 .center { text-align: center; }
 .jepso { color: #bf0080; }
 
 
 /* Landing page */
-.jumbotron { position: relative; text-align: center; }
+.jumbotron { position: relative; text-align: center; background: none}
 .jumbotron h1 { font-size: 80px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075); }
 .jumbotron p { font-size: 24px; font-weight: 300; line-height: 1.25; margin-bottom: 30px; }
-
-.masthead .btn { padding: 19px 24px; font-size: 24px; font-weight: 200; color: #fff; /* redeclare to override the `.jumbotron a` */ }
-
-.masthead { margin-top: -40px; padding: 0px 0 80px; margin-bottom: 0; }
 .masthead h1 { font-size: 120px; line-height: 1; letter-spacing: -2px; }
 
 .ribbon { position: absolute; top: 0; right: 0; border: 0; z-index: 2000; }
 
+/* About */
+.svg > svg { width: 100%; }
 
 /* Responsive */
+@media (min-width: 768px) {
+  span.hidden-xs { display: inline !important; }
+}
+@media (min-width: 979px) {
+    .masthead { margin-top: -40px; padding: 0px 0 80px; margin-bottom: 0; }
+}
+
 @media (max-width: 979px) {
   .ribbon { display: none; }
-  .masthead { margin-top: 0px; }
   .masthead h1 { font-size: 70px; }
+  .masthead { margin-top: -80px; }
   .jumbotron p { font-size: 18px; }
   .masthead .btn { margin-top: 20px; }
-  #content { padding-top: 0px; }
 }
+
 @media (max-width: 700px) {
   .jumbotron h1 { font-size: 60px; }
 }
@@ -62,9 +66,7 @@ footer p { padding-left: 20px; margin-bottom: 0; color: #777; }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 767px) {
-  #footer-wrapper { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
   #push, #footer-wrapper { height: 240px; }
-
   footer .right { float: inherit; text-align: center; margin-bottom: 20px; }
 }
 
@@ -85,7 +87,6 @@ span.message-count { padding-left: 15px; }
 @media (max-width: 767px) {
   .topic-title h4 { font-size: 16px; }
   .topic-title p { margin-left: 0px; }
-  #content { margin-left: -20px; margin-right: -20px; }
   li.topic-title { padding: 10px; }
 }
 
@@ -98,7 +99,7 @@ span.message-count { padding-left: 15px; }
   .fragment-highlight .comment-wrapper { border: solid 1px #E78B24; }
 }
 
-.profile-image img { border-radius: 4px; }
+.profile-image img { border-radius: 4px; width: 100%; }
 
 .comment-wrapper { border: 1px solid #CACACA; margin-bottom: 20px; }
 .comment-header {

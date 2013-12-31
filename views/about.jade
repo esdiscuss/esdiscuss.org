@@ -14,7 +14,7 @@ block navsections
 
 block content
   .row
-    .span12
+    .col-md-12
       .notes
         h1 About
         p.
@@ -34,7 +34,7 @@ block content
         h2 Bot Statistics
 
         h3 Today (duration of each run in minutes)
-        #today
+        #today.svg
         table#todaytable.table
           thead
             tr
@@ -47,7 +47,7 @@ block content
                 td= run.duration / (60 * 1000)
 
         h3 Yesterday (duration of each run in minutes)
-        #yesterday
+        #yesterday.svg
         table#yesterdaytable.table
           thead
             tr
@@ -61,7 +61,7 @@ block content
 
         h3 All Time
         h4 Average Duration (minutes)
-        #all
+        #all.svg
         table#alltable.table
           thead
             tr
@@ -73,7 +73,7 @@ block content
                 td= run._id.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
                 td= run.duration
         h4 Runs Per Day
-        #allcount
+        #allcount.svg
         table#allcounttable.table
           thead
             tr

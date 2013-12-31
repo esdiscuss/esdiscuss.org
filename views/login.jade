@@ -6,23 +6,20 @@ block scripts
 
 block navigation
   ul.nav.pull-right
-    li.disabled
-      a(href='javascript:void') Login
+    li.text Login
 
 block content
   .jumbotron.masthead
     .row
-      .span10.offset1
-        h1 LOGIN
-    .row
-      .span8.offset2
+      .col-md-12
+        h2 LOGIN
         p To edit any content you must validate your e-mail by logging in.
     .row
-      .span4.offset2
+      .col-md-4.col-md-offset-2
         button#browserid.btn.btn-large.btn-primary.btn-block
           i.icon-envelope-alt
           | &nbsp; Browser ID
-      .span4
+      .col-md-4
         a(href='/auth/github?url=' + encodeURIComponent(url)).btn.btn-large.btn-primary.btn-block
           i.icon-github-alt
           | &nbsp; GitHub

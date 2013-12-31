@@ -17,17 +17,16 @@ block navsections
 
 block navigation
   ul.nav.pull-right
-    li.disabled
-      a(href=path) #{topic.subject}
+    li.text #{topic.subject}
 
 block content
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
-      .span1.profile-image.hidden-phone
+      .hidden-xs.col-sm-1.col-md-1.profile-image
         a(href=message.from.profile)
           img(src=message.from.avatar)
-      .span11
+      .col-xs-12.col-sm-11.col-md-11
         .comment-wrapper
           .comment-header
             a(href='#content-' + mid) #
@@ -37,25 +36,25 @@ block content
                 li
                   a.link(href='/history/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path))
                     i.icon-time
-                    span.hidden-phone  History
+                    span.hidden-xs  History
               li
                 a.link(href=message.reply)
                   i.icon-reply-all
-                  span.hidden-phone  Reply
+                  span.hidden-xs  Reply
               li
                 button.showOriginal.link
                   i.icon-envelope-alt
-                  span.hidden-phone  View Original
+                  span.hidden-xs  View Original
               li
                 a.link(href=message.url)
                   i.icon-share-alt
-                  span.hidden-phone  Go to Source
+                  span.hidden-xs  Go to Source
           .comment-body
             .formatted-view
               != message.edited
             .source-view(style='display: none;')
               pre= message.original
-              a.btn(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
+              a.btn.btn-default(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
     - mid++
 
 

@@ -8,6 +8,8 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
+var less = require('transform')('less');
+
 function s(n) { return ms(n) / 1000 }
 
 //var console = require('./lib/console')('server');
@@ -37,6 +39,7 @@ app.get('/static/' + version + '/client/listing.js', browserify('./client/listin
 app.get('/static/' + version + '/client/topic.js', browserify('./client/topic.js'));
 app.get('/static/' + version + '/client/edit.js', browserify('./client/edit.js'));
 app.get('/static/' + version + '/client/login.js', browserify('./client/login.js'));
+app.get('/style.css', less('./less/style.less'));
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
   app.use(express.logger('dev'));

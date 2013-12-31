@@ -13,10 +13,10 @@ block navsections
 
 block content
   .row
-    .span12
+    .col-md-12
       h2 Official Meeting Minutes
   .row
-    .span12
+    .col-md-12
       p
         | These are notes are the official TC39 meeting minutes taken by&nbsp;
         a(href='http://twitter.com/rwaldron') @rwldrn
@@ -26,10 +26,10 @@ block content
   - var m = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
   for month in m
     .row
-      .span12
+      .col-md-12
         h3= month.month
     .row
-      .span12
+      .col-md-12
         ul.topics
           - var days = month.days.sort()
           - var files = month.files.sort()

@@ -24,7 +24,9 @@
     "passport-github": "~0.1.5",
     "request": "~2.27.0",
     "keyboard": "0.0.1",
-    "newrelic": "~1.1.0"
+    "newrelic": "~1.1.0",
+    "less": "~1.5.1",
+    "transform": "~1.1.2"
   },
   "subdomain": "esdiscuss",
   "scripts": {

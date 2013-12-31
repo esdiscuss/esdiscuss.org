@@ -8,15 +8,14 @@ block scripts
 
 block navigation
   ul.nav.pull-right
-    li.disabled
-      a(href='javascript:void') Message History
+    li.text Message History
 
 block content
   .row
-    .span1.profile-image.hidden-phone
+    .col-md-1.profile-image.hidden-xs
       a(href=message.original.from.profile)
         img(src=message.original.from.avatar)
-    .span11
+    .col-md-11
       .comment-wrapper
         .comment-header
           = (message.original.from.name || message.original.from.email.replace(/@/g, ' at ')) + ' (' + message.original.date.toISOString() + ')'
@@ -24,16 +23,16 @@ block content
             li
               a.link(href=message.original.url)
                 i.icon-share-alt
-                span.hidden-phone  Go to Source
+                span.hidden-xs  Go to Source
         .comment-body
           .source-view
             pre= message.original.original
   for edit in message.edits
     .row
-      .span1.profile-image.hidden-phone
+      .col-md-1.profile-image.hidden-xs
         a(href=edit.from.profile)
           img(src=edit.from.avatar)
-      .span11
+      .col-md-11
         .comment-wrapper
           .comment-header
             = edit.from.email.replace(/@/g, ' at ') + ' (' + edit.date.toISOString() + ')'
@@ -41,5 +40,5 @@ block content
             .source-view
               pre= edit.content
   .row
-    .offset1.span11
-      a.btn.btn-block(href='/edit/' + encodeURIComponent(message.original._id), style='margin-bottom: 3em') Edit
+    .col-md-offset-1.col-md-11
+      a.btn.btn-default.btn-block(href='/edit/' + encodeURIComponent(message.original._id), style='margin-bottom: 3em') Edit

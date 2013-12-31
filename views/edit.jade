@@ -8,15 +8,14 @@ block scripts
 
 block navigation
   ul.nav.pull-right
-    li.disabled
-      a(href='javascript:void') Edit Message
+    li.text Edit Message
 
 block content
   .row
-    .span1.profile-image.hidden-phone
+    .col-md-1.profile-image.hidden-xs
       a(href=message.from.profile)
         img(src=message.from.avatar)
-    .span11
+    .col-md-11
       .comment-wrapper
         .comment-header
           = message.from.name || message.from.email.replace(/@/g, ' at ')
@@ -24,15 +23,15 @@ block content
             li
               a.link(href=message.url)
                 i.icon-share-alt
-                span.hidden-phone  Go to Source
+                span.hidden-xs  Go to Source
         .comment-body
           .source-view
             pre= message.original
   .row
-    .span1.profile-image.hidden-phone
+    .col-md-1.profile-image.hidden-xs
       a(href=user.profile)
         img(src=user.avatar)
-    .span11
+    .col-md-11
       .comment-wrapper
         .comment-header
           = user.name || user.email.replace(/@/g, ' at ')
@@ -40,10 +39,10 @@ block content
             li
               button#preview.link
                 i.icon-envelope-alt
-                span.hidden-phone  Preview
+                span.hidden-xs  Preview
         .comment-body
           form(method='post')
             #preview-display.formatted-view(style='display: none;')
             #edited-display
               textarea#edited(name='edited')= message.edited
-            input#save.btn(type='submit', value='Save') Save
+            input#save.btn.btn-default(type='submit', value='Save') Save
