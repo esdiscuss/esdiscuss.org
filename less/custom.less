@@ -2,7 +2,15 @@ body { height: 100%; margin: 0; }
 #content { padding-top: 100px; padding-bottom: 20px; }
 #landing { background-color: #eee; }
 .navbar ul.pagination { margin: 11px 0 0 0; font-size: 11px; }
-.navbar li.text { color: @navbar-inverse-link-color; margin-top: 22px; font-size: 12px; }
+.navbar li.text {
+    color: @navbar-inverse-link-color;
+    margin-top: 22px;
+    font-size: 12px;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .previous a, .next a { cursor: pointer; }
 .center { text-align: center; }
 .jepso { color: #bf0080; }
