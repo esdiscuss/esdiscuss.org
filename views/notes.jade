@@ -1,7 +1,7 @@
-block variables
-  title = "ES Discuss - Notes " + date
-
 extends layout
+
+block title
+  title= "ES Discuss - Notes " + date
 
 block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
@@ -21,4 +21,4 @@ block navigation
 block content
   .row
     .col-md-12
-      .notes!= content
+      != content

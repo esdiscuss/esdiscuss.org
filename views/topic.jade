@@ -1,6 +1,8 @@
-block variables
-  title = topic.subject
 extends layout
+
+block title
+  title= topic.subject
+
 block head
   link(href='https://yandex.st/highlightjs/7.3/styles/default.min.css', rel='stylesheet')
 
@@ -20,6 +22,7 @@ block navigation
     li.text #{topic.subject}
 
 block content
+  h1.topic-title= topic.subject
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
