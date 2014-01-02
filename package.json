@@ -1,6 +1,6 @@
 {
   "name": "esdiscuss.org",
-  "version": "4.3.6",
+  "version": "5.0.0",
   "main": "index.js",
   "repository": {
     "type": "git",
