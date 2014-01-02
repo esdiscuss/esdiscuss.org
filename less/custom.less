@@ -120,8 +120,16 @@ span.message-count { padding-left: 15px; }
 
 .comment-header ul.buttons { float: right; display: inline-block; vertical-align: middle; font-size: 13px; list-style: none; line-height: 31px; }
 .comment-header ul.buttons li { list-style-type: none; float: left; margin: 0 0 0 8px; line-height: 31px; }
-.comment-header ul.buttons .link { color: #939AA0; margin: 0 2px 0 1px; position: relative; top: 2px; transition: all 0.15s ease-in; -webkit-transition: all 0.15s ease-in 0; }
-.comment-header ul.buttons .link:hover { color: #333; text-decoration: none; }
+.comment-header ul.buttons .link {
+  color: #939AA0;
+  margin: 0 2px 0 1px;
+  position: relative;
+  top: 2px;
+  outline: none;
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in 0;
+}
+.comment-header ul.buttons .link:hover, .comment-header ul.buttons .link:focus { color: #333; text-decoration: none; }
 .comment-body { padding: 10px; font-size: 16px; background: white; }
 
 .comment-body blockquote, .comment-body blockquote p { font-size: 14px; margin-bottom: 13px; }
