@@ -16,10 +16,9 @@ block navsections
 
 block navigation
   ul.nav.pull-right
-    li.disabled
-      a(href='javascript:void') #{date}
+    li.text #{date}
 
 block content
   .row
-    .span12
+    .col-md-12
       .notes!= content

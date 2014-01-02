@@ -8,30 +8,29 @@ html
     title #{title}
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     block head
-    link(href='//netdna.bootstrapcdn.com/bootswatch/2.3.1/readable/bootstrap.min.css', rel='stylesheet')
     link(href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css', rel='stylesheet')
-    link(href=asset('/style.css'), rel='stylesheet')
-    link(href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css', rel='stylesheet')
+    link(href='/style.css', rel='stylesheet')
   body
     #wrap
-      .navbar.navbar-fixed-top
-        .navbar-inner
-          .container
-            button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+      .navbar.navbar-fixed-top.navbar-inverse
+        .container
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+              span.sr-only Toggle navigation
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.brand(href='/') ES Discuss
-            .nav-collapse.collapse
-              ul.nav
-                block navsections
-                  li
-                    a(href='/1') Topics
-                  li
-                    a(href='/notes') Notes
-                  li
-                    a(href='/about') About
-              block navigation
+            a.navbar-brand(href='/') ES Discuss
+          .collapse.navbar-collapse
+            ul.nav.navbar-nav
+              block navsections
+                li
+                  a(href='/1') Topics
+                li
+                  a(href='/notes') Notes
+                li
+                  a(href='/about') About
+            block navigation
       #content.container
         block content
       #push
@@ -48,8 +47,8 @@ html
           a.jepso(href='https://www.jepso.com') JEPSO
         p By using this site you consent to the use of cookies
 
-    script(src='http://code.jquery.com/jquery-1.9.1.min.js')
-    script(src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js')
+    script(src='http://code.jquery.com/jquery-1.10.1.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js')
     block scripts
     //- RUM code for pingdom
     script.

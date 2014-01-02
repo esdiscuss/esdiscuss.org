@@ -15,7 +15,7 @@ block scripts
   script(src=asset('/client/listing.js'))
 
 mixin pagination(id)
-  ul
+  ul.pagination
     - var first = id === 1;
     if first
       li.disabled
@@ -33,13 +33,13 @@ mixin pagination(id)
         a(href='/' + (id + 1), rel='next') Older »
 
 block navigation
-  .pagination.pull-right.hidden-phone
+  .pull-right.hidden-xs
     mixin pagination(id)
 
 
 block content
   .row
-    .span12
+    .col-md-12
       ul.topics
         for topic in topics
           li.topic-title
@@ -59,5 +59,5 @@ block content
                     |  #{topic.messages} messages
 
 
-  .pagination.center
+  .center
     mixin pagination(id)
