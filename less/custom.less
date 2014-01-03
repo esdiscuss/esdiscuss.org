@@ -28,6 +28,13 @@ body { height: 100%; margin: 0; }
 .svg > svg { width: 100%; }
 
 /* Responsive */
+
+// Code tags should break to not create overhanging artifacts
+code { white-space: normal; }
+
+// Long links have the same artifacts problem, so let's break them
+a {word-wrap: break-word; }
+
 @media (min-width: 768px) {
   span.hidden-xs { display: inline !important; }
 }
@@ -80,7 +87,7 @@ footer p { padding-left: 20px; margin-bottom: 0; color: #777; }
 
 
 /* Listing specific styles */
-ul.topics { list-style: none; padding-bottom: 40px; margin: 0px; }
+ul.topics { list-style: none; padding-bottom: 40px; margin: 0px; padding-left: 0px; }
 .topic-title:first-child, .topic-title:last-child{ border-top-left-radius: 3px; border-top-right-radius: 3px; }
 li.topic-title { padding: 5px; background-color: #fff; border: 1px solid #e5e5e5; margin-bottom: -1px; }
 
