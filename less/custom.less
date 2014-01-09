@@ -146,10 +146,14 @@ span.message-count { padding-left: 15px; }
   -webkit-transition: all 0.15s ease-in 0;
 }
 .comment-header ul.buttons .link:hover, .comment-header ul.buttons .link:focus { color: #333; text-decoration: none; }
-.comment-body { padding: 10px; font-size: 16px; background: white; }
-
-.comment-body blockquote, .comment-body blockquote p { font-size: 14px; margin-bottom: 13px; }
-.comment-body blockquote code { font-size: 12px; border: none; background: none; }
+.comment-body {
+    padding: 10px;
+    font-size: 16px;
+    background: white;
+    blockquote { border-left: 2px solid #B4B4B4; background: #E9E9E9; }
+    blockquote, blockquote p { font-size: 14px; }
+    blockquote code { font-size: 12px; border: none; background: none; }
+}
 
 .comment-body pre { font-size: 14px; line-height: 20px; }
 .comment-body code { font-size: 14px; line-height: 18px; }
