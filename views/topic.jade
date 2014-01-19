@@ -22,7 +22,9 @@ block navigation
     li.text #{topic.subject}
 
 block content
-  h1.topic-title= topic.subject
+  .row
+    .col-md-12
+      h1.topic-title= topic.subject
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)
