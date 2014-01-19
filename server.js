@@ -33,12 +33,17 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.use('/static/' + version, express.static(join(__dirname, 'static'), { maxAge: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 0 : ms('12 months') }));
+var staticOpts = { maxAge: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 0 : ms('12 months') };
+var staticPath = function (dir) {
+  return '/static/' + version + '/' + dir;
+}
+app.use('/static/' + version, express.static(join(__dirname, 'static'), staticOpts));
 browserify.settings.production('cache', '12 months');
-app.get('/static/' + version + '/client/listing.js', browserify('./client/listing.js'));
-app.get('/static/' + version + '/client/topic.js', browserify('./client/topic.js'));
-app.get('/static/' + version + '/client/edit.js', browserify('./client/edit.js'));
-app.get('/static/' + version + '/client/login.js', browserify('./client/login.js'));
+app.get(staticPath('client/listing.js'), browserify('./client/listing.js'));
+app.get(staticPath('client/topic.js'), browserify('./client/topic.js'));
+app.get(staticPath('client/edit.js'), browserify('./client/edit.js'));
+app.get(staticPath('client/login.js'), browserify('./client/login.js'));
+
 app.get('/style.css', less('./less/style.less'));
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
