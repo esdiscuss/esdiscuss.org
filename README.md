@@ -29,5 +29,3 @@ N.B. the bot for updating the database is not part of this repository, it is com
 ## License
 
 All the source code for both this site, and the es-discuss bot is licensed as MIT.  Feel free to adapt this for other communities, there are a lot of pipermail mailing lists out there.
-
-![viewcount](https://viewcount.jepso.com/count/esdiscuss/esdiscuss.org.png)
