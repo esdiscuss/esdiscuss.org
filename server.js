@@ -52,14 +52,10 @@ app.get('/robots.txt', function (req, res) {
   res.end('User-agent: *\nDisallow: /source');
 });
 app.get('/about', function (req, res, next) {
-  var today = db.botRuns(new Date());
-  var yesterday = db.botRuns(new Date(Date.now() - ms('1 day')));
   var allTime = db.botRuns();
-  Q.all([today, yesterday, allTime]).then(function (stats) {
+  db.botRuns().then(function (stats) {
     res.render('about', {
-      today: stats[0],
-      yesterday: stats[1],
-      allTime: stats[2]
+      allTime: stats
     });
   }).done(null, next);
 })

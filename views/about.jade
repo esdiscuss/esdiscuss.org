@@ -31,48 +31,7 @@ block content
 
            - The [bot](https://github.com/esdiscuss/bot) reads the parsed output of the pipermail bot and stores it in MongoDB.
 
-        h2 Bot Statistics
-
-        h3 Today (duration of each run in minutes)
-        #today.svg
-        table#todaytable.table
-          thead
-            tr
-              th Time
-              th Duration
-          tbody
-            each run in today
-              tr
-                td= run.start.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
-                td= run.duration / (60 * 1000)
-
-        h3 Yesterday (duration of each run in minutes)
-        #yesterday.svg
-        table#yesterdaytable.table
-          thead
-            tr
-              th Time
-              th Duration
-          tbody
-            each run in yesterday
-              tr
-                td= run.start.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
-                td= run.duration / (60 * 1000)
-
-        h3 All Time
-        h4 Average Duration (minutes)
-        #all.svg
-        table#alltable.table
-          thead
-            tr
-              th Time
-              th Duration
-          tbody
-            each run in allTime
-              tr
-                td= run._id.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
-                td= run.duration
-        h4 Runs Per Day
+        h2 Bot Statistics - Runs Per Day
         #allcount.svg
         table#allcounttable.table
           thead
@@ -95,12 +54,7 @@ block scripts
       }
       var width = 1000;
       var height = 500;
-      var today = JSON.parse('!{JSON.stringify(today)}').reverse();
-      var yesterday = JSON.parse('!{JSON.stringify(yesterday)}').reverse();
       var all = JSON.parse('!{JSON.stringify(allTime)}').reverse();
-      renderDay('today', today);
-      renderDay('yesterday', yesterday);
-      renderAggregate('all', all, 'duration', 60 * 1000);
       renderAggregate('allcount', all, 'count', 1);
       function renderDay(name, day) {
         var paper = Raphael(name, width, height);
