@@ -253,5 +253,6 @@ authed.locals = app.locals
 
 app.use(authed)
 
-app.listen(3000);
-console.log('listening on localhost:3000')
+var PORT = process.env.PORT || 3000;
+app.listen(PORT);
+console.log('listening on localhost:' + PORT);
