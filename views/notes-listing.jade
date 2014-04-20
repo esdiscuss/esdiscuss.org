@@ -35,8 +35,8 @@ block content
           - var files = month.files.sort()
           for day in days
             li.topic-title
-              a(href='/notes/' + month.month + '-' + day)
-                h4= month.month + '-' + day
+              a(href='/notes/' + day)
+                h4= day
           for file in files
             li.topic-title
               a(href='/notes/' + month.month + '/' + file)

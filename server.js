@@ -111,99 +111,7 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
     .done(null, next);
 })
 
-
-var notes = null;
-function downloadNotes() {
-  var res = Q(gethub('rwldrn', 'tc39-notes', 'master', join(__dirname, 'cache', 'notes')));
-  notes = res;
-  res.done(function () {
-    setTimeout(function () {
-      downloadNotes();
-    }, ms('24 hours'));
-  }, function () {
-    notes = null;
-  });
-  return res;
-}
-function getNotes(year, month, day) {
-  var n = notes || downloadNotes();
-  return n
-    .then(function () {
-      return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month));
-    })
-    .then(function (days) {
-      var match = new RegExp('\\w+\\-' + day + '\\.md');
-      for (var i = 0; i < days.length; i++) {
-        if (match.test(days[i])) return days[i];
-      }
-      var err = new Error('Date not found');
-      err.code = 'ENOENT';
-      throw err;
-    })
-    .then(function (file) {
-      return Q.nfbind(fs.readFile)(join(__dirname, 'cache', 'notes', 'es6', year + '-' + month, file), 'utf8');
-    })
-    .then(function(file) {
-      return processor.processNote(file, year + '-' + month + '-' + day);
-    });
-}
-
-
-app.get('/notes/:date', function (req, res, next) {
-  if (/^\d\d\d\d-\d\d$/.test(req.params.date)) return res.redirect('/notes');
-  if (!/^\d\d\d\d-\d\d-\d\d$/.test(req.params.date)) return next();
-  var date = req.params.date.split('-');
-  getNotes(date[0], date[1], date[2])
-    .done(function (content) {
-      res.render('notes', {
-        date: req.params.date,
-        content: content
-      });
-    }, function (err) {
-      if (err && err.code === 'ENOENT') return next();
-      else return next(err);
-    });
-})
-app.get('/notes/:month/:file', function (req, res, next) {
-  var n = notes || downloadNotes();
-  var path = join(__dirname, 'cache', 'notes', 'es6', req.params.month, req.params.file);
-  n.then(function () {
-    return Q.denodeify(fs.stat)(path);
-  }).then(function (stat) {
-    res.sendfile(path);
-  }).done(null, function (err) {
-    if (err && err.code === 'ENOENT') return next();
-    else return next(err);
-  });
-})
-app.get('/notes', function (req, res, next) {
-  var n = notes || downloadNotes();
-  n
-    .then(function () {
-      return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6'));
-    })
-    .then(function (months) {
-      return months
-        .filter(function (m) { return /\d\d\d\d\-\d\d/.test(m); })
-        .map(function (m) {
-          return Q.nfbind(fs.readdir)(join(__dirname, 'cache', 'notes', 'es6', m))
-            .then(function (days) {
-              return {
-                month: m,
-                days: days
-                  .filter(function (day) { return /^\w+\-\d+\.md$/.test(day); })
-                  .map(function (day) { return day.replace(/[^\d]+/g, '') }),
-                files: days
-                  .filter(function (day) { return !/^\w+\-\d+\.md$/.test(day); })
-              };
-            });
-        });
-    })
-    .all()
-    .then(function (months) {
-      res.render('notes-listing', {months: months});
-    }).done(null, next);
-})
+app.use(require('./lib/notes.js'));
 
 var request = require('request');
 var passport = require('passport');
@@ -250,7 +158,8 @@ passport.use(new GitHubStrategy({
   })
 }))
 
-authed.use(express.bodyParser())
+authed.use(express.json())
+authed.use(express.urlencoded())
 authed.use(express.cookieParser());
 authed.use(express.cookieSession({
   secret: process.env.COOKIE_SECRET || 'adfkasjast',
