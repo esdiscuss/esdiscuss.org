@@ -27,7 +27,7 @@ app.locals.asset = function (path) {
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
-app.use(express.favicon(join(__dirname, 'favicon.ico')));
+app.use(require('static-favicon')(__dirname + '/favicon.ico'));
 app.use(function (req, res, next) {
   res.locals.path = req.path
   next()
@@ -40,9 +40,6 @@ app.get('/static/' + version + '/client/topic.js', browserify('./client/topic.js
 app.get('/static/' + version + '/client/edit.js', browserify('./client/edit.js'));
 app.get('/static/' + version + '/client/login.js', browserify('./client/login.js'));
 app.get('/style.css', less('./less/style.less'));
-
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
-  app.use(express.logger('dev'));
 
 app.get('/', function (req, res) {
   res.render('home', {});
@@ -158,12 +155,10 @@ passport.use(new GitHubStrategy({
   })
 }))
 
-authed.use(express.json())
-authed.use(express.urlencoded())
-authed.use(express.cookieParser());
-authed.use(express.cookieSession({
-  secret: process.env.COOKIE_SECRET || 'adfkasjast',
-  cookie: { maxAge: ms('1 day') }
+authed.use(require('body-parser')())
+authed.use(require('cookie-session')({
+  keys: [process.env.COOKIE_SECRET || 'adfkasjast'],
+  signed: true
 }));
 authed.use(passport.initialize());
 authed.use(passport.session());
