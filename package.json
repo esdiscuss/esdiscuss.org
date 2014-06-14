@@ -41,7 +41,7 @@
     "esdiscuss.org"
   ],
   "engines": {
-    "node": "0.8.x"
+    "node": "0.10.x"
   },
   "devDependencies": {
     "mocha-as-promised": "~1.4",
