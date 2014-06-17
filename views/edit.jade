@@ -16,22 +16,6 @@ block navigation
 block content
   .row
     .col-md-1.profile-image.hidden-xs
-      a(href=message.from.profile)
-        img(src=message.from.avatar)
-    .col-md-11
-      .comment-wrapper
-        .comment-header
-          = message.from.name || message.from.email.replace(/@/g, ' at ')
-          ul.buttons
-            li
-              a.link(href=message.url)
-                i.icon-share-alt
-                span.hidden-xs  Go to Source
-        .comment-body
-          .source-view
-            pre= message.original
-  .row
-    .col-md-1.profile-image.hidden-xs
       a(href=user.profile)
         img(src=user.avatar)
     .col-md-11
@@ -49,3 +33,19 @@ block content
             #edited-display
               textarea#edited.form-control(name='edited')= message.edited
             input#save.btn.btn-default(type='submit', value='Save')
+  .row
+    .col-md-1.profile-image.hidden-xs
+      a(href=message.from.profile)
+        img(src=message.from.avatar)
+    .col-md-11
+      .comment-wrapper
+        .comment-header
+          = message.from.name || message.from.email.replace(/@/g, ' at ')
+          ul.buttons
+            li
+              a.link(href=message.url)
+                i.icon-share-alt
+                span.hidden-xs  Go to Source
+        .comment-body
+          .source-view
+            pre= message.original
