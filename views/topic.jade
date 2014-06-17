@@ -3,9 +3,6 @@ extends layout
 block title
   title= topic.subject
 
-block head
-  link(href='https://yandex.st/highlightjs/8.0/styles/default.min.css', rel='stylesheet')
-
 block scripts
   script(src=asset('/client/topic.js'))
 
@@ -61,5 +58,3 @@ block content
               pre= message.original
               a.btn.btn-default(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
     - mid++
-
-
