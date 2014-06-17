@@ -59,7 +59,5 @@ block content
               != message.edited
             .source-view(style='display: none;')
               pre= message.original
-              a.btn.btn-default(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
+              a.btn.btn-default(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path + '#content-' + mid)) edit
     - mid++
-
-
