@@ -54,12 +54,13 @@ block content
                 a.link(href=message.url)
                   i.icon-share-alt
                   span.hidden-xs  Go to Source
+              li
+                a.link(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path))
+                  i.icon-pencil
+                  span.hidden-xs  Edit
           .comment-body
             .formatted-view
               != message.edited
             .source-view(style='display: none;')
               pre= message.original
-              a.btn.btn-default(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path)) edit
     - mid++
-
-
