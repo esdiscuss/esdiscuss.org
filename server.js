@@ -212,7 +212,8 @@ authed.get('/edit/:id', requireAuth(), function (req, res, next) {
 })
 var moderaters = [
   'forbes at lindesay.co.uk',
-  'domenic at domenicdenicola.com'
+  'domenic at domenicdenicola.com',
+  'dignifiedquire at gmail.com'
 ].map(function (u) { return u.replace(' at ', '@') })
 authed.post('/edit/:id', function (req, res, next) {
   if (!req.user || !req.user.email) {
