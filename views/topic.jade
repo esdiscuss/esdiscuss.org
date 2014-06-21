@@ -52,7 +52,7 @@ block content
                   i.icon-share-alt
                   span.hidden-xs  Go to Source
               li
-                a.link(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path))
+                a.link(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path + '#content-' + mid))
                   i.icon-pencil
                   span.hidden-xs  Edit
           .comment-body
