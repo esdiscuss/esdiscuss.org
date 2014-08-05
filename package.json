@@ -32,14 +32,11 @@
     "body-parser": "~1.0.2",
     "cookie-session": "~1.0.1"
   },
-  "subdomain": "esdiscuss",
   "scripts": {
     "start": "server.js",
     "test": "mocha -R spec"
   },
-  "domains": [
-    "esdiscuss.org"
-  ],
+  "host": "esdiscuss.org",
   "engines": {
     "node": "0.10.x"
   },
