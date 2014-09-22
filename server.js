@@ -207,6 +207,10 @@ app.get('/history/:id', function (req, res, next) {
     })
     .done(null, next)
 })
+var moderaters = [
+  'andrew at lightcorp.net',
+  'vince.falconi at gmail.com'
+].map(function (u) { return u.replace(' at ', '@') })
 authed.get('/edit/:id', requireAuth(), function (req, res, next) {
   db.message(req.params.id)
     .then(function (message) {
@@ -215,10 +219,6 @@ authed.get('/edit/:id', requireAuth(), function (req, res, next) {
     })
     .done(null, next)
 })
-var moderaters = [
-  'andrew at lightcorp.net',
-  'vince.falconi at gmail.com'
-].map(function (u) { return u.replace(' at ', '@') })
 authed.post('/edit/:id', function (req, res, next) {
   if (!req.user || !req.user.email) {
     res.statusCode = 403
