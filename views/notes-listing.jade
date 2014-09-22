@@ -1,28 +1,28 @@
 extends layout
 
 block title
-  title ES Discuss - Notes
+  title JacksonScript.org - Meetings
 
 block navsections
   li
-    a(href='/1') Topics
+    a(href='/1') Discussion
   li.active
-    a(href='/notes') Notes
+    a(href='/notes') Meetings
   li
     a(href='/about') About
 
 block content
   .row
     .col-md-12
-      h2 Official Meeting Minutes
+      h2 JacksonScript Meetings
   .row
     .col-md-12
       p
-        | These are notes are the official TC39 meeting minutes taken by&nbsp;
-        a(href='http://twitter.com/rwaldron') @rwldrn
-        | . They are copied from&nbsp;
-        a(href='https://github.com/rwldrn/tc39-notes/') this
-        |  GitHub repository. It's hoped that they will offer a fairly readable, useful insight into how the committee works.
+        | These notes are the collective work of the members of&nbsp;
+        a(href='https://jacksonscript.org/') JacksonScript
+        | . To contribute, please submit a pull request to&nbsp;
+        a(href='https://github.com/JacksonScript/meetings') this
+        |  GitHub repository. It's hoped that these notes will provide a readable, useful archive of past JacksonScript events.
   - var m = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
   for month in m
     .row
