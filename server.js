@@ -207,19 +207,24 @@ app.get('/history/:id', function (req, res, next) {
     })
     .done(null, next)
 })
+var moderaters = [
+  'andrew at lightcorp.net',
+  'vince.falconi at gmail.com'
+].map(function (u) { return u.replace(' at ', '@') })
 authed.get('/edit/:id', requireAuth(), function (req, res, next) {
   db.message(req.params.id)
     .then(function (message) {
       if (!message) return next()
-      res.render('edit.jade', {message: message, user: req.user, url: req.url})
+        if (moderaters.indexOf(req.user.email) != -1 || message.from.email === req.user.email) {
+          res.render('edit.jade', {message: message, user: req.user, url: req.url})
+        }
+        else {
+          res.statusCode = 403;
+          return res.end('You cannot edit others messages.');
+        }
     })
     .done(null, next)
 })
-var moderaters = [
-  'forbes at lindesay.co.uk',
-  'domenic at domenicdenicola.com',
-  'dignifiedquire at gmail.com'
-].map(function (u) { return u.replace(' at ', '@') })
 authed.post('/edit/:id', function (req, res, next) {
   if (!req.user || !req.user.email) {
     res.statusCode = 403
