@@ -1,13 +1,13 @@
 extends layout
 
 block title
-  title ES Discuss - About
+  title JacksonScript.org - About
 
 block navsections
   li
-    a(href='/1') Topics
+    a(href='/1') Discussion
   li
-    a(href='/notes') Notes
+    a(href='/notes') Meetings
   li.active
     a(href='/about') About
 
@@ -18,11 +18,11 @@ block content
       .notes
         h1 About
         p.
-          Since this is a website about JavaScript, and it's built in node.js, I thought people might be interested in how it all works.  It's a really nice interesting example of a medium scale node.js app.  It makes use of both streams and promises in important ways.
+          Since this is a website about JavaScript, and it's built in node.js, we thought people might be interested in how it all works.  It's a really nice interesting example of a medium scale node.js app.  It makes use of both streams and promises in important ways.
 
         h2 Architecture
         :markdown
-          This website consists of two node.js servers and a MongoDB database.  The **bot** is available at [http://pipermail-bot.jit.su](http://pipermail-bot.jit.su) if you want to see the current status, and you can view statistics in the graphs on this page.  The **website** is avaialble at [http://esdiscuss.org](http://esdiscuss.org) and you're looking at it right now.
+          This website consists of two node.js servers and a MongoDB database.  The **bot** is available at [https://jacksonscript.org/bot](https://jacksonscript.org/bot) if you want to see the current status, and you can view statistics in the graphs on this page.  The **website** is avaialble at [https://jacksonscript.org/](https://jacksonscript.org/) and you're looking at it right now.
 
         :markdown
           The bot consits of two key modules
