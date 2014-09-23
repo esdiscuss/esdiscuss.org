@@ -3,7 +3,7 @@ html
   head
     meta(charset='utf-8')
     block title
-      title ES Discuss
+      title JacksonScript.org
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     block head
     link(href='//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css', rel='stylesheet')
@@ -20,14 +20,14 @@ html
               span.icon-bar
             .pull-left
               img.logo(src=asset('/logo.svg'))
-            a.navbar-brand(href='/') Discuss
+            a.navbar-brand(href='/') JacksonScript.org
           .collapse.navbar-collapse
             ul.nav.navbar-nav
               block navsections
                 li
-                  a(href='/1') Topics
+                  a(href='/1') Discussion
                 li
-                  a(href='/notes') Notes
+                  a(href='/notes') Meetings
                 li
                   a(href='/about') About
             block navigation
@@ -37,12 +37,8 @@ html
     #footer-wrapper
       footer
         p
-          | Developed by&nbsp;
-          a.jepso(href='http://www.forbeslindesay.co.uk') @ForbesLindesay
-          |  hosted by&nbsp;
-          a.jepso(href='https://www.nodejitsu.com/') @nodejitsu
-          |  run by&nbsp;
-          a.jepso(href='https://www.jepso.com') JEPSO
+          | Forked from&nbsp;
+          a.jepso(href='https://github.com/esdiscuss/esdiscuss.org') ES Discuss
         p By using this site you consent to the use of cookies
 
     script(src='//code.jquery.com/jquery-1.10.1.min.js')
