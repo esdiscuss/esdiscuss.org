@@ -33,7 +33,7 @@ mixin pagination(id)
         a(href='/' + (id + 1), rel='next') Older »
 
 block navigation
-  .pull-right.hidden-xs
+  .pull-right.hidden-xs.hidden-sm
     mixin pagination(id)
 
 
