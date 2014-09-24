@@ -7,7 +7,7 @@ block navsections
   li
     a(href='/1') Discussion
   li.active
-    a(href='/notes') Meetings
+    a(href='/meetings') Meetings
   li
     a(href='/about') About
 
@@ -35,9 +35,9 @@ block content
           - var files = month.files.sort()
           for day in days
             li.topic-title
-              a(href='/notes/' + day)
+              a(href='/meetings/' + day)
                 h4= day
           for file in files
             li.topic-title
-              a(href='/notes/' + month.month + '/' + file)
+              a(href='/meetings/' + month.month + '/' + file)
                 h4= file

@@ -113,7 +113,7 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
     .done(null, next);
 })
 
-app.use(require('./lib/notes.js'));
+app.use(require('./lib/meetings.js'));
 
 var request = require('request');
 var passport = require('passport');
