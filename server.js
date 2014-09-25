@@ -47,7 +47,7 @@ app.get(staticPath('client/login.js'), browserify('./client/login.js'));
 app.get('/style.css', less('./less/style.less'));
 
 app.get('/', function (req, res) {
-  res.render('home', {});
+  res.render('home', {pages:pages});
 });
 
 app.get('/robots.txt', function (req, res) {
@@ -115,10 +115,6 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
 
 var meetings = require('./lib/meetings.js');
 var pages = meetings.pages;
-
-setTimeout(function(){
-  console.log(pages)
-}, 10000)
 
 app.use(meetings.app);
 

@@ -23,6 +23,17 @@ block content
         | . To contribute, please submit a pull request to&nbsp;
         a(href='https://github.com/JacksonScript/meetings') this
         |  GitHub repository. It's hoped that these notes will provide a readable, useful archive of past JacksonScript events.
+  .row
+    .col-md-12
+      h3 General Information
+  ul.topics
+    for page in pages
+      li.topic-title
+        a(href='/pages/' + page.title)
+          h4
+            i.icon-file-text
+            | &nbsp;
+            = page.title
   - var m = meetups.sort(function (a, b) { return a.meetupDay < b.meetupDay ? 1 : -1 })
   for meetup in m
     .row
@@ -38,11 +49,11 @@ block content
                 a(href='/meetings/' + meetup.meetupDay + '/' + asset.title)
                   h4
                     i.icon-file-text
-                    | &nbsp; 
+                    | &nbsp;
                     = asset.title
               else
                 a(href='//static.jacksonscript.org/' + meetup.meetupDay + '/' + asset.title + '/')
                   h4
                     i.icon-desktop
-                    | &nbsp; 
+                    | &nbsp;
                     = asset.title

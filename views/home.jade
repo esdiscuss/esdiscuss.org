@@ -10,6 +10,11 @@ block content
     .row
       .col-md-8.col-md-offset-2
         p This site aims to provide an easily browsable, nicely formatted archive of all the email correspondence on the jacksonscript@jacksonscript.org mailing list as well as the notes and presentations for each meeting.
+    .row(style="margin-bottom: 30px;")
+      .col-md-8.col-md-offset-2
+        a(href='https://jacksonscript.org/cgi-bin/mailman/listinfo/jacksonscript').btn.btn-lg.btn-primary.btn-block
+          i.icon-star
+          | &nbsp; Subscribe
     .row
       .col-md-4.col-md-offset-2
         a(href='/1').btn.btn-lg.btn-primary.btn-block
@@ -19,8 +24,8 @@ block content
         a(href='/meetings').btn.btn-lg.btn-primary.btn-block
           i.icon-copy
           | &nbsp; View Meeting Notes
-    .row(style="margin-top: 30px;")
-      .col-md-8.col-md-offset-2
-        a(href='https://jacksonscript.org/cgi-bin/mailman/listinfo/jacksonscript').btn.btn-lg.btn-primary.btn-block
-          i.icon-star
-          | &nbsp; Subscribe
+    for page in pages
+      a(href='/pages/' + page.title).btn.btn-lg.btn-primary.btn-block
+        i.icon-file-text
+        | &nbsp;
+        = page.title
