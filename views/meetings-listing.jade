@@ -23,21 +23,26 @@ block content
         | . To contribute, please submit a pull request to&nbsp;
         a(href='https://github.com/JacksonScript/meetings') this
         |  GitHub repository. It's hoped that these notes will provide a readable, useful archive of past JacksonScript events.
-  - var m = months.sort(function (a, b) { return a.month < b.month ? 1 : -1 })
-  for month in m
+  - var m = meetups.sort(function (a, b) { return a.meetupDay < b.meetupDay ? 1 : -1 })
+  for meetup in m
     .row
       .col-md-12
-        h3= month.month
+        h3= meetup.meetupDay
     .row
       .col-md-12
         ul.topics
-          - var days = month.days.sort()
-          - var files = month.files.sort()
-          for day in days
+          - var assets = meetup.assets.sort()
+          for asset in assets
             li.topic-title
-              a(href='/meetings/' + day)
-                h4= day
-          for file in files
-            li.topic-title
-              a(href='/meetings/' + month.month + '/' + file)
-                h4= file
+              if asset.html
+                a(href='/meetings/' + meetup.meetupDay + '/' + asset.title)
+                  h4
+                    i.icon-file-text
+                    | &nbsp; 
+                    = asset.title
+              else
+                a(href='//static.jacksonscript.org/' + meetup.meetupDay + '/' + asset.title + '/')
+                  h4
+                    i.icon-desktop
+                    | &nbsp; 
+                    = asset.title
