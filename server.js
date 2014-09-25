@@ -113,7 +113,15 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
     .done(null, next);
 })
 
-app.use(require('./lib/meetings.js'));
+var meetings = require('./lib/meetings.js');
+var pages = meetings.pages;
+
+setTimeout(function(){
+  console.log(pages)
+}, 10000)
+
+app.use(meetings.app);
+
 
 var request = require('request');
 var passport = require('passport');
