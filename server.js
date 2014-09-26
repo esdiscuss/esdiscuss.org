@@ -40,6 +40,7 @@ var staticPath = function (dir) {
 app.use('/static/' + version, express.static(join(__dirname, 'static'), staticOpts));
 browserify.settings.production('cache', '12 months');
 app.get(staticPath('client/listing.js'), browserify('./client/listing.js'));
+app.get(staticPath('client/meetings-listing.js'), browserify('./client/meetings-listing.js'));
 app.get(staticPath('client/topic.js'), browserify('./client/topic.js'));
 app.get(staticPath('client/edit.js'), browserify('./client/edit.js'));
 app.get(staticPath('client/login.js'), browserify('./client/login.js'));
