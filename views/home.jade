@@ -24,8 +24,10 @@ block content
         a(href='/meetings').btn.btn-lg.btn-primary.btn-block
           i.icon-copy
           | &nbsp; View Meeting Notes
-    for page in pages
-      a(href='/pages/' + page.title).btn.btn-lg.btn-primary.btn-block
-        i.icon-file-text
-        | &nbsp;
-        = page.title
+    .row
+      for page in pages
+        .col-md-8.col-md-offset-2.page-listing
+          a(href='/pages/' + page.title).btn.btn-lg.btn-primary.btn-block
+            i.icon-file-text
+            | &nbsp;
+            = page.title
