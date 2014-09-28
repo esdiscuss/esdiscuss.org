@@ -81,3 +81,7 @@ block content
                     i.icon-desktop
                     | &nbsp;
                     = asset.title
+          if moment(meetup.meetupDay).isAfter(moment())
+            a(target='_blank', href='https://github.com/JacksonScript/meetings/new/master/'+meetup.meetupDay).btn.btn-lg.btn-success.btn-block
+              i.icon-bolt
+              | &nbsp; Submit Your Talk
