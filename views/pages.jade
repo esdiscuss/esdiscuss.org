@@ -1,13 +1,13 @@
 extends layout
 
 block title
-  title= "ES Discuss - Notes " + date
+  title= "JacksonScript.org - " + content.title
 
 block navsections
   li
-    a(href='/1') Topics
+    a(href='/1') Discussion
   li.active
-    a(href='/notes') Notes
+    a(href='/meetings') Meetings
   li
     a(href='/about') About
 
@@ -18,4 +18,4 @@ block navigation
 block content
   .row
     .col-md-12
-      != content
+      != content.html

@@ -11,11 +11,12 @@ body { height: 100%; margin: 0; }
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+.navbar-brand { text-transform: none; }
 .previous a, .next a { cursor: pointer; }
 .center { text-align: center; }
 .jepso { color: #bf0080; }
 
-.navbar img.logo { width: 48px; margin-top: 11px; margin-bottom: -5px; }
+.navbar img.logo { width: 42px; margin-top: 7px; margin-bottom: -5px; }
 
 /* Landing page */
 .jumbotron { position: relative; text-align: center; background: none}
@@ -24,6 +25,10 @@ body { height: 100%; margin: 0; }
 .masthead h1 { font-size: 120px; line-height: 1; letter-spacing: -2px; }
 
 .ribbon { position: absolute; top: 0; right: 0; border: 0; z-index: 2000; }
+
+@media (min-width: 979px) {
+  .page-listing { margin-top:30px; }
+}
 
 /* About */
 .svg > svg { width: 100%; }
@@ -119,6 +124,12 @@ span.message-count { padding-left: 15px; }
   .topic-title p { margin-left: 0px; }
   li.topic-title { padding: 10px; }
 }
+a.location-url small { color: @brand-primary !important; }
+
+ul.upcoming-topics {
+  padding-top:30px;
+  padding-bottom:0;
+}
 
 /* Topic specific styles */
 
@@ -191,12 +202,12 @@ span.message-count { padding-left: 15px; }
 @media (max-width: 767px) {
   h2, h3 { padding-left: 10px; }
 }
-.notes { background: white; border: 1px solid #CACACA; border-radius: 4px; font-size: 16px; padding: 15px; }
+.meetings { background: white; border: 1px solid #CACACA; border-radius: 4px; font-size: 16px; padding: 15px; }
 
-.notes p { padding: 0px; }
+.meetings p { padding: 0px; }
 
-.notes code { font-size: 14px; line-height: 20px; }
-.notes pre { font-size: 12px; line-height: 18px; }
+.meetings code { font-size: 14px; line-height: 20px; }
+.meetings pre { font-size: 12px; line-height: 18px; }
 
 /* Make some buttons look like links */
 

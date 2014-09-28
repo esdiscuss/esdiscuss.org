@@ -1,13 +1,13 @@
 extends layout
 
 block title
-  title ES Discuss - Topics
+  title JacksonScript.org - Discussion
 
 block navsections
   li.active
-    a(href='/1') Topics
+    a(href='/1') Discussion
   li
-    a(href='/notes') Notes
+    a(href='/meetings') Meetings
   li
     a(href='/about') About
 
@@ -33,7 +33,7 @@ mixin pagination(id)
         a(href='/' + (id + 1), rel='next') Older »
 
 block navigation
-  .pull-right.hidden-xs
+  .pull-right.hidden-xs.hidden-sm
     mixin pagination(id)
 
 

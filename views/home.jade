@@ -1,26 +1,78 @@
 extends layout
 
+block scripts
+  script(src=asset('/client/meetings-listing.js'))
+
 block content
-  a(href="https://github.com/esdiscuss/esdiscuss.org")
+  a(href="https://github.com/JacksonScript/jacksonscript.org")
     img.ribbon(src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png", alt="Fork me on GitHub")
   .jumbotron.masthead
     .row
       .col-md-12
-        h1 ECMAScript Discussion Archives
+        h1 JacksonScript
     .row
       .col-md-8.col-md-offset-2
-        p This site aims to provide an easily browsable, nicely formatted archive of all the email correspondence on the es-discuss@mozilla.org mailing list.
+        if upcoming
+          div.thumbnail
+            div.caption
+              h3= upcoming.meetupDay
+              a(rel="popover", data-toggle="popover", data-placement="top", title="Add to Calendar", data-content=upcoming.location.popoverContent)
+                i.icon-calendar
+                | &nbsp;
+                = moment(upcoming.location.timeStart).format('h:mm a')
+                | &nbsp;-&nbsp;
+                = moment(upcoming.location.timeEnd).format('h:mm a ')
+              br
+              a(target="_blank", href="//maps.google.com?q="+upcoming.location.address.replace(' ', '+'))
+                i.icon-map-marker
+                | &nbsp;
+                = upcoming.location.name + " "
+              if upcoming.location.url
+                a(href=upcoming.location.url, target="_blank").location-url
+                  small
+                    = "("
+                    i.icon-external-link
+                    | &nbsp;
+                    = "website)"
+                ul.topics.upcoming-topics
+                  - var assets = upcoming.assets.sort()
+                  for asset in assets
+                    li.topic-title
+                      if asset.html
+                        a(href='/meetings/' + upcoming.meetupDay + '/' + asset.title)
+                          h4
+                            i.icon-file-text
+                            | &nbsp;
+                            = asset.title
+                      else
+                        a(href='//static.jacksonscript.org/' + upcoming.meetupDay + '/' + asset.title + '/')
+                          h4
+                            i.icon-desktop
+                            | &nbsp;
+                            = asset.title
+                a(target='_blank', href='https://github.com/JacksonScript/meetings/new/master/'+upcoming.meetupDay).btn.btn-lg.btn-success.btn-block
+                  i.icon-bolt
+                  | &nbsp; Submit Your Talk
+
+        p This site aims to provide an easily browsable, nicely formatted archive of all the email correspondence on the jacksonscript@jacksonscript.org mailing list as well as the notes and presentations for each meeting.
+    .row(style="margin-bottom: 30px;")
+      .col-md-8.col-md-offset-2
+        a(href='https://jacksonscript.org/cgi-bin/mailman/listinfo/jacksonscript').btn.btn-lg.btn-primary.btn-block
+          i.icon-star
+          | &nbsp; Subscribe
     .row
       .col-md-4.col-md-offset-2
         a(href='/1').btn.btn-lg.btn-primary.btn-block
           i.icon-list
-          | &nbsp; View Topics
+          | &nbsp; Discussion
       .col-md-4
-        a(href='/notes').btn.btn-lg.btn-primary.btn-block
+        a(href='/meetings').btn.btn-lg.btn-primary.btn-block
           i.icon-copy
-          | &nbsp; View Notes
-    .row(style="margin-top: 30px;")
-      .col-md-8.col-md-offset-2
-        a(href='https://mail.mozilla.org/listinfo/es-discuss').btn.btn-lg.btn-primary.btn-block
-          i.icon-star
-          | &nbsp; Subscribe
+          | &nbsp; Meetings
+    .row
+      for page in pages
+        .col-md-8.col-md-offset-2.page-listing
+          a(href='/pages/' + page.title).btn.btn-lg.btn-primary.btn-block
+            i.icon-file-text
+            | &nbsp;
+            = page.title

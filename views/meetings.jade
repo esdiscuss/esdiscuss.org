@@ -1,0 +1,21 @@
+extends layout
+
+block title
+  title= content.title + " - JacksonScript.org - " + content.meetupDay
+
+block navsections
+  li
+    a(href='/1') Discussion
+  li.active
+    a(href='/meetings') Meetings
+  li
+    a(href='/about') About
+
+block navigation
+  ul.nav.pull-right
+    li.text #{date}
+
+block content
+  .row
+    .col-md-12
+      != content.html
