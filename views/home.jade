@@ -9,6 +9,48 @@ block content
         h1 JacksonScript
     .row
       .col-md-8.col-md-offset-2
+        if upcoming
+          div.thumbnail
+            div.caption
+              h3= upcoming.meetupDay
+              a(rel="popover", data-toggle="popover", data-placement="top", title="Add to Calendar", data-content=upcoming.location.popoverContent)
+                i.icon-calendar
+                | &nbsp;
+                = moment(upcoming.location.timeStart).format('h:mm a')
+                | &nbsp;-&nbsp;
+                = moment(upcoming.location.timeEnd).format('h:mm a ')
+              br
+              a(target="_blank", href="//maps.google.com?q="+upcoming.location.address.replace(' ', '+'))
+                i.icon-map-marker
+                | &nbsp;
+                = upcoming.location.name + " "
+              if upcoming.location.url
+                a(href=upcoming.location.url, target="_blank").location-url
+                  small
+                    = "("
+                    i.icon-external-link
+                    | &nbsp;
+                    = "website)"
+                ul.topics.upcoming-topics
+                  - var assets = upcoming.assets.sort()
+                  for asset in assets
+                    li.topic-title
+                      if asset.html
+                        a(href='/meetings/' + upcoming.meetupDay + '/' + asset.title)
+                          h4
+                            i.icon-file-text
+                            | &nbsp;
+                            = asset.title
+                      else
+                        a(href='//static.jacksonscript.org/' + upcoming.meetupDay + '/' + asset.title + '/')
+                          h4
+                            i.icon-desktop
+                            | &nbsp;
+                            = asset.title
+                a(target='_blank', href='https://github.com/JacksonScript/meetings/new/master/'+upcoming.meetupDay).btn.btn-lg.btn-success.btn-block
+                  i.icon-bolt
+                  | &nbsp; Submit a Talk Proposal
+
         p This site aims to provide an easily browsable, nicely formatted archive of all the email correspondence on the jacksonscript@jacksonscript.org mailing list as well as the notes and presentations for each meeting.
     .row(style="margin-bottom: 30px;")
       .col-md-8.col-md-offset-2
