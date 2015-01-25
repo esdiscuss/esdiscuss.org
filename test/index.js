@@ -37,13 +37,13 @@ path('/topics', 200, function (response) {
   it('has a link to the next page', function () {
     return response
       .then(function (res) {
-        assert(/href="topics\/2"/.test(res.body));
+        assert(/href="\/topics\/2"/.test(res.body));
       });
   });
   it('has no link to the previous page', function () {
     return response
       .then(function (res) {
-        assert(!/href="topics\/0"/.test(res.body));
+        assert(!/href="\/topics\/0"/.test(res.body));
       });
   });
 });
