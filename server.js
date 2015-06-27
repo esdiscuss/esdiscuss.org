@@ -61,7 +61,17 @@ app.get('/about', function (req, res, next) {
     });
   }).done(null, next);
 })
-
+app.get('/rss', function (req, res, next) {
+  var page = 0;
+  db.page(page)
+      .done(function (topics) {
+        if (topics.length === 0) return next();
+        res.set('Content-Type', 'application/rss+xml');
+        res.render('rss', {
+          topics: topics
+        });
+      }, next);
+});
 app.get('/:page', function (req, res, next) {
   if (!/^\d+$/.test(req.params.page)) return next();
 

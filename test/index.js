@@ -61,3 +61,5 @@ path('/pipermail/es-discuss/2013-June/930958.html', 404);
 
 path('/notes', 200);
 path('/notes/2013-03-14', 200);
+
+path('/rss', 200);
