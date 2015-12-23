@@ -3,7 +3,7 @@
 This is the project behind http://esdiscuss.org which aims to produce a readable copy of the [esdiscuss mailing list archives](https://mail.mozilla.org/pipermail/es-discuss/).
 
 [![Build Status](https://travis-ci.org/esdiscuss/esdiscuss.org.png?branch=master)](https://travis-ci.org/esdiscuss/esdiscuss.org)
-[![Dependency Status](https://gemnasium.com/esdiscuss/esdiscuss.org.png)](https://gemnasium.com/esdiscuss/esdiscuss.org)
+[![Dependency Status](https://david-dm.org/esdiscuss/esdiscuss.org.png)](https://gemnasium.com/esdiscuss/esdiscuss.org)
 
 ## Contributing
 
