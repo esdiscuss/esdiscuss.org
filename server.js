@@ -215,7 +215,7 @@ authed.get('/edit/:id', requireAuth(), function (req, res, next) {
     })
     .done(null, next)
 })
-var moderaters = [
+var moderators = [
   'forbes at lindesay.co.uk',
   'domenic at domenicdenicola.com',
   'dignifiedquire at gmail.com',
@@ -232,7 +232,7 @@ authed.post('/edit/:id', function (req, res, next) {
     .then(function (message) {
       if (edited === message.edited.replace(/\r/g, '')) {
         return
-      } else if (semantic(edited) === semantic(message.edited) || moderaters.indexOf(req.user.email) != -1){
+      } else if (semantic(edited) === semantic(message.edited) || moderators.indexOf(req.user.email) != -1){
         return db.update(req.params.id, edited, req.user.email)
       } else {
         throw new Error('Since this change is semantic, it requires moderation.')
