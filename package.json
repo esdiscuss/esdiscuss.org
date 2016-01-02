@@ -27,7 +27,7 @@
     "newrelic": "~1.5.0",
     "less": "~1.7.0",
     "transform": "~1.1.2",
-    "github-stream": "0.0.6",
+    "github-stream": "1.0.1",
     "static-favicon": "~1.0.2",
     "body-parser": "~1.0.2",
     "cookie-session": "~1.0.1"
