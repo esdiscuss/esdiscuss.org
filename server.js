@@ -62,7 +62,8 @@ app.get('/about', function (req, res, next) {
   }).done(null, next);
 })
 
-app.get('/:page', function (req, res, next) {
+app.get('/topics/:page?', function (req, res, next) {
+  req.params.page = req.params.page || 1;
   if (!/^\d+$/.test(req.params.page)) return next();
 
   var page = req.params.page - 1;

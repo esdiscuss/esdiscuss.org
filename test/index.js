@@ -33,23 +33,23 @@ function path(path, statusCode, fn) {
   });
 }
 path('/', 200);
-path('/1', 200, function (response) {
+path('/topics', 200, function (response) {
   it('has a link to the next page', function () {
     return response
       .then(function (res) {
-        assert(/href="\/2"/.test(res.body));
+        assert(/href="\/topics\/2"/.test(res.body));
       });
   });
   it('has no link to the previous page', function () {
     return response
       .then(function (res) {
-        assert(!/href="\/0"/.test(res.body));
+        assert(!/href="\/topics\/0"/.test(res.body));
       });
   });
 });
 
-path('/100', 200);
-path('/10000', 404);
+path('/topics/100', 200);
+path('/topics/10000', 404);
 
 path('/topic/coordinationwasesmodules', 200);
 path('/topic/creating-your-own-errors', 200);
