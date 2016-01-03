@@ -1,0 +1,17 @@
+doctype xml
+rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
+   channel
+      title= "ES Discuss"
+      link= "http://esdiscuss.org/rss"
+      description= "ES Discuss"
+      atom:link(href="http://esdiscuss.org/rss", rel="self", type="application/rss+xml")
+      for topic in topics
+         item
+            title= topic.subject
+            atom:author
+                name #{topic.first.name || topic.first.email.replace(/@/g, ' at ')}
+            // RFC-822 format
+            pubDate= topic.end.format('ddd, DD MMM YYYY HH:mm:ss ZZ')
+            atom:link(rel="self", href="http://esdiscuss.org/topic/#{ topic._id }")
+            link http://esdiscuss.org/topic/#{ topic._id }
+            guid http://esdiscuss.org/topic/#{ topic._id }
