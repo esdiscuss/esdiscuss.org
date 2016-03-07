@@ -34,11 +34,12 @@
   },
   "scripts": {
     "start": "server.js",
-    "test": "mocha -R spec"
+    "test": "mocha -R spec",
+    "deploy": "npm i heroku-release && heroku-release --app esdiscuss"
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "0.10.x"
+    "node": "5.7.1"
   },
   "devDependencies": {
     "mocha-as-promised": "~1.4",
