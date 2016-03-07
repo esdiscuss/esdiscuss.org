@@ -8,7 +8,9 @@ var browserify = require('browserify-middleware');
 var join = require('path').join;
 var gethub = require('gethub');
 var ms = require('ms');
-var less = require('transform')('less');
+var less = require('jstransformer')(require('jstransformer-less'));
+var cleanCss = require('jstransformer')(require('jstransformer-clean-css'));
+var prepare = require('prepare-response');
 
 function s(n) { return ms(n) / 1000 }
 
@@ -44,7 +46,22 @@ app.get(staticPath('client/topic.js'), browserify('./client/topic.js'));
 app.get(staticPath('client/edit.js'), browserify('./client/edit.js'));
 app.get(staticPath('client/login.js'), browserify('./client/login.js'));
 
-app.get('/style.css', less('./less/style.less'));
+function getStyleResponse() {
+  return less.renderFileAsync(__dirname + '/less/style.less').then(function (result) {
+    return cleanCss.renderAsync(result.body);
+  }).then(function (result) {
+    return prepare(result.body, {
+      'content-type': 'css',
+      'cache-control': process.env.NODE_ENV === 'production' ? '1 hour' : '1 second',
+    });
+  });
+}
+var styleResponse = getStyleResponse();
+app.get('/style.css', function (req, res, next) {
+  (process.env.NODE_ENV === 'production' ? styleResponse : getStyleResponse()).done(function (response) {
+    response.send(req, res, next);
+  }, next);
+});
 
 app.get('/', function (req, res) {
   res.render('home', {});
