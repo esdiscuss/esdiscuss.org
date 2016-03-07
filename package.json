@@ -29,7 +29,7 @@
     "passport-persona": "~0.1.7",
     "q": "~1.4.1",
     "request": "~2.69.0",
-    "static-favicon": "~2.0.0-alpha",
+    "serve-favicon": "~2.3.0",
     "transform": "~1.1.2"
   },
   "scripts": {

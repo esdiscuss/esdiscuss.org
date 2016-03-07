@@ -32,6 +32,7 @@ function path(path, statusCode, fn) {
   });
 }
 path('/', 200);
+path('/favicon.ico', 200);
 path('/1', 200, function (response) {
   test('has a link to the next page', function () {
     return response

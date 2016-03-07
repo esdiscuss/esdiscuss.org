@@ -27,7 +27,7 @@ app.locals.asset = function (path) {
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
-app.use(require('static-favicon')(__dirname + '/favicon.ico'));
+app.use(require('serve-favicon')(__dirname + '/favicon.ico'));
 app.use(function (req, res, next) {
   res.locals.path = req.path
   next()
