@@ -33,7 +33,7 @@
     "transform": "~1.1.2"
   },
   "scripts": {
-    "start": "server.js",
+    "start": "node server.js",
     "test": "node test",
     "deploy": "npm i heroku-release && heroku-release --app esdiscuss"
   },
