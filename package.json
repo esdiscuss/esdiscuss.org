@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "server.js",
-    "test": "mocha -R spec",
+    "test": "node test",
     "deploy": "npm i heroku-release && heroku-release --app esdiscuss"
   },
   "host": "esdiscuss.org",
@@ -42,8 +42,7 @@
     "node": "5.7.1"
   },
   "devDependencies": {
-    "mocha-as-promised": "~2.0.0",
-    "mocha": "~2.4.5",
-    "lazy-promise": "~3.0.1"
+    "lazy-promise": "~3.0.1",
+    "testit": "^2.0.3"
   }
 }

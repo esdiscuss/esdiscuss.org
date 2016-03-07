@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'production';
-require('mocha-as-promised')();
 
+var test = require('testit');
 var promise = require('lazy-promise');
 var request = require('request');
 
@@ -18,15 +18,14 @@ function get(path) {
   });
 }
 function path(path, statusCode, fn) {
-  describe(path, function () {
+  test(path, function () {
     var req = get(path);
-    it('returns a status code ' + statusCode, function (done) {
-      this.timeout(20000);
+    test('returns a status code ' + statusCode, function (done) {
       return req
         .then(function (res) {
           assert.equal(res.statusCode, statusCode);
         });
-    });
+    }, '20s');
     if (typeof fn === 'function') {
       fn(req);
     }
@@ -34,13 +33,13 @@ function path(path, statusCode, fn) {
 }
 path('/', 200);
 path('/1', 200, function (response) {
-  it('has a link to the next page', function () {
+  test('has a link to the next page', function () {
     return response
       .then(function (res) {
         assert(/href="\/2"/.test(res.body));
       });
   });
-  it('has no link to the previous page', function () {
+  test('has no link to the previous page', function () {
     return response
       .then(function (res) {
         assert(!/href="\/0"/.test(res.body));
@@ -63,3 +62,8 @@ path('/notes', 200);
 path('/notes/2013-03-14', 200);
 
 path('/rss', 200);
+test('close', function () {
+  setTimeout(function () {
+    process.exit(0);
+  }, 1000);
+});
