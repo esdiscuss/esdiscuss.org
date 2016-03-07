@@ -9,27 +9,27 @@
   "author": "ForbesLindesay",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "~1.0.2",
-    "browserify-middleware": "~2.5.0",
-    "cookie-session": "~1.0.1",
-    "express": "~4.0.0",
-    "gethub": "~1.0.2",
+    "body-parser": "~1.15.0",
+    "browserify-middleware": "~7.0.0",
+    "cookie-session": "~2.0.0-alpha.1",
+    "express": "~4.13.4",
+    "gethub": "~2.0.2",
     "github-stream": "1.0.1",
-    "highlight.js": "~8.0.0",
-    "jade": "~1.3.1",
+    "highlight.js": "~9.2.0",
+    "jade": "~1.11.0",
     "keyboard": "0.0.1",
-    "less": "~1.7.0",
-    "markdown-it": "^5.0.2",
-    "moment": "~2.6.0",
-    "mongod": "~1.1.1",
-    "ms": "~0.6.2",
-    "newrelic": "~1.5.0",
-    "passport": "~0.2.0",
-    "passport-github": "~0.1.5",
+    "less": "~2.6.1",
+    "markdown-it": "^6.0.0",
+    "moment": "~2.11.2",
+    "mongod": "~1.3.0",
+    "ms": "~0.7.1",
+    "newrelic": "~1.25.4",
+    "passport": "~0.3.2",
+    "passport-github": "~1.1.0",
     "passport-persona": "~0.1.7",
-    "q": "~1.0.0",
-    "request": "~2.34.0",
-    "static-favicon": "~1.0.2",
+    "q": "~1.4.1",
+    "request": "~2.69.0",
+    "static-favicon": "~2.0.0-alpha",
     "transform": "~1.1.2"
   },
   "scripts": {
@@ -42,8 +42,8 @@
     "node": "5.7.1"
   },
   "devDependencies": {
-    "mocha-as-promised": "~1.4",
-    "mocha": "~1.10",
-    "lazy-promise": "~1.1"
+    "mocha-as-promised": "~2.0.0",
+    "mocha": "~2.4.5",
+    "lazy-promise": "~3.0.1"
   }
 }
