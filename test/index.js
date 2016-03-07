@@ -63,6 +63,7 @@ path('/notes', 200);
 path('/notes/2013-03-14', 200);
 
 path('/rss', 200);
+path('/style.css', 200);
 test('close', function () {
   setTimeout(function () {
     process.exit(0);
