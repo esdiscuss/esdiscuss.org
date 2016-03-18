@@ -25,7 +25,7 @@ function path(path, statusCode, fn) {
         .then(function (res) {
           assert.equal(res.statusCode, statusCode);
         });
-    }, '20s');
+    }, '60s');
     if (typeof fn === 'function') {
       fn(req);
     }
