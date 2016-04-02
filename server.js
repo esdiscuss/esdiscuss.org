@@ -1,5 +1,5 @@
 if (process.env.NEW_RELIC_LICENSE_KEY) require('newrelic');
-var jade = require('jade');
+var pug = require('pug');
 var express = require('express');
 var moment = require('moment');
 var Q = require('q');
@@ -26,7 +26,7 @@ var app = express();
 app.locals.asset = function (path) {
   return '/static/' + version + path
 }
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 app.use(require('serve-favicon')(__dirname + '/favicon.ico'));
@@ -198,7 +198,7 @@ authed.use(passport.session());
 function requireAuth() {
   return function (req, res, next) {
     if (req.user) return next()
-    res.render('login.jade', {url: req.url})
+    res.render('login.pug', {url: req.url})
   }
 }
 
@@ -230,7 +230,7 @@ app.get('/history/:id', function (req, res, next) {
   db.history(req.params.id)
     .then(function (history) {
       if (!history) return next()
-      res.render('history.jade', {message: history, path: req.query.path})
+      res.render('history.pug', {message: history, path: req.query.path})
     })
     .done(null, next)
 })
@@ -238,7 +238,7 @@ authed.get('/edit/:id', requireAuth(), function (req, res, next) {
   db.message(req.params.id)
     .then(function (message) {
       if (!message) return next()
-      res.render('edit.jade', {message: message, user: req.user, url: req.url})
+      res.render('edit.pug', {message: message, user: req.user, url: req.url})
     })
     .done(null, next)
 })
