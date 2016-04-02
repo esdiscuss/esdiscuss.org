@@ -36,13 +36,13 @@ block content
         table#allcounttable.table
           thead
             tr
-              th Time
+              th Day
               th Count
           tbody
             each run in allTime
               tr
-                td= run._id.toISOString().replace(/\.[0-9]{0,3}Z$/, '')
-                td= run.count
+                td= run._id
+                td= run.runs
 block scripts
   script(src='//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
   script(src='//cdnjs.cloudflare.com/ajax/libs/graphael/0.5.1/g.raphael-min.js')
@@ -55,7 +55,7 @@ block scripts
       var width = 1000;
       var height = 500;
       var all = JSON.parse('!{JSON.stringify(allTime)}').reverse();
-      renderAggregate('allcount', all, 'count', 1);
+      renderAggregate('allcount', all, 'runs', 1);
       function renderDay(name, day) {
         var paper = Raphael(name, width, height);
         var dates = day.map(function (d) {
@@ -76,8 +76,8 @@ block scripts
       function renderAggregate(name, data, key, factor) {
         var paper = Raphael(name, width, height);
         var dates = data.map(function (d) {
-          d = new Date(d._id);
-          return  (d.getUTCFullYear() - 2013) * 365 + d.getUTCMonth() * 30 + d.getUTCDate()
+          d = d._id.split('-');
+          return (+d[0]) * 365 + (+d[1]) * 30 + (+d[2]);
         });
         var durations = data.map(function (d) {
           return d[key] / factor
