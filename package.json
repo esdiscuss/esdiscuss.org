@@ -19,7 +19,7 @@
     "jstransformer": "1.0.0",
     "jstransformer-clean-css": "~1.1.0",
     "jstransformer-less": "~2.1.0",
-    "jstransformer-markdown-it": "^0.2.2",
+    "jstransformer-markdown-it": "^1.0.0",
     "keyboard": "0.0.1",
     "markdown-it": "^7.0.0",
     "moment": "~2.14.0",
