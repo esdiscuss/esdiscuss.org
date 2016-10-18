@@ -43,7 +43,7 @@
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "6.8.1"
+    "node": "6.9.0"
   },
   "devDependencies": {
     "lazy-promise": "~3.0.1",
