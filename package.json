@@ -27,7 +27,7 @@
     "newrelic": "~1.34.0",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
-    "passport-persona": "~0.1.7",
+    "passport-persona": "~0.2.0",
     "prepare-response": "^1.1.3",
     "pug": "^2.0.0-alpha1",
     "q": "~1.4.1",
