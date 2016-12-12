@@ -18,7 +18,7 @@
     "highlight.js": "~9.8.0",
     "jstransformer": "1.0.0",
     "jstransformer-clean-css": "~1.1.0",
-    "jstransformer-less": "~2.1.0",
+    "jstransformer-less": "~2.2.0",
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
     "markdown-it": "^8.0.0",
