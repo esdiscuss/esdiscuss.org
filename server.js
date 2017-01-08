@@ -57,7 +57,7 @@ function getStyleResponse() {
   });
 }
 var styleResponse = getStyleResponse();
-app.get('/style.css', function (req, res, next) {
+app.get(staticPath('style.css'), function (req, res, next) {
   (process.env.NODE_ENV === 'production' ? styleResponse : getStyleResponse()).done(function (response) {
     response.send(req, res, next);
   }, next);
