@@ -21,7 +21,9 @@ block navigation
 block content
   .row
     .col-md-12
-      h1.topic-title= topic.subject
+      #carbon-location
+      .topic-title-block
+        h1.topic-title= topic.subject
   - var mid = 0
   for message in messages
     .row(data-message=message._id, id='content-' + mid)

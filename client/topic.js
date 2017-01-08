@@ -46,3 +46,10 @@ for (var i = 0; i < containers.length; i++) {
 
   }(containers[i], i));
 }
+
+(function (c, s) {
+  s.async=true;
+  s.src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=esdiscussorg";
+  s.id="_carbonads_js";
+  c.appendChild(s);
+}(document.getElementById('carbon-location'), document.createElement('script')));
