@@ -11,7 +11,7 @@ If you want a new feature implemented, open a pull request or submit an issue.
 
 If you just want to show your support for the site, you can donate via [gittip](https://www.gittip.com/esdiscuss/).  This helps cover both hosting costs and developer time spent improving the site.
 
-If you send e-mail to the mailing list (or know someone who does), please remember to use markdown.  The site uses "GitHub flavoured markdown", and if you mark your code as "js" or "javascript" it will get syntax highlighted automatically.
+If you send e-mail to the mailing list (or know someone who does), please remember to use markdown.  The site uses "GitHub Flavored Markdown", and if you mark your code as "js" or "javascript" it will get syntax highlighted automatically.
 
 ## Configuring
 
