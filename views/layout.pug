@@ -64,7 +64,7 @@ html
     script(src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js")
     script.
       (function () {
-        var client = algoliasearch("4TLB59TEGQ", "43491c685ca888b25eeccf8453b55e8a");
+        var client = algoliasearch("#{process.env.ALGOLIA_APPLICATION_ID}", "#{process.env.ALGOLIA_SEARCH_KEY}");
         var index = client.initIndex('messages');
         //initialize autocomplete on search input (ID selector must match)
         autocomplete('#aa-search-input',
