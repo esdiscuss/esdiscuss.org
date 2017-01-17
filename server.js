@@ -20,6 +20,7 @@ var unresolve = require('./lib/pipermail-unresolve');
 var db = require('./lib/database');
 var processor = require('./lib/process');
 var profiles = require('./profiles');
+const search = require('./lib/search');
 
 var app = express();
 
@@ -130,6 +131,12 @@ app.get('/topic/:id', function (req, res, next) {
     }, next);
 });
 
+app.get('/search-result/:id', function (req, res, next) {
+  return db.getTopicFromMessageID(req.params.id).then(function (subjectID) {
+    if (!subjectID) return next();
+    res.redirect(301, '/topic/' + subjectID);
+  }).done(null, next);
+})
 
 app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
   unresolve(req.params.month, req.params.id)

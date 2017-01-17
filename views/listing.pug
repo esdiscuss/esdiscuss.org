@@ -32,11 +32,6 @@ mixin pagination(id)
       li
         a(href='/' + (id + 1), rel='next') Older »
 
-block navigation
-  .pull-right.hidden-xs
-    +pagination(id)
-
-
 block content
   .row
     .col-md-12
