@@ -9,7 +9,7 @@ This is the project behind http://esdiscuss.org which aims to produce a readable
 
 If you want a new feature implemented, open a pull request or submit an issue.
 
-If you just want to show your support for the site, you can donate via [gittip](https://www.gittip.com/esdiscuss/).  This helps cover both hosting costs and developer time spent improving the site.
+If you just want to show your support for the site, you can donate via [gratipay](https://gratipay.com/esdiscuss/).  This helps cover both hosting costs and developer time spent improving the site.
 
 If you send e-mail to the mailing list (or know someone who does), please remember to use markdown.  The site uses "GitHub Flavored Markdown", and if you mark your code as "js" or "javascript" it will get syntax highlighted automatically.
 
