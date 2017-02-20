@@ -33,7 +33,7 @@
     "pug": "^2.0.0-alpha1",
     "q": "~1.4.1",
     "request": "~2.79.0",
-    "serve-favicon": "~2.3.0",
+    "serve-favicon": "~2.4.0",
     "then-mongo": "^2.3.2",
     "transform": "~1.1.2"
   },
