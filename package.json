@@ -24,7 +24,7 @@
     "keyboard": "0.0.1",
     "markdown-it": "^8.0.0",
     "moment": "~2.18.1",
-    "ms": "~0.7.1",
+    "ms": "~0.7.3",
     "newrelic": "~1.37.0",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
