@@ -9,7 +9,7 @@
   "author": "ForbesLindesay",
   "license": "MIT",
   "dependencies": {
-    "algoliasearch": "^3.20.4",
+    "algoliasearch": "^3.22.1",
     "body-parser": "~1.16.0",
     "browserify-middleware": "~7.1.0",
     "cookie-session": "~2.0.0-alpha.1",
