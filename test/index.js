@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'production';
 
 var test = require('testit');
-var promise = require('lazy-promise');
+var promise = require('q').promise;
 var request = require('request');
 
 var assert = require('assert');

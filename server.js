@@ -1,4 +1,3 @@
-if (process.env.NEW_RELIC_LICENSE_KEY) require('newrelic');
 var pug = require('pug');
 var express = require('express');
 var moment = require('moment');

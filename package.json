@@ -10,22 +10,21 @@
   "license": "MIT",
   "dependencies": {
     "algoliasearch": "^3.20.4",
-    "body-parser": "~1.16.0",
-    "browserify-middleware": "~7.1.0",
-    "cookie-session": "~2.0.0-alpha.1",
-    "express": "~4.14.0",
-    "gethub": "~2.0.2",
-    "github-stream": "1.0.1",
-    "highlight.js": "~9.9.0",
-    "jstransformer": "1.0.0",
-    "jstransformer-clean-css": "~2.0.0",
-    "jstransformer-less": "~2.2.0",
+    "body-parser": "^1.17.1",
+    "browserify-middleware": "^7.1.0",
+    "cookie-session": "~2.0.0-beta.1",
+    "express": "^4.15.2",
+    "gethub": "^2.0.2",
+    "github-stream": "^1.0.1",
+    "highlight.js": "^9.10.0",
+    "jstransformer": "^1.0.0",
+    "jstransformer-clean-css": "^2.0.0",
+    "jstransformer-less": "^2.2.0",
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
     "markdown-it": "^8.0.0",
     "moment": "~2.18.1",
     "ms": "~0.7.1",
-    "newrelic": "~1.37.0",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
     "passport-persona": "~0.2.0",
@@ -47,7 +46,6 @@
     "node": "7.8.0"
   },
   "devDependencies": {
-    "lazy-promise": "~3.0.1",
     "testit": "^2.0.5"
   }
 }
