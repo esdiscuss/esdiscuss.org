@@ -39,7 +39,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node test",
-    "deploy": "npm i heroku-release && heroku-release --app esdiscuss"
+    "deploy": "npm i heroku-release && heroku-release --app esdiscuss-staging"
   },
   "host": "esdiscuss.org",
   "engines": {
