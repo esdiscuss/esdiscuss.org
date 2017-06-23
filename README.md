@@ -1,7 +1,5 @@
 # esdiscuss.org
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/esdiscuss/esdiscuss.org.svg)](https://greenkeeper.io/)
-
 This is the project behind http://esdiscuss.org which aims to produce a readable copy of the [esdiscuss mailing list archives](https://mail.mozilla.org/pipermail/es-discuss/).
 
 [![Build Status](https://img.shields.io/travis/esdiscuss/esdiscuss.org/master.svg)](https://travis-ci.org/esdiscuss/esdiscuss.org)
