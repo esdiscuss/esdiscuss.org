@@ -6,11 +6,28 @@ var request = require('request');
 
 var assert = require('assert');
 
-var server = require('../server');
+var server = null;
+
+
+var base = null;
+switch (process.argv[2]) {
+  case 'local':
+    base = 'http://localhost:3000';
+    server = require('../server');
+    break;
+  case 'staging':
+    base = 'https://esdiscuss-staging.herokuapp.com';
+    break;
+  case 'prod':
+    base = 'https://esdiscuss.org';
+    break;
+  default:
+    console.error('Unrecognised environment ' + process.argv[2]);
+}
 
 function get(path) {
   return promise(function (resolve, reject) {
-    request('http://localhost:3000' + path, {}, function (err, res) {
+    request(base + path, {}, function (err, res) {
       if (err) return reject(err);
       res.body = res.body.toString();
       resolve(res);

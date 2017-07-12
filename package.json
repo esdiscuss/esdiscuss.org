@@ -38,8 +38,11 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "node test",
-    "deploy": "npm i heroku-release && heroku-release --app esdiscuss-staging"
+    "test": "node test local",
+    "predeploy": "npm i heroku-release",
+    "deploy": "npm run deploy:staging && npm run deploy:promote",
+    "deploy:staging": "heroku-release publish --app esdiscuss-staging && node test staging",
+    "deploy:promote": "heroku-release promote -p esdiscuss -s esdiscuss-staging -t esdiscuss && node test prod"
   },
   "host": "esdiscuss.org",
   "engines": {
