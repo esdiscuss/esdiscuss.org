@@ -40,4 +40,4 @@ block content
           for file in files
             li.topic-title
               a(href='/notes/' + month.month + '/' + file)
-                h4= file
+                h4= month.fileData[file].title || file
