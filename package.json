@@ -49,6 +49,6 @@
     "node": "8.2.1"
   },
   "devDependencies": {
-    "testit": "^2.0.5"
+    "testit": "^3.0.0"
   }
 }
