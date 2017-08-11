@@ -25,7 +25,7 @@
     "markdown-it": "^8.0.0",
     "moment": "~2.18.1",
     "ms": "~2.0.0",
-    "passport": "~0.3.2",
+    "passport": "~0.4.0",
     "passport-github": "~1.1.0",
     "passport-persona": "~0.2.0",
     "prepare-response": "^2.0.0",
