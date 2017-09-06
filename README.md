@@ -2,7 +2,7 @@
 
 This is the project behind http://esdiscuss.org which aims to produce a readable copy of the [esdiscuss mailing list archives](https://mail.mozilla.org/pipermail/es-discuss/).
 
-[![Build Status](https://img.shields.io/travis/esdiscuss/esdiscuss.org/master.svg)](https://travis-ci.org/esdiscuss/esdiscuss.org)
+[![Backers on Open Collective](https://opencollective.com/esdiscuss/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/esdiscuss/sponsors/badge.svg)](#sponsors) [![Build Status](https://img.shields.io/travis/esdiscuss/esdiscuss.org/master.svg)](https://travis-ci.org/esdiscuss/esdiscuss.org)
 [![Dependency Status](https://img.shields.io/david/esdiscuss/esdiscuss.org.svg)](https://david-dm.org/esdiscuss/esdiscuss.org)
 
 ## Contributing
@@ -25,6 +25,36 @@ There are a number of things that should be configured via Environment Variables
  - `MONGO_PASS` (default: `read`)
 
 N.B. the bot for updating the database is not part of this repository, it is completely separate
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+<a href="graphs/contributors"><img src="https://opencollective.com/esdiscuss/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/esdiscuss#backer)]
+
+<a href="https://opencollective.com/esdiscuss#backers" target="_blank"><img src="https://opencollective.com/esdiscuss/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/esdiscuss#sponsor)]
+
+<a href="https://opencollective.com/esdiscuss/sponsor/0/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/1/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/2/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/3/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/4/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/5/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/6/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/7/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/8/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/esdiscuss/sponsor/9/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
