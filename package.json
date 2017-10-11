@@ -49,7 +49,7 @@
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "8.4.0"
+    "node": "8.7.0"
   },
   "devDependencies": {
     "testit": "^3.0.0"
