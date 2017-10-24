@@ -25,7 +25,6 @@
     "markdown-it": "^8.0.0",
     "moment": "~2.18.1",
     "ms": "~2.0.0",
-    "opencollective": "^1.0.3",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
     "passport-persona": "~0.2.0",
@@ -44,8 +43,7 @@
     "predeploy": "npm i heroku-release",
     "deploy": "npm run deploy:staging && npm run deploy:promote",
     "deploy:staging": "heroku-release publish --app esdiscuss-staging && node test staging",
-    "deploy:promote": "heroku-release promote -p esdiscuss -s esdiscuss-staging -t esdiscuss && node test prod",
-    "postinstall": "opencollective postinstall"
+    "deploy:promote": "heroku-release promote -p esdiscuss -s esdiscuss-staging -t esdiscuss && node test prod"
   },
   "host": "esdiscuss.org",
   "engines": {
@@ -53,10 +51,5 @@
   },
   "devDependencies": {
     "testit": "^3.0.0"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/esdiscuss",
-    "logo": "https://opencollective.com/opencollective/logo.txt"
   }
 }
