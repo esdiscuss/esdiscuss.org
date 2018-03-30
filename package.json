@@ -23,7 +23,7 @@
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
     "markdown-it": "^8.0.0",
-    "moment": "~2.21.0",
+    "moment": "~2.22.0",
     "ms": "~2.0.0",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
