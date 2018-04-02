@@ -47,7 +47,7 @@
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "9.10.0"
+    "node": "9.10.1"
   },
   "devDependencies": {
     "testit": "^3.0.0"
