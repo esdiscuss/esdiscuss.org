@@ -4,6 +4,7 @@ sudo: false
 
 node_js:
   - "9.11.1"
+  - "10"
 
 deploy:
   provider: script
