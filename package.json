@@ -11,7 +11,7 @@
   "dependencies": {
     "algoliasearch": "^3.20.4",
     "body-parser": "^1.17.1",
-    "browserify-middleware": "^7.1.0",
+    "browserify-middleware": "^8.0.0",
     "cookie-session": "~2.0.0-beta.1",
     "express": "^4.15.2",
     "gethub": "^2.0.2",
@@ -23,7 +23,7 @@
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
     "markdown-it": "^8.0.0",
-    "moment": "~2.18.1",
+    "moment": "^2.22.0",
     "ms": "~2.1.0",
     "passport": "~0.3.2",
     "passport-github": "~1.1.0",
@@ -31,8 +31,8 @@
     "prepare-response": "^2.0.0",
     "pug": "^2.0.0-alpha1",
     "q": "~1.5.0",
-    "request": "~2.81.0",
-    "serve-favicon": "~2.4.2",
+    "request": "~2.87.0",
+    "serve-favicon": "^2.5.0",
     "slugg": "^1.2.1",
     "then-mongo": "^3.0.1",
     "transform": "~1.1.2"
@@ -47,7 +47,7 @@
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "8.8.1"
+    "node": "10.3.0"
   },
   "devDependencies": {
     "testit": "^3.0.0"
