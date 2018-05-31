@@ -42,7 +42,7 @@ function path(path, statusCode, fn) {
         .then(function (res) {
           assert.equal(res.statusCode, statusCode);
         });
-    }, {timeout: '60s'});
+    }, {timeout: '120s'});
     if (typeof fn === 'function') {
       fn(req);
     }
@@ -76,7 +76,14 @@ path('/history/2013-10-07T12%3A23%3A05.000Z-claude.pache.gmail.com', 200);
 path('/pipermail/es-discuss/2013-June/030958.html', 200);
 path('/pipermail/es-discuss/2013-June/930958.html', 404);
 
-path('/notes', 200);
+path('/notes', 200, function (response) {
+  test('has a link to resent notes', function () {
+    return response
+      .then(function (res) {
+        assert(/<a href="\/notes\/2018-03-20">/.test(res.body));
+      });
+  });
+});
 path('/notes/2013-03-14', 200);
 
 path('/rss', 200);
