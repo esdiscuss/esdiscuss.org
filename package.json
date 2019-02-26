@@ -16,7 +16,7 @@
     "express": "^4.15.2",
     "gethub": "^2.0.2",
     "github-stream": "^1.0.1",
-    "highlight.js": "^9.10.0",
+    "highlight.js": "^9.15.5",
     "jstransformer": "^1.0.0",
     "jstransformer-clean-css": "^2.0.0",
     "jstransformer-less": "^2.2.0",
