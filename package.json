@@ -13,7 +13,7 @@
     "body-parser": "^1.17.1",
     "browserify-middleware": "^8.0.0",
     "cookie-session": "~2.0.0-beta.1",
-    "express": "^4.15.2",
+    "express": "^4.17.0",
     "gethub": "^2.0.2",
     "github-stream": "^1.0.1",
     "highlight.js": "^9.10.0",
