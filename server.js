@@ -291,4 +291,4 @@ app.use(authed)
 
 var PORT = process.env.PORT || 3000;
 app.listen(PORT);
-console.log('listening on localhost:' + PORT);
+console.log('listening on http://localhost:' + PORT);
