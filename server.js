@@ -130,6 +130,10 @@ app.get('/topic/:id', function (req, res, next) {
     }, next);
 });
 
+app.get('/search', function(req, res, next) {
+  res.render('search');
+});
+
 app.get('/search-result/:id', function (req, res, next) {
   return db.getTopicFromMessageID(req.params.id).then(function (subjectID) {
     if (!subjectID) return next();
