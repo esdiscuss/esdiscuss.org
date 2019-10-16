@@ -1,37 +1,20 @@
 extends layout
 
 block content
-  #aaa-input-container.aa-input-container
-    input#aaa-search-input.aa-input-search(
-      type="search"
-      placeholder="Search for messages..."
-      name="search"
-      autocomplete="off"
-    )
-
-block scripts
-  script.
-    (function () {
-      var client = algoliasearch("#{process.env.ALGOLIA_APPLICATION_ID}", "#{process.env.ALGOLIA_SEARCH_KEY}");
-      var index = client.initIndex('messages');
-      //initialize autocomplete on search input (ID selector must match)
-      autocomplete('#aaa-search-input',
-        { hint: true }, {
-        source: autocomplete.sources.hits(index, {hitsPerPage: 5, distinct: true}),
-        //value to be displayed in input control after user's suggestion selection
-        displayKey: 'subject',
-        //hash of templates used when rendering dataset
-        templates: {
-          //'suggestion' templating function used to render a single suggestion
-          suggestion: function(suggestion) {
-            return '<span>' +
-              suggestion._highlightResult.subject.value + '</span>';
-          },
-          // Algolia_logo_bg-white.svg
-          footer: '<span>Search powered by <img height="20px" src="#{asset('/Algolia_logo_bg-white.svg')}"/></span>'
-        }
-      }).on('autocomplete:selected', function (e, selectedItem, dataset) {
-        location.assign('/search-result/' + selectedItem.objectID);
-        console.dir(selectedItem);
-      });
-    }());
+  .row
+    .col-md-12
+      if err
+        h1 Error loading search results!
+        | Error: #{err.message}
+      else
+        ul.topics
+          for topic in hits
+            li.topic-title
+                h4
+                  i.icon-envelope
+                  |  &nbsp;
+                  a(href='/topic/' + topic.objectID)= topic.subject
+                p
+                  | created by
+                  b  #{topic.fromName || topic.fromEmail.replace(/@/g, ' at ')}
+                  |  #{topic.date.fromNow()}
