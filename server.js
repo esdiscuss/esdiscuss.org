@@ -148,11 +148,16 @@ app.get('/topic/:id', function(req, res, next) {
 });
 
 app.get('/search', function(req, res, next) {
+  if (!req.query.q) {
+    res.render('search', {
+      hits: [],
+    });
+    return;
+  }
+
   search
     .search({
-      query: req.query.q || '',
-      // page: req.query.p || 1,
-      // hitsPerPage: 50,
+      query: req.query.q,
       distinct: 1,
       attributesToSnippet: ['content:30'],
     })
