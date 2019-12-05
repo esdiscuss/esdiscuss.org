@@ -13,7 +13,9 @@ block content
                 h4
                   i.icon-envelope
                   |  &nbsp;
-                  a(href='/topic/' + topic.objectID)= topic.subject
+                  a(href='/topic/' + topic.objectID)!= topic._highlightResult.subject.value
+                blockquote
+                  | !{topic._snippetResult.content.value}
                 p
                   | created by
                   b  #{topic.fromName || topic.fromEmail.replace(/@/g, ' at ')}

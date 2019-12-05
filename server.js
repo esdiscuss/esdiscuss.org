@@ -10,6 +10,7 @@ var ms = require('ms');
 var less = require('jstransformer')(require('jstransformer-less'));
 var cleanCss = require('jstransformer')(require('jstransformer-clean-css'));
 var prepare = require('prepare-response');
+var sanitizeHtml = require('sanitize-html');
 
 function s(n) {
   return ms(n) / 1000;
@@ -153,11 +154,25 @@ app.get('/search', function(req, res, next) {
       // page: req.query.p || 1,
       // hitsPerPage: 50,
       distinct: 1,
+      attributesToSnippet: ['content:30'],
     })
     .then(({ hits }) => {
       res.render('search', {
         hits: hits.map(hit => {
           hit.date = moment(hit.date);
+          // Sanitize so that we can use the unescaped HTML in Pug
+          hit._highlightResult.subject.value = sanitizeHtml(
+            hit._highlightResult.subject.value,
+            {
+              allowedTags: ['em'],
+            },
+          );
+          hit._snippetResult.content.value = sanitizeHtml(
+            hit._snippetResult.content.value,
+            {
+              allowedTags: ['em'],
+            },
+          );
           return hit;
         }),
       });
