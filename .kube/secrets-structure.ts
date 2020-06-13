@@ -19,6 +19,8 @@ interface Secrets {
   
   MONGO_USER: string;
   MONGO_PASS: string;
+
+  DATABASE_URL: string;
 }
 export default function secrets(data: {staging: Secrets; production: Secrets}) {
   return [
