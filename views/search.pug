@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .row
+    .col-md-12
+      if err
+        h1 Error loading search results!
+        | Error: #{err.message}
+      else
+        ul.topics
+          for topic in hits
+            li.topic-title
+                h4
+                  i.icon-envelope
+                  |  &nbsp;
+                  a(href='/topic/' + topic.objectID)!= topic._highlightResult.subject.value
+                blockquote
+                  | !{topic._snippetResult.content.value}
+                p
+                  | created by
+                  b  #{topic.fromName || topic.fromEmail.replace(/@/g, ' at ')}
+                  |  #{topic.date.fromNow()}
