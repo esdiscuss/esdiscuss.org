@@ -1,0 +1,32 @@
+mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c headers -u read -p read -o headers.csv --csv -f "_id,subject,subjectID,from.name,from.email,reply,date,url"
+
+mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c contents -u read -p read -o contents.csv --csv -f "_id,content,edited,updated"
+
+mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c history -u read -p read -o history_import.csv --csv -f "_id,id,date,user,content"
+
+
+INSERT INTO messages (topic_id,from_email,from_name,reply,sent_at,original_content,edited_content,edited_at,source_url)
+SELECT
+	topics.id AS topic_id,
+	headers."from.email" AS from_email,
+	headers."from.name" AS from_name,
+	headers.reply,
+	headers.date AS sent_at,
+	contents.content AS original_content,
+	contents.edited AS edited_content,
+	contents.updated AS edited_at,
+	headers.url AS source_url
+FROM contents
+INNER JOIN headers ON headers._id = contents._id
+INNER JOIN topics ON topics.topic_key = headers."subjectID";
+
+INSERT INTO message_history (message_id, created_at, content, user_name)
+SELECT
+	messages.id AS message_id,
+	history_import.date AS created_at,
+	history_import.content,
+	history_import.user AS user_name
+FROM
+	history_import
+	INNER JOIN headers ON headers._id = history_import.id
+	INNER JOIN messages ON messages.source_url = headers.url;

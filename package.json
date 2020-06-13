@@ -9,6 +9,7 @@
   "author": "ForbesLindesay",
   "license": "MIT",
   "dependencies": {
+    "@databases/pg": "^2.1.2",
     "algoliasearch": "^3.20.4",
     "body-parser": "^1.17.1",
     "browserify-middleware": "^8.0.0",
@@ -50,6 +51,7 @@
     "node": "12.18.0"
   },
   "devDependencies": {
+    "interrogator": "^1.1.0",
     "jskube": "^1.1.3",
     "testit": "^3.0.0",
     "ts-node": "^8.10.2",
