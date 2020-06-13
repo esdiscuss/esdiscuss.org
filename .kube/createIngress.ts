@@ -5,6 +5,7 @@ export interface Options {
   namespace: string;
   hosts: string[];
   serviceName?: string;
+  createCertificate: boolean;
   enableTLS: boolean;
   stagingTLS: boolean;
 }
@@ -15,9 +16,13 @@ export default function createIngress({
   hosts,
 
   serviceName,
+  createCertificate,
   enableTLS,
   stagingTLS,
 }: Options) {
+  if (!createCertificate && enableTLS) {
+    throw new Error('You must create a certificate before enabling TLS');
+  }
   const secretName = `${name}-tls-secret`;
   const ingress: Ingress = {
     apiVersion: 'extensions/v1beta1',
@@ -58,10 +63,10 @@ export default function createIngress({
       dnsNames: hosts,
     },
   };
-  if (enableTLS) {
+  if (createCertificate) {
     console.info(
       `To check certificate status, run: kubectl describe certificate ${name} --namespace ${namespace}`,
     );
   }
-  return [ingress, ...(enableTLS ? [certificate] : [])];
+  return [ingress, ...(createCertificate ? [certificate] : [])];
 }
