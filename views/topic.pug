@@ -53,10 +53,10 @@ block content
                 a.link(href=message.url)
                   i.icon-share-alt
                   span.hidden-xs  Go to Source
-              li
-                a.link(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path + '#content-' + mid))
-                  i.icon-pencil
-                  span.hidden-xs  Edit
+              //- li
+              //-   a.link(href='/edit/' + encodeURIComponent(message._id) + '?path=' + encodeURIComponent(path + '#content-' + mid))
+              //-     i.icon-pencil
+              //-     span.hidden-xs  Edit
           .comment-body
             .formatted-view
               != message.edited
