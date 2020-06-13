@@ -10,17 +10,17 @@ export default [
     serviceName: 'esdiscuss-staging',
     hosts: ['staging.esdiscuss.org'],
     createCertificate: true,
-    enableTLS: false,
-    stagingTLS: true,
+    enableTLS: true,
+    stagingTLS: false,
   }),
   ...createIngress({
     name: 'esdiscuss-production',
     namespace: 'esdiscuss',
     serviceName: 'esdiscuss-production',
     hosts: ['esdiscuss.org'],
-    createCertificate: false,
-    enableTLS: false,
-    stagingTLS: true,
+    createCertificate: true,
+    enableTLS: true,
+    stagingTLS: false,
   }),
 
   createConfigMap({
