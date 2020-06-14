@@ -13,7 +13,7 @@ var base = null;
 switch (process.argv[2]) {
   case 'local':
     base = 'http://localhost:3000';
-    server = require('../server');
+    server = require('../lib/server');
     break;
   case 'staging':
     base = 'https://esdiscuss-staging.herokuapp.com';

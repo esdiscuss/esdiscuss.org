@@ -1,7 +1,6 @@
-var database = require('./database');
+import * as  database from './database'
 
-module.exports = resolve;
-function resolve(month, id) {
+export default function pipermailUnresolve(month: string, id: string) {
   return database.fromURL('https://mail.mozilla.org/pipermail/es-discuss/' + month + '/' + id + '.html')
     .then(function (message) {
       if (!message) return null;

@@ -2,7 +2,7 @@ var slug = require('slugg');
 var hljs = require('highlight.js');
 var md = require('markdown-it')({
   linkify: true,
-  highlight: function(code, lang) {
+  highlight: function(code: string, lang?: string) {
     try {
       if (lang) lang = lang.toLowerCase();
       if (lang === 'js' || lang === 'javascript') {
@@ -13,10 +13,9 @@ var md = require('markdown-it')({
 
 });
 
-var profiles = require('../profiles.json');
+var profiles: {id: string, displayName: string}[] = require('../profiles.json');
 
-exports.processMessage = processMessage;
-function processMessage(body) {
+export function processMessage(body: string) {
   //un-escape
   body = body.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   //fix problem in markdown where lines starting in `#` are turned into headings
@@ -24,7 +23,6 @@ function processMessage(body) {
   body = body.replace(/^#(\d+)( |\.|\:)/gim, '.#$1$2')
   var oldBody = '';
   //This is where all the time is spent
-  var i = 0;
   if (/john cowan/.test(body)) {
     //this regex is too expensive to be in the loop
     body = body.replace(/--+(\n|[^\-])*john cowan\n(\n|[^\-])*$/i, '')
@@ -34,7 +32,7 @@ function processMessage(body) {
     //this regex is too expensive to be in the loop
     body = body.replace(/(?:.+\n)*content-disposition: inline/i, '');
   }
-  while (oldBody != body) { i++;
+  while (oldBody != body) {
     oldBody = body;
     body = body.replace(/^hi ?\w*.?/i, '')
               .replace(/\n-+ *original *message *-+\n(?:\n|.)*$/gi, '')
@@ -84,17 +82,15 @@ function processMessage(body) {
   return body;
 }
 
-exports.renderMessage = renderMessage;
-function renderMessage(body) {
+export function renderMessage(body: string) {
   return redirectLinks(shortenLinks(md.render(body)));
 }
 
-exports.processNote = processNote;
-function processNote(content, date, isNotMeetingNotes, month) {
+export function processNote(content: string, date: string, isNotMeetingNotes: boolean, month: string) {
   if (!isNotMeetingNotes) {
-    content = content.replace(/^#.*\n+(.*)/, function (_, atendees) {
+    content = content.replace(/^#.*\n+(.*)/, function (_, atendees: string) {
       return '# ' + date + ' Meeting Notes\n\n' +
-        atendees.replace(/([\w\'\-]+\s[\w\'\-]+) \(([A-Z]{2,3})\)/g, function (_, name, id) {
+        atendees.replace(/([\w\'\-]+\s[\w\'\-]+) \(([A-Z]{2,3})\)/g, function (_, name: string, id: string) {
           if (!profiles.some(function (profile) { return profile.id === id })) {
             profiles.push({id: id, displayName: name});
           }
@@ -109,7 +105,7 @@ function processNote(content, date, isNotMeetingNotes, month) {
   });
   // single: "AB:" or multiple: "AB/BC/CD:"
   var findShortNames = /^([A-Z]{2,3}(?:(?:, |\/)[A-Z]{2,3})*)[\.:]/gm;
-  content = content.replace(findShortNames, function(match, members) {
+  content = content.replace(findShortNames, function(_, members) {
     return '**' + members.split(/, |\//).join('/') + ':**';
   });
 
@@ -135,7 +131,7 @@ function processNote(content, date, isNotMeetingNotes, month) {
   return content;
 }
 
-function skipWhile(arr, condition) {
+function skipWhile<T>(arr: T[], condition: (v: T) => boolean) {
   var res = [];
   var done = false;
   for (var i = 0; i < arr.length; i++) {
@@ -153,12 +149,11 @@ var GITHUB = 'github.com/';
 var WIKI = 'wiki.ecmascript.org/';
 var BUGS = 'bugs.ecmascript.org/show_bug.cgi?id=';
 var PIPERMAIL = 'mail.mozilla.org/pipermail/es-discuss/';
-function shortenLinks(html) {
-  return html.replace(/(<a [^<>]*>)https?:\/\/([^<>]+)(<\/a>)/gi, function (_, start, text, end) {
-    var match;
+function shortenLinks(html: string) {
+  return html.replace(/(<a [^<>]*>)https?:\/\/([^<>]+)(<\/a>)/gi, function (_, start: string, text: string, end: string) {
     if (text.substr(0, GITHUB.length).toLowerCase() === GITHUB) {
       text = text.substr(GITHUB.length);
-      text = text.replace(/^([^\/]+\/[^\/]+)\/(?:pull|issues)\/(\d+)(#.*)?$/g, function (_, repo, issue, fragment) {
+      text = text.replace(/^([^\/]+\/[^\/]+)\/(?:pull|issues)\/(\d+)(#.*)?$/g, function (_, repo: string, issue: string, _fragment: string) {
         return repo + '#' + issue;
       });
     } else if (text.substr(0, WIKI.length).toLowerCase() === WIKI) {
@@ -177,7 +172,7 @@ function shortenLinks(html) {
   }).replace(/<\/a>\s+<a /gi, '</a>, <a ');
 }
 
-function redirectLinks(html) {
+function redirectLinks(html: string) {
   return html.replace(/(<a[^<>]*) href=\"https?:\/\/mail\.mozilla\.org(\/pipermail\/es-discuss\/[^\/]+\/[^\/]+.html)\"([^<>]*>)/gi, '$1 href="$2" $3');
 }
 

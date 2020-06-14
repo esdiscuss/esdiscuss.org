@@ -17,6 +17,5 @@ ADD static /app/static
 ADD views /app/views
 ADD favicon.ico /app/favicon.ico
 ADD profiles.json /app/profiles.json
-ADD server.js /app/server.js
 
-CMD yarn start
+CMD node lib/server

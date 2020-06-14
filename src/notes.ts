@@ -1,8 +1,7 @@
-'use strict';
+import express from 'express';
+import {processNote} from './process';
 
-var express = require('express');
 var Repository = require('github-stream');
-var processor = require('./process.js');
 
 var app = express.Router();
 
@@ -12,11 +11,11 @@ var notes = new Repository('rwaldron', 'tc39-notes', {
   auth: process.env.GITHUB_AUTH_TOKEN
 });
 
-var months = [];
-var monthData = {};
-var dayData = {};
+var months: any[] = [];
+var monthData: any = {};
+var dayData: any = {};
 
-notes.on('data', function (entry) {
+notes.on('data', function (entry: any) {
   entry.path = entry.path.replace(/^(\/meetings)?\//, '');
   if (entry.type === 'File' && /^\d\d\d\d\-\d\d\//.test(entry.path) && entry.body) {
     var month = entry.path.split('/')[0];
@@ -37,19 +36,19 @@ notes.on('data', function (entry) {
       if (monthObject.days.indexOf(name) === -1) {
         monthObject.days.push(name);
       }
-      entry.html = processor.processNote(entry.body.toString(), name, false, month);
+      entry.html = processNote(entry.body.toString(), name, false, month);
       dayData[name] = entry;
     } else if (/^\d\d\d\d\-\d\d\-\d\d\.md$/.test(name)){
       name = name.replace(/\.md$/g, '');
       if (monthObject.days.indexOf(name) === -1) {
         monthObject.days.push(name);
       }
-      entry.html = processor.processNote(entry.body.toString(), name, false, month);
+      entry.html = processNote(entry.body.toString(), name, false, month);
       dayData[name] = entry;
     } else if (/\.md$/.test(name)) {
       const titleMatch = /^\# ([^\n]+)/.exec(entry.body.toString().trim());
       entry.title = titleMatch ? titleMatch[1] : name;
-      entry.html = processor.processNote(entry.body.toString(), name, true, month);
+      entry.html = processNote(entry.body.toString(), name, true, month);
       if (monthObject.files.indexOf(name) === -1) {
         monthObject.files.push(name);
       }
@@ -63,11 +62,11 @@ notes.on('data', function (entry) {
   }
 });
 
-notes.on('error', function (err) {
+notes.on('error', function (err: any) {
   console.error(err.stack);
 });
 
-app.use('/notes', function (req, res, next) {
+app.use('/notes', function (_req, _res, next) {
   return notes.ready.done(function () {
     next();
   }, next);
@@ -99,8 +98,8 @@ app.get('/notes/:month/:file', function (req, res, next) {
     next();
   }
 })
-app.get('/notes', function (req, res, next) {
+app.get('/notes', function (_req, res, _next) {
   res.render('notes-listing', {months: months});
 })
 
-module.exports = app;
+export default app;
