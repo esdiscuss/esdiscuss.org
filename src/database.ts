@@ -11,21 +11,13 @@ export type MessageKey = string & Brand<'MessageKey'>;
 export type TopicKey = string & Brand<'TopicKey'>;
 export type TopicSlug = string & Brand<'TopicSlug'>;
 
-interface Header {
+interface Message {
   _id: MessageKey;
   subject: string;
-  from: {
-    name: string;
-    email: string;
-  },
   reply: string;
   date: Date;
   subjectID: TopicKey;
   url: string;
-  updated?: Date | null;
-}
-
-interface Message extends Header {
   from: {
     name: string;
     email: string;
@@ -39,12 +31,6 @@ interface Message extends Header {
   updated?: Date | null;
 }
 
-interface Content {
-  _id: MessageKey;
-  edited?: string;
-  updated?: Date;
-  content: string;
-}
 interface HistoryEntry {
   user: string;
   content: string;
@@ -61,10 +47,6 @@ interface Topic {
   messages: number;
 }
 
-interface BotRunsDay {
-  _id: string;
-  runs: number;
-}
 
 export async function user(email: string) {
   var hash = createHash('md5').update(email.toLowerCase().trim()).digest('hex')
@@ -367,19 +349,21 @@ export async function page(page: number, numberPerPage: number = 20): Promise<
 
 // TODO: fetch the 10 records once every 10 minutes
 export const getAllMessagesForSearch = async function (start: number, limit: number) {
-  const headers: Header[] = await db.headers.find().sort({date: -1}).skip(start).limit(limit);
-  return Promise.all(headers.map(header => {
-    return (db.contents.findOne({_id: header._id}) as Promise<Content>).then(content => {
-      return {
-        objectID: header._id,
-        subject: header.subject,
-        content: content.content.substr(0, 5000),
-        fromName: header.from.name,
-        fromEmail: header.from.email,
-        date: header.date,
-        subjectID: header.subjectID,
-      };
-    });
-  }));
+  return await db.query(sql`
+    SELECT
+      m.message_key AS "objectID",
+      t.topic_name AS "subject",
+      substring(m.original_content FROM 1 for 5000) AS "content",
+      m.from_name AS "fromName",
+      m.from_email AS "fromEmail",
+      m.sent_at AS "date",
+      t.topic_key AS "subjectID"
+    FROM
+      messages m
+    INNER JOIN topics t ON t.id = m.topic_id
+    ORDER BY m.sent_at DESC
+    OFFSET ${start}
+    LIMIT ${limit}
+  `);
 };
 
