@@ -50,26 +50,26 @@ jobs:
       - image: circleci/node:12
     steps:
       - setup
-      - test
 
   deploy-staging:
     docker:
       - image: circleci/node:12
     steps:
       - setup
-      - npm_auth
       - push
       - deploy:
           environment: staging
+      - node test staging
 
   deploy-production:
     docker:
       - image: circleci/node:12
     steps:
       - setup
-      - npm_auth
+      - node test staging
       - deploy:
           environment: production
+      - node test production
 
 commands:
   setup:
@@ -92,12 +92,6 @@ commands:
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-  test:
-    steps:
-      - run:
-          name: Test
-          command: yarn test
 
   push:
     steps:
