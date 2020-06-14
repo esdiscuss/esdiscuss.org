@@ -59,17 +59,17 @@ jobs:
       - push
       - deploy:
           environment: staging
-      - node test staging
+      - run: node test staging
 
   deploy-production:
     docker:
       - image: circleci/node:12
     steps:
       - setup
-      - node test staging
+      - run: node test staging
       - deploy:
           environment: production
-      - node test production
+      - run: node test production
 
 commands:
   setup:
