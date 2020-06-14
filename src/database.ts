@@ -205,7 +205,7 @@ export async function page(page: number, numberPerPage: number = 20): Promise<{
 }[] & {
   last: boolean;
 }> {
-  const res: Topic[] = db.topics.find().sort({end: -1}).skip(page * numberPerPage).limit(numberPerPage + 1);
+  const res: Topic[] = await db.topics.find().sort({end: -1}).skip(page * numberPerPage).limit(numberPerPage + 1);
 
   const last = res.length < numberPerPage + 1;
   if (!last) res.pop();

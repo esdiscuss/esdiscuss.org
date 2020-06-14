@@ -8,14 +8,14 @@ import './search';
 import * as db from './database';
 import { renderMessage } from './process';
 import pipermailUnresolve from './pipermail-unresolve';
+import notesApp from './notes';
 
 var browserify = require('browserify-middleware');
 var less = require('jstransformer')(require('jstransformer-less'));
 var cleanCss = require('jstransformer')(require('jstransformer-clean-css'));
 var prepare = require('prepare-response');
 
-//var console = require('./lib/console')('server');
-var version = require('./package.json').version;
+var version = require('../package.json').version;
 
 var app = express();
 
@@ -23,9 +23,9 @@ app.locals.asset = function (path: string) {
   return '/static/' + version + path
 }
 app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/../views');
 
-app.use(require('serve-favicon')(__dirname + '/favicon.ico'));
+app.use(require('serve-favicon')(__dirname + '/../favicon.ico'));
 app.use(function (req, res, next) {
   res.locals.path = req.path
   next()
@@ -35,7 +35,7 @@ var staticOpts = { maxAge: !process.env.NODE_ENV || process.env.NODE_ENV === 'de
 var staticPath = function (dir: string) {
   return '/static/' + version + '/' + dir;
 }
-app.use('/static/' + version, express.static(join(__dirname, 'static'), staticOpts));
+app.use('/static/' + version, express.static(join(__dirname, '..', 'static'), staticOpts));
 browserify.settings.production('cache', '12 months');
 app.get(staticPath('client/listing.js'), browserify('./client/listing.js'));
 app.get(staticPath('client/topic.js'), browserify('./client/topic.js'));
@@ -43,7 +43,7 @@ app.get(staticPath('client/edit.js'), browserify('./client/edit.js'));
 app.get(staticPath('client/login.js'), browserify('./client/login.js'));
 
 function getStyleResponse() {
-  return less.renderFileAsync(__dirname + '/less/style.less').then(
+  return less.renderFileAsync(__dirname + '/../less/style.less').then(
     (result: {body: string}) => cleanCss.renderAsync(result.body)
   ).then((result: {body: string}) => prepare(result.body, {
     'content-type': 'css',
@@ -137,7 +137,7 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
     .catch(next);
 })
 
-app.use(require('./lib/notes.js'));
+app.use(notesApp);
 
 var request = require('request');
 var passport = require('passport');
