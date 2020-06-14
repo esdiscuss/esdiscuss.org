@@ -1,0 +1,1 @@
+CREATE INDEX messages_topic_id_sent_at ON messages (topic_id, sent_at);

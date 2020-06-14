@@ -308,9 +308,9 @@ export async function page(page: number, numberPerPage: number = 20): Promise<
       t.topic_slug AS "_id",
       t.topic_key AS "subjectID",
       t.topic_name AS "subject",
-      min(m.sent_at) AS "start",
-      max(m.sent_at) AS "end",
-      count(*) AS "messages",
+      m.start AS "start",
+      m.end AS "end",
+      m.messages AS "messages",
       (
         SELECT
           row_to_json(x)
@@ -322,17 +322,24 @@ export async function page(page: number, numberPerPage: number = 20): Promise<
             messages
           WHERE
             topic_id = t.id
-            AND sent_at = min(m.sent_at)) x) AS "first"
-    FROM
-      topics AS t
-      INNER JOIN messages m ON m.topic_id = t.id
-    GROUP BY
-      t.id
+            AND sent_at = m.start) x) AS "first"
+    FROM (
+      SELECT
+        topic_id,
+        min(sent_at) AS "start",
+        max(sent_at) AS "end",
+        count(*) AS "messages"
+      FROM
+        messages
+      GROUP BY
+        topic_id
+      ORDER BY
+        max(sent_at)
+        DESC OFFSET ${page * numberPerPage}
+      LIMIT ${numberPerPage + 1}) m
+      INNER JOIN topics AS t ON t.id = m.topic_id
     ORDER BY
-      max(m.sent_at)
-      DESC
-    OFFSET ${page * numberPerPage}
-    LIMIT ${numberPerPage + 1}
+      m.end DESC
   `);
 
   console.log(res);
