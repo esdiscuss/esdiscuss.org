@@ -18,3 +18,5 @@ node_modules
 cache
 
 environment.toml
+
+lib/
