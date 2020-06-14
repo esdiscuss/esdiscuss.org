@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {join} from 'path';
 import express from 'express';
 import moment from 'moment';
@@ -64,12 +65,8 @@ app.get('/', function (_req, res) {
 app.get('/robots.txt', function (_req, res) {
   res.end('User-agent: *\nDisallow: /source');
 });
-app.get('/about', function (_req, res, next) {
-  db.botRuns().then(function (stats) {
-    res.render('about', {
-      allTime: stats
-    });
-  }).catch(next);
+app.get('/about', function (_req, res) {
+  res.render('about');
 })
 app.get('/rss', function (_req, res, next) {
   var page = 0;
@@ -122,9 +119,9 @@ app.get('/topic/:id', function (req, res, next) {
 });
 
 app.get('/search-result/:id', function (req, res, next) {
-  return db.getTopicFromMessageID(req.params.id as db.MessageID).then(function (subjectID) {
-    if (!subjectID) return next();
-    res.redirect(301, '/topic/' + subjectID);
+  return db.locationFromSearchKey(req.params.id as db.MessageKey).then(function (location) {
+    if (!location) return next();
+    res.redirect(301, '/topic/' + location.topic_slug + '#content-' + location.messageNum);
   }).catch(next);
 })
 
@@ -216,7 +213,7 @@ authed.post('/auth/logout', function (req, res, _next) {
 })
 
 app.get('/history/:id', function (req, res, next) {
-  db.history(req.params.id as db.MessageID)
+  db.history(req.params.id as db.MessageKey)
     .then(function (history) {
       if (!history) return next()
       res.render('history.pug', {message: history, path: req.query.path})
@@ -224,7 +221,7 @@ app.get('/history/:id', function (req, res, next) {
     .catch(next)
 })
 authed.get('/edit/:id', requireAuth(), function (req, res, next) {
-  db.message(req.params.id as db.MessageID)
+  db.message(req.params.id as db.MessageKey)
     .then(function (message) {
       if (!message) return next()
       res.render('edit.pug', {message: message, user: (req as any).user, url: req.url})
@@ -244,7 +241,7 @@ authed.post('/edit/:id', function (req, res, next) {
     return res.end('Access Denied')
   }
   var edited = req.body.edited.replace(/\r/g, '')
-  db.message(req.params.id as db.MessageID)
+  db.message(req.params.id as db.MessageKey)
     .then(function (message) {
       if (!message) {
         return;
@@ -252,7 +249,7 @@ authed.post('/edit/:id', function (req, res, next) {
       if (edited === message.edited.replace(/\r/g, '')) {
         return
       } else if (semantic(edited) === semantic(message.edited) || moderators.indexOf((req as any).user.email) != -1 || message.from.email === (req as any).user.email){
-        return db.update(req.params.id as db.MessageID, edited, (req as any).user.email)
+        return db.update(req.params.id as db.MessageKey, edited, (req as any).user.email)
       } else {
         throw new Error('Since this change is semantic, it requires moderation.')
       }

@@ -1,21 +1,18 @@
+import connect, {sql} from '@databases/pg';
 import {createHash} from 'crypto';
 import moment from 'moment';
-var mongo = require('then-mongo');
 
 import {processMessage} from './process';
 
-var MONGO_USER = process.env.MONGO_USER || 'read'
-var MONGO_PASS = process.env.MONGO_PASS || 'read'
-var db = mongo(MONGO_USER + ':' + MONGO_PASS + '@ds039912-a0.mongolab.com:39912,ds039912-a1.mongolab.com:39912/esdiscuss-new?replicaSet=rs-ds039912',
-  ['topics', 'headers', 'contents', 'history', 'log', 'runsPerDay'])
+const db = connect();
 
 declare class Brand<Name> {private readonly __brand: Name}
-export type MessageID = string & Brand<'MessageID'>;
+export type MessageKey = string & Brand<'MessageKey'>;
 export type TopicKey = string & Brand<'TopicKey'>;
 export type TopicSlug = string & Brand<'TopicSlug'>;
 
 interface Header {
-  _id: MessageID;
+  _id: MessageKey;
   subject: string;
   from: {
     name: string;
@@ -25,7 +22,7 @@ interface Header {
   date: Date;
   subjectID: TopicKey;
   url: string;
-  updated?: Date;
+  updated?: Date | null;
 }
 
 interface Message extends Header {
@@ -39,24 +36,29 @@ interface Message extends Header {
   },
   edited: string;
   original: string;
-  updated?: Date;
+  updated?: Date | null;
 }
 
 interface Content {
-  _id: MessageID;
+  _id: MessageKey;
   edited?: string;
   updated?: Date;
   content: string;
 }
 interface HistoryEntry {
-  id: MessageID;
   user: string;
+  content: string;
+  date: Date;
 }
 interface Topic {
   _id: TopicSlug;
   subjectID: TopicKey;
   start: Date;
   end: Date;
+
+  subject: string;
+  first: {name: string; email: string;}
+  messages: number;
 }
 
 interface BotRunsDay {
@@ -74,44 +76,82 @@ export async function user(email: string) {
   }
   return user;
 }
-export async function message(id: MessageID): Promise<Message | null> {
-  const [message, content]: [Header, Content] = await Promise.all([db.headers.findOne({_id: id}), db.contents.findOne({_id: id})]);
-  if (!message) return null
-  const hash = createHash('md5').update(message.from.email.toLowerCase().trim()).digest('hex');
+export async function message(id: MessageKey): Promise<Message | null> {
+  const messages: {
+    _id: MessageKey,
+    subject: string,
+    from_name: string,
+    from_email: string,
+    reply: string,
+    date: Date,
+    subjectID: TopicKey,
+    url: string,
+    updated: Date | null,
+    edited: string | null,
+    original: string,
+  }[] = await db.query(sql`
+    SELECT
+      m.message_key AS "_id",
+      t.topic_name AS "subject",
+      m.from_name,
+      m.from_email,
+      m.reply,
+      m.sent_at AS "date",
+      t.topic_key AS "subjectID",
+      m.source_url AS "url",
+      m.edited_at AS "updated",
+      m.edited_content AS "edited",
+      m.original_content AS "original"
+    FROM
+      messages m
+      INNER JOIN topics t ON t.id = m.topic_id
+    WHERE
+      m.message_key = ${id}
+  `);
+  if (!messages.length) return null
+  const {from_email, from_name, ...message} = messages[0];
+  const hash = createHash('md5').update(from_email.toLowerCase().trim()).digest('hex');
   return {
     ...message,
-    from: {...message.from, hash, avatar: avatar(hash), profile: profile(hash)},
-    edited: content.edited || processMessage(content.content),
-    original: content.content,
+    from: {email: from_email, name: from_name, hash, avatar: avatar(hash), profile: profile(hash)},
+    edited: message.edited || processMessage(message.original),
   }
 };
 
-export async function update(id: MessageID, content: string, email: string): Promise<void> {
+export async function update(id: MessageKey, content: string, email: string): Promise<void> {
   var now = new Date()
-  await db.history.insert({_id: now.toISOString(), id: id, date: now, user: email, content: content}, {safe: true});
-  await Promise.all([
-    new Promise((resolve, reject) => {
-      db.contents.update({_id: id}, {'$set': { updated: now, edited: content } }, function (err: Error | null) {
-        if (err) reject(err)
-        else resolve()
-      })
-    }),
-    new Promise((resolve, reject) => {
-      db.headers.update({_id: id}, {'$set': { updated: now } }, function (err: Error | null) {
-        if (err) reject(err)
-        else resolve()
-      })
-    })
-  ]);
+  await db.tx(async (db) => {
+    await db.query(sql`
+      INSERT INTO message_history (message_id, user_name, content, created_at)
+      VALUES (SELECT id FROM messages m WHERE m.message_key = ${id}, ${email}, ${content}, ${now});
+    `);
+    await db.query(sql`
+      UPDATE messages
+      SET edited_content=${content}, edited_at=${now}
+      WHERE message_key=${id}
+    `);
+  });
 };
 
-export async function history(id: MessageID) {
+export async function history(id: MessageKey) {
   const [
     original,
     edits,
   ] = await Promise.all([
     message(id),
-    (db.history.find({id: id}).sort({'date':1}) as Promise<HistoryEntry[]>).then(edits => Promise.all(
+    (db.query(sql`
+      SELECT
+        h.user_name AS "user",
+        h.created_at AS "date",
+        h.content
+      FROM
+        message_history h
+        INNER JOIN messages m ON m.id = h.message_id
+      WHERE
+        m.message_key = ${id}
+      ORDER BY
+	      h.created_at DESC;
+    `) as Promise<HistoryEntry[]>).then(edits => Promise.all(
       edits.map(async (e) => {
         const from = await user(e.user);
         return {...e, from};
@@ -121,51 +161,114 @@ export async function history(id: MessageID) {
   return {original, edits};
 }
 
-export async function fromURL(url: string): Promise<Header | null> {
-  const res = await db.headers.find({url: url});
-  return res[0] || null;
+export async function logationFromUrl(url: string) {
+  const results: {topic_slug: TopicSlug; topic_id: number; sent_at: Date}[] = await db.query(sql`
+    SELECT
+      m.sent_at,
+      t.id AS topic_id,
+      t.topic_slug
+    FROM
+      messages m
+      INNER JOIN topics t ON t.id = m.topic_id
+    WHERE
+      m.source_url = ${url};
+  `);
+  if (!results.length) return null;
+  const {topic_slug, sent_at, topic_id} = results[0];
+  const [{count}] = (await db.query(sql`
+    SELECT
+      count(*) AS count
+    FROM
+      messages m
+    WHERE
+      m.topic_id = ${topic_id}
+      AND m.sent_at < ${sent_at}
+  `) as [{count: number}]);
+  return {topic_slug, messageNum: count};
 };
-
-export async function location(subjectID: string, date: Date) {
-  const [
-    subjectSlug,
-    messageNum
-  ] = await Promise.all([
-    (db.topics.findOne({subjectID: subjectID}) as Promise<Topic>).then((res) => res._id),
-    (db.headers.count({ 'subjectID': subjectID, 'date': {'$lt': date} }) as Promise<number>),
-  ])
-  return {subjectID: subjectSlug, messageNum};
+export async function locationFromSearchKey(messageID: MessageKey) {
+  const results: {topic_slug: TopicSlug; topic_id: number; sent_at: Date}[] = await db.query(sql`
+    SELECT
+      m.sent_at,
+      t.id AS topic_id,
+      t.topic_slug
+    FROM
+      messages m
+      INNER JOIN topics t ON t.id = m.topic_id
+    WHERE
+      m.message_key = ${messageID};
+  `);
+  if (!results.length) return null;
+  const {topic_slug, sent_at, topic_id} = results[0];
+  const [{count}] = (await db.query(sql`
+    SELECT
+      count(*) AS count
+    FROM
+      messages m
+    WHERE
+      m.topic_id = ${topic_id}
+      AND m.sent_at < ${sent_at}
+  `) as [{count: number}]);
+  return {topic_slug, messageNum: count};
 }
 
 export async function topic(topicSlug: TopicSlug) {
-  const res = await db.topics.findOne({_id: topicSlug});
-  if (!res) {
-    return []
-  }
-  const [headers, contents] = await Promise.all([
-    db.headers.find({subjectID: res.subjectID}).sort({date: 1}) as Promise<Header[]>,
-    db.contents.find({subjectID: res.subjectID}) as Promise<Content[]>,
-  ])
-  return headers.map((message): Message => {
-    const hash = createHash('md5').update(message.from.email.toLowerCase().trim()).digest('hex');
-    const c = contents.find((m) => m._id === message._id)!
+  const res: {
+    _id: MessageKey,
+    subject: string,
+    from_name: string,
+    from_email: string,
+    reply: string,
+    date: Date,
+    subjectID: TopicKey,
+    url: string,
+    updated: Date | null,
+    edited: string | null,
+    original: string,
+  }[] = await db.query(sql`
+    SELECT
+      m.message_key AS "_id",
+      t.topic_name AS "subject",
+      m.from_name,
+      m.from_email,
+      m.reply,
+      m.sent_at AS "date",
+      t.topic_key AS "subjectID",
+      m.source_url AS "url",
+      m.edited_at AS "updated",
+      m.edited_content AS "edited",
+      m.original_content AS "original"
+    FROM
+      messages m
+      INNER JOIN topics t ON t.id = m.topic_id
+    WHERE
+      t.topic_slug = ${topicSlug}
+  `);
+  return res.map(({from_email, from_name, ...message}): Message => {
+    const hash = createHash('md5').update(from_email.toLowerCase().trim()).digest('hex');
     return {
       ...message,
       from: {
-        ...message.from,
+        email: from_email,
+        name: from_name,
         hash,
         avatar: avatar(hash),
         profile: profile(hash),
       },
-      edited: c.edited || processMessage(c.content),
-      original: c.content,
-      updated: message.updated || c.updated,
+      edited: message.edited || processMessage(message.original),
     }
   })
 }
-export async function getNewLocation(oldSubjectID: TopicKey): Promise<TopicSlug | null> {
-  const topic: Topic | null = await db.topics.findOne({subjectID: oldSubjectID});
-  return topic && topic._id;
+export async function getNewLocation(topicKey: TopicKey): Promise<TopicSlug | null> {
+  const topics = await db.query(sql`
+    SELECT
+      topic_slug
+    FROM
+      topics
+    WHERE
+      topic_key = ${topicKey}
+  `)
+  return topics.length ? topics[0].topic_slug : null;
 }
 
 function avatar(hash: string) {
@@ -197,51 +300,70 @@ function profile(hash: string) {
     id: '7B9BA3214DBE2B42AE93AE882BD001960F41400F@fmsmsx110.amr.corp.intel.com' }]
 */
 
-export async function page(page: number, numberPerPage: number = 20): Promise<{
-  start: moment.Moment;
-  end: moment.Moment;
-  _id: string;
-  subjectID: string;
-}[] & {
+// interface Topic {
+//   _id: TopicSlug;
+//   subjectID: TopicKey;
+//   start: Date;
+//   end: Date;
+
+//   subject: string;
+//   first: {name: string; email: string;}
+//   messages: number;
+// }
+
+export async function page(page: number, numberPerPage: number = 20): Promise<
+  (
+    Omit<Topic, 'start' | 'end'> &
+    {
+      start: moment.Moment;
+      end: moment.Moment;
+    }
+  )[] & {
   last: boolean;
 }> {
-  const res: Topic[] = await db.topics.find().sort({end: -1}).skip(page * numberPerPage).limit(numberPerPage + 1);
+  const res: Topic[] = await db.query(sql`
+    SELECT
+      t.topic_slug AS "_id",
+      t.topic_key AS "subjectID",
+      t.topic_name AS "subject",
+      min(m.sent_at) AS "start",
+      max(m.sent_at) AS "end",
+      count(*) AS "messages",
+      (
+        SELECT
+          row_to_json(x)
+        FROM (
+          SELECT
+            from_name AS "name",
+            from_email AS "email"
+          FROM
+            messages
+          WHERE
+            topic_id = t.id
+            AND sent_at = min(m.sent_at)) x) AS "first"
+    FROM
+      topics AS t
+      INNER JOIN messages m ON m.topic_id = t.id
+    GROUP BY
+      t.id
+    ORDER BY
+      max(m.sent_at)
+      DESC
+    OFFSET ${page * numberPerPage}
+    LIMIT ${numberPerPage + 1}
+  `);
+
+  console.log(res);
 
   const last = res.length < numberPerPage + 1;
   if (!last) res.pop();
 
-  return Object.assign(res.map((topic)  => ({
+  return Object.assign(res.map((topic) => ({
     ...topic,
     start: moment(topic.start),
     end: moment(topic.end)
   })), {last});
 }
-
-//sample page
-/*
-[ { _id: 'anotherrivertrailquestion',
-    subject: 'another rivertrail question',
-    messages: 2,
-    first: { email: 'nrubin@nvidia.com', name: 'Norm Rubin' },
-    last: { email: 'rick.hudson@intel.com', name: 'Hudson, Rick' },
-    start: Fri Apr 05 2013 13:54:26 GMT+0100 (GMT Summer Time),
-    end: Fri Apr 05 2013 18:19:59 GMT+0100 (GMT Summer Time) },
-  { _id: 'howtosubmitaproposalfocmascript',
-    subject: 'how to submit a proposal for ECMAScript 7?',
-    messages: 2,
-    first: { email: 'ohad.assulin@hp.com', name: 'Assulin, Ohad' },
-    last: { email: 'bruant.d@gmail.com', name: 'David Bruant' },
-    start: Fri Apr 05 2013 11:00:10 GMT+0100 (GMT Summer Time),
-    end: Fri Apr 05 2013 11:27:37 GMT+0100 (GMT Summer Time) },
-
-  last: false
-]
-*/
-
-export async function botRuns() {
-  const days: BotRunsDay[] = await db.runsPerDay.find();
-  return days.sort((a, b) => a._id < b._id ? -1 : 1);
-};
 
 // TODO: fetch the 10 records once every 10 minutes
 export const getAllMessagesForSearch = async function (start: number, limit: number) {
@@ -261,8 +383,3 @@ export const getAllMessagesForSearch = async function (start: number, limit: num
   }));
 };
 
-export async function getTopicFromMessageID(messageID: MessageID): Promise<TopicSlug> {
-  const header = await db.headers.findOne({_id: messageID});
-  const topic = await db.topics.findOne({subjectID: header.subjectID});
-  return topic._id;
-}

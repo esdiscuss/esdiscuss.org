@@ -20,3 +20,5 @@ cache
 environment.toml
 
 lib/
+
+.env
