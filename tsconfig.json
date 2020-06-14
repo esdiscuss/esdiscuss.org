@@ -1,0 +1,10 @@
+{
+  "extends": "@forbeslindesay/tsconfig",
+  "compilerOptions": {
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["DOM", "ES2020"]
+  },
+  "include": ["src"]
+}

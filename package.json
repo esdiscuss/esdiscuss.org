@@ -39,7 +39,9 @@
     "transform": "~1.1.2"
   },
   "scripts": {
-    "start": "node server.js",
+    "build": "tsc",
+    "prestart": "yarn build",
+    "start": "node lib/server.js",
     "test": "node test local",
     "predeploy": "npm i heroku-release",
     "deploy": "npm run deploy:staging && npm run deploy:promote",
@@ -51,6 +53,10 @@
     "node": "12.18.0"
   },
   "devDependencies": {
+    "@forbeslindesay/tsconfig": "^2.0.0",
+    "@types/cookie-session": "^2.0.40",
+    "@types/express": "^4.17.6",
+    "@types/ms": "^0.7.31",
     "interrogator": "^1.1.0",
     "jskube": "^1.1.3",
     "testit": "^3.0.0",
