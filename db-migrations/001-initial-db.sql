@@ -15,7 +15,8 @@ CREATE TABLE messages (
   original_content TEXT NOT NULL,
   edited_content TEXT NULL,
   edited_at TIMESTAMPTZ NULL,
-  source_url TEXT NOT NULL UNIQUE
+  source_url TEXT NOT NULL UNIQUE,
+  message_key TEXT NOT NULL
 );
 
 CREATE TABLE message_history (

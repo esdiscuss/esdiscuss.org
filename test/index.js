@@ -16,7 +16,7 @@ switch (process.argv[2]) {
     server = require('../lib/server');
     break;
   case 'staging':
-    base = 'https://esdiscuss-staging.herokuapp.com';
+    base = 'https://staging.esdiscuss.org';
     break;
   case 'prod':
     base = 'https://esdiscuss.org';
