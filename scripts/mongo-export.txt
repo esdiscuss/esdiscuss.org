@@ -4,6 +4,8 @@ mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c contents -u re
 
 mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c history -u read -p read -o history_import.csv --csv -f "_id,id,date,user,content"
 
+mongoexport -h ds039912-a1.mongolab.com:39912 -d esdiscuss-new -c runsPerDay -u read -p read -o runs-per-day.csv --csv -f "_id,runs,totalDuration"
+
 
 INSERT INTO messages (topic_id,from_email,from_name,reply,sent_at,original_content,edited_content,edited_at,source_url)
 SELECT

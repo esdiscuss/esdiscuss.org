@@ -143,7 +143,7 @@ export async function history(id: MessageKey) {
   return {original, edits};
 }
 
-export async function logationFromUrl(url: string) {
+export async function locationFromUrl(url: string) {
   const results: {topic_slug: TopicSlug; topic_id: number; sent_at: Date}[] = await db.query(sql`
     SELECT
       m.sent_at,
@@ -225,6 +225,7 @@ export async function topic(topicSlug: TopicSlug) {
       INNER JOIN topics t ON t.id = m.topic_id
     WHERE
       t.topic_slug = ${topicSlug}
+    ORDER BY m.sent_at ASC
   `);
   return res.map(({from_email, from_name, ...message}): Message => {
     const hash = createHash('md5').update(from_email.toLowerCase().trim()).digest('hex');
