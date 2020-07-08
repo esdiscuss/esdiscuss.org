@@ -47,13 +47,13 @@ workflows:
 jobs:
   unit-tests:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:12.18.2
     steps:
       - setup
 
   deploy-staging:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:12.18.2
     steps:
       - setup
       - push
@@ -63,7 +63,7 @@ jobs:
 
   deploy-production:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:12.18.2
     steps:
       - setup
       - run: node test staging
