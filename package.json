@@ -31,7 +31,7 @@
     "passport-github": "~1.1.0",
     "passport-persona": "~0.2.0",
     "prepare-response": "^2.0.0",
-    "pug": "^2.0.0-alpha1",
+    "pug": "^3.0.1",
     "q": "~1.5.0",
     "request": "~2.88.0",
     "serve-favicon": "^2.5.0",
