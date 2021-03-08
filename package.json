@@ -51,7 +51,7 @@
   },
   "host": "esdiscuss.org",
   "engines": {
-    "node": "12.18.2"
+    "node": "14.15.0"
   },
   "devDependencies": {
     "@forbeslindesay/tsconfig": "^2.0.0",
