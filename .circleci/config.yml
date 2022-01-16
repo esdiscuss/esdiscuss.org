@@ -1,79 +1,14 @@
 version: 2.1
 
-orbs:
-  kubernetes: circleci/kubernetes@0.10.1
-
-refs:
-  - &only_master
-    filters:
-      branches:
-        only: master
-
-  - &not_master
-    filters:
-      branches:
-        ignore: master
-
 workflows:
   test:
     jobs:
-      - unit-tests:
-          <<: *not_master
-
-      - staging-approval:
-          <<: *not_master
-          type: approval
-
-      - deploy-staging:
-          <<: *not_master
-          requires:
-            - staging-approval
-
-  release:
-    jobs:
-      - deploy-staging:
-          <<: *only_master
-
-      - production-approval:
-          type: approval
-          requires:
-            - deploy-staging
-
-      - deploy-production:
-          <<: *only_master
-          requires:
-            - production-approval
+      - unit-tests
 
 jobs:
   unit-tests:
     docker:
-      - image: circleci/node:12.18.2
-    steps:
-      - setup
-
-  deploy-staging:
-    docker:
-      - image: circleci/node:12.18.2
-    steps:
-      - setup
-      - push
-      - deploy:
-          environment: staging
-      - run: node test staging
-
-  deploy-production:
-    docker:
-      - image: circleci/node:12.18.2
-    steps:
-      - setup
-      - run: node test staging
-      - deploy:
-          environment: production
-      - run: node test production
-
-commands:
-  setup:
-    description: 'Checkout and install dependencies'
+      - image: circleci/node:14.18.3
     steps:
       - checkout
       - run:
@@ -85,47 +20,3 @@ commands:
       - run:
           name: Build
           command: yarn build
-
-  npm_auth:
-    description: 'Authenticate with the npm registry'
-    steps:
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-  push:
-    steps:
-      - setup_remote_docker
-      - run:
-          name: Build Docker
-          command: docker build -t $DOCKERHUB_USERNAME/esdiscuss:$CIRCLE_SHA1 .
-      - run:
-          name: Authenticate
-          command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-      - run:
-          name: Push Docker
-          command: docker push $DOCKERHUB_USERNAME/esdiscuss:$CIRCLE_SHA1
-
-  deploy:
-    parameters:
-      environment:
-        type: enum
-        enum: ['staging', 'production']
-    steps:
-      - kubernetes/install
-      - run:
-          name: Copy certificate
-          command: echo "$KUBERNETES_CLUSTER_CERTIFICATE" | base64 --decode > cert.crt
-      - run:
-          name: Deploy to Kubernetes
-          command: |
-            ENVIRONMENT=<< parameters.environment >> npx jskube apply \
-                    --kubeconfig=/dev/null \
-                    -f .kube/deployment.ts
-      - run:
-          name: Wait for rollout to complete
-          command: |
-            npx jskube rollout status \
-                    deployment/esdiscuss-<< parameters.environment >> \
-                    --namespace esdiscuss \
-                    --kubeconfig=/dev/null

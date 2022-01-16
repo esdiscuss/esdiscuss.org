@@ -1,0 +1,11 @@
+*
+!package.json
+!yarn.lock
+!build
+!lib
+!static
+!favicon.ico
+!profiles.json
+
+lib/*.d.ts
+lib/*.js.map

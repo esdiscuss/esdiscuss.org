@@ -1,10 +1,21 @@
-import connect, {sql} from '@databases/pg';
+import createConnectionPool, {sql} from '@databases/pg';
 import {createHash} from 'crypto';
 import moment from 'moment';
 
 import {processMessage} from './process';
 
-const db = connect();
+const DB_SOCKET_PATH = process.env.DB_SOCKET_PATH || `/cloudsql`
+const DB_USER = process.env.DB_USER!
+const DB_PASSWORD = process.env.DB_PASSWORD!
+const DB_NAME = process.env.DB_NAME!
+const CLOUD_SQL_CONNECTION_NAME = process.env.CLOUD_SQL_CONNECTION_NAME!
+
+const db = createConnectionPool({
+  host: `${DB_SOCKET_PATH}/${CLOUD_SQL_CONNECTION_NAME}`,
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_NAME,
+})
 
 declare class Brand<Name> {private readonly __brand: Name}
 export type MessageKey = string & Brand<'MessageKey'>;

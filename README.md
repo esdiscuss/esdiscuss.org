@@ -54,7 +54,15 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/esdiscuss/sponsor/8/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/esdiscuss/sponsor/9/website" target="_blank"><img src="https://opencollective.com/esdiscuss/sponsor/9/avatar.svg"></a>
 
+## Deployment
 
+```sh
+yarn
+node scripts/docker/build
+node scripts/docker/push
+node scripts/docker/deploy staging
+node scripts/docker/deploy prod
+```
 
 ## License
 
