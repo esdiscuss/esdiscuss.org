@@ -9,7 +9,7 @@ import './search';
 import * as db from './database';
 import { renderMessage } from './process';
 import pipermailUnresolve from './pipermail-unresolve';
-import notesApp from './notes';
+// import notesApp from './notes';
 import View from './view-engine'
 
 var prepare = require('prepare-response');
@@ -128,7 +128,11 @@ app.get('/pipermail/es-discuss/:month/:id.html', function (req, res, next) {
     .catch(next);
 })
 
-app.use(notesApp);
+// TODO: it would be nice to fix the "notes" app. Unfortunately GitHub's API broke, so it no longer works
+// app.use(notesApp);
+app.use('/notes', (_req, res) => {
+  res.redirect(`https://github.com/rwaldron/tc39-notes`)
+})
 
 app.get('/history/:id', function (req, res, next) {
   db.history(req.params.id as db.MessageKey)
