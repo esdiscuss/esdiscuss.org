@@ -17,7 +17,7 @@
     "express": "^4.15.2",
     "gethub": "^2.0.2",
     "github-stream": "^1.0.1",
-    "highlight.js": "^9.10.0",
+    "highlight.js": "^10.4.1",
     "jstransformer": "^1.0.0",
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
