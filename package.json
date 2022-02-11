@@ -21,7 +21,7 @@
     "jstransformer": "^1.0.0",
     "jstransformer-markdown-it": "^2.0.0",
     "keyboard": "0.0.1",
-    "markdown-it": "^8.0.0",
+    "markdown-it": "^12.3.2",
     "moment": "^2.22.0",
     "ms": "~2.1.0",
     "prepare-response": "^2.0.0",
