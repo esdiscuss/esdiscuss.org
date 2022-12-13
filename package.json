@@ -14,7 +14,7 @@
     "body-parser": "^1.17.1",
     "browserify-middleware": "^8.0.0",
     "dotenv": "^8.2.0",
-    "express": "^4.15.2",
+    "express": "^4.17.3",
     "gethub": "^2.0.2",
     "github-stream": "^1.0.1",
     "highlight.js": "^9.10.0",
